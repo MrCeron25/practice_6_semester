@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ModelDB" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="employe_id" />
+          </Key>
+          <Property Name="employe_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="role" Type="bigint" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="sex" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Employees_roles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mall">
+          <Key>
+            <PropertyRef Name="mall_id" />
+          </Key>
+          <Property Name="mall_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mall_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="status_id" Type="bigint" Nullable="false" />
+          <Property Name="cost" Type="decimal" Precision="38" Scale="5" Nullable="false" />
+          <Property Name="number_of_pavilion" Type="int" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="value_added_factor" Type="float" Nullable="false" />
+          <Property Name="number_of_storeys" Type="int" Nullable="false" />
+          <Property Name="photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Mall_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pavilion">
+          <Key>
+            <PropertyRef Name="mall_id" />
+            <PropertyRef Name="pavilion_number" />
+          </Key>
+          <Property Name="mall_id" Type="bigint" Nullable="false" />
+          <Property Name="pavilion_number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="floor" Type="int" Nullable="false" />
+          <Property Name="status_id" Type="bigint" Nullable="false" />
+          <Property Name="square" Type="float" Nullable="false" />
+          <Property Name="cost_per_square_meter" Type="float" Nullable="false" />
+          <Property Name="value_added_factor" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pavilion_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="rent_id" />
+          </Key>
+          <Property Name="rent_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenant_id" Type="bigint" Nullable="false" />
+          <Property Name="mall_id" Type="bigint" Nullable="false" />
+          <Property Name="pavilion_number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="employee_id" Type="bigint" Nullable="false" />
+          <Property Name="status_id" Type="bigint" Nullable="false" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rent_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tenants">
+          <Key>
+            <PropertyRef Name="tenant_id" />
+          </Key>
+          <Property Name="tenant_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="company_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Employees__role__0EEE1503">
+          <End Role="Employees_roles" Type="Self.Employees_roles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees_roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mall__status_id__14A6EE59">
+          <End Role="Mall_statuses" Type="Self.Mall_statuses" Multiplicity="1" />
+          <End Role="Mall" Type="Self.Mall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mall_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Mall">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pavilion__mall_i__1A5FC7AF">
+          <End Role="Mall" Type="Self.Mall" Multiplicity="1" />
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mall">
+              <PropertyRef Name="mall_id" />
+            </Principal>
+            <Dependent Role="Pavilion">
+              <PropertyRef Name="mall_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pavilion__status__196BA376">
+          <End Role="Pavilion_statuses" Type="Self.Pavilion_statuses" Multiplicity="1" />
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilion_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Pavilion">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__23E931E9">
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilion">
+              <PropertyRef Name="mall_id" />
+              <PropertyRef Name="pavilion_number" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="mall_id" />
+              <PropertyRef Name="pavilion_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__employee_i__210CC53E">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="employe_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__status_id__22F50DB0">
+          <End Role="Rent_statuses" Type="Self.Rent_statuses" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rent_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__tenant_id__2200E977">
+          <End Role="Tenants" Type="Self.Tenants" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenants">
+              <PropertyRef Name="tenant_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="tenant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelDBContainer">
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees_roles" EntityType="Self.Employees_roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mall" EntityType="Self.Mall" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mall_statuses" EntityType="Self.Mall_statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pavilion" EntityType="Self.Pavilion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pavilion_statuses" EntityType="Self.Pavilion_statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rent" EntityType="Self.Rent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rent_statuses" EntityType="Self.Rent_statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tenants" EntityType="Self.Tenants" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Employees__role__0EEE1503" Association="Self.FK__Employees__role__0EEE1503">
+            <End Role="Employees_roles" EntitySet="Employees_roles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mall__status_id__14A6EE59" Association="Self.FK__Mall__status_id__14A6EE59">
+            <End Role="Mall_statuses" EntitySet="Mall_statuses" />
+            <End Role="Mall" EntitySet="Mall" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pavilion__mall_i__1A5FC7AF" Association="Self.FK__Pavilion__mall_i__1A5FC7AF">
+            <End Role="Mall" EntitySet="Mall" />
+            <End Role="Pavilion" EntitySet="Pavilion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pavilion__status__196BA376" Association="Self.FK__Pavilion__status__196BA376">
+            <End Role="Pavilion_statuses" EntitySet="Pavilion_statuses" />
+            <End Role="Pavilion" EntitySet="Pavilion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__23E931E9" Association="Self.FK__Rent__23E931E9">
+            <End Role="Pavilion" EntitySet="Pavilion" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__employee_i__210CC53E" Association="Self.FK__Rent__employee_i__210CC53E">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__status_id__22F50DB0" Association="Self.FK__Rent__status_id__22F50DB0">
+            <End Role="Rent_statuses" EntitySet="Rent_statuses" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__tenant_id__2200E977" Association="Self.FK__Rent__tenant_id__2200E977">
+            <End Role="Tenants" EntitySet="Tenants" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelDB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="employe_id" />
+          </Key>
+          <Property Name="employe_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="Int64" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sex" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Employees_roles" Relationship="Self.FK__Employees__role__2823D721" FromRole="Employees" ToRole="Employees_roles" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__employee_i__394E6323" FromRole="Employees" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="Employees_roles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__role__2823D721" FromRole="Employees_roles" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Mall">
+          <Key>
+            <PropertyRef Name="mall_id" />
+          </Key>
+          <Property Name="mall_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mall_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status_id" Type="Int64" Nullable="false" />
+          <Property Name="cost" Type="Decimal" Precision="38" Scale="5" Nullable="false" />
+          <Property Name="number_of_pavilion" Type="Int32" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="value_added_factor" Type="Double" Nullable="false" />
+          <Property Name="number_of_storeys" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Mall_statuses" Relationship="Self.FK__Mall__status_id__2CE88C3E" FromRole="Mall" ToRole="Mall_statuses" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__mall_i__32A16594" FromRole="Mall" ToRole="Pavilion" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Mall_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Mall" Relationship="Self.FK__Mall__status_id__2CE88C3E" FromRole="Mall_statuses" ToRole="Mall" />
+        </EntityType>
+        <EntityType Name="Pavilion">
+          <Key>
+            <PropertyRef Name="mall_id" />
+            <PropertyRef Name="pavilion_number" />
+          </Key>
+          <Property Name="mall_id" Type="Int64" Nullable="false" />
+          <Property Name="pavilion_number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="floor" Type="Int32" Nullable="false" />
+          <Property Name="status_id" Type="Int64" Nullable="false" />
+          <Property Name="square" Type="Double" Nullable="false" />
+          <Property Name="cost_per_square_meter" Type="Double" Nullable="false" />
+          <Property Name="value_added_factor" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Mall" Relationship="Self.FK__Pavilion__mall_i__32A16594" FromRole="Pavilion" ToRole="Mall" />
+          <NavigationProperty Name="Pavilion_statuses" Relationship="Self.FK__Pavilion__status__31AD415B" FromRole="Pavilion" ToRole="Pavilion_statuses" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__3C2ACFCE" FromRole="Pavilion" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="Pavilion_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__status__31AD415B" FromRole="Pavilion_statuses" ToRole="Pavilion" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="rent_id" />
+          </Key>
+          <Property Name="rent_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenant_id" Type="Int64" Nullable="false" />
+          <Property Name="mall_id" Type="Int64" Nullable="false" />
+          <Property Name="pavilion_number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="employee_id" Type="Int64" Nullable="false" />
+          <Property Name="status_id" Type="Int64" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Rent__employee_i__394E6323" FromRole="Rent" ToRole="Employees" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Rent__3C2ACFCE" FromRole="Rent" ToRole="Pavilion" />
+          <NavigationProperty Name="Rent_statuses" Relationship="Self.FK__Rent__status_id__3B36AB95" FromRole="Rent" ToRole="Rent_statuses" />
+          <NavigationProperty Name="Tenants" Relationship="Self.FK__Rent__tenant_id__3A42875C" FromRole="Rent" ToRole="Tenants" />
+        </EntityType>
+        <EntityType Name="Rent_statuses">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__status_id__3B36AB95" FromRole="Rent_statuses" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tenants">
+          <Key>
+            <PropertyRef Name="tenant_id" />
+          </Key>
+          <Property Name="tenant_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="company_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__tenant_id__3A42875C" FromRole="Tenants" ToRole="Rent" />
+        </EntityType>
+        <Association Name="FK__Employees__role__2823D721">
+          <End Role="Employees_roles" Type="Self.Employees_roles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees_roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__employee_i__394E6323">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="employe_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mall__status_id__2CE88C3E">
+          <End Role="Mall_statuses" Type="Self.Mall_statuses" Multiplicity="1" />
+          <End Role="Mall" Type="Self.Mall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mall_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Mall">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pavilion__mall_i__32A16594">
+          <End Role="Mall" Type="Self.Mall" Multiplicity="1" />
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mall">
+              <PropertyRef Name="mall_id" />
+            </Principal>
+            <Dependent Role="Pavilion">
+              <PropertyRef Name="mall_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pavilion__status__31AD415B">
+          <End Role="Pavilion_statuses" Type="Self.Pavilion_statuses" Multiplicity="1" />
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilion_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Pavilion">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__3C2ACFCE">
+          <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilion">
+              <PropertyRef Name="mall_id" />
+              <PropertyRef Name="pavilion_number" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="mall_id" />
+              <PropertyRef Name="pavilion_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__status_id__3B36AB95">
+          <End Role="Rent_statuses" Type="Self.Rent_statuses" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rent_statuses">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rent__tenant_id__3A42875C">
+          <End Role="Tenants" Type="Self.Tenants" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenants">
+              <PropertyRef Name="tenant_id" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="tenant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="Employees_roles" EntityType="Self.Employees_roles" />
+          <EntitySet Name="Mall" EntityType="Self.Mall" />
+          <EntitySet Name="Mall_statuses" EntityType="Self.Mall_statuses" />
+          <EntitySet Name="Pavilion" EntityType="Self.Pavilion" />
+          <EntitySet Name="Pavilion_statuses" EntityType="Self.Pavilion_statuses" />
+          <EntitySet Name="Rent" EntityType="Self.Rent" />
+          <EntitySet Name="Rent_statuses" EntityType="Self.Rent_statuses" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tenants" EntityType="Self.Tenants" />
+          <AssociationSet Name="FK__Employees__role__2823D721" Association="Self.FK__Employees__role__2823D721">
+            <End Role="Employees_roles" EntitySet="Employees_roles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__employee_i__394E6323" Association="Self.FK__Rent__employee_i__394E6323">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mall__status_id__2CE88C3E" Association="Self.FK__Mall__status_id__2CE88C3E">
+            <End Role="Mall_statuses" EntitySet="Mall_statuses" />
+            <End Role="Mall" EntitySet="Mall" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pavilion__mall_i__32A16594" Association="Self.FK__Pavilion__mall_i__32A16594">
+            <End Role="Mall" EntitySet="Mall" />
+            <End Role="Pavilion" EntitySet="Pavilion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pavilion__status__31AD415B" Association="Self.FK__Pavilion__status__31AD415B">
+            <End Role="Pavilion_statuses" EntitySet="Pavilion_statuses" />
+            <End Role="Pavilion" EntitySet="Pavilion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__3C2ACFCE" Association="Self.FK__Rent__3C2ACFCE">
+            <End Role="Pavilion" EntitySet="Pavilion" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__status_id__3B36AB95" Association="Self.FK__Rent__status_id__3B36AB95">
+            <End Role="Rent_statuses" EntitySet="Rent_statuses" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rent__tenant_id__3A42875C" Association="Self.FK__Rent__tenant_id__3A42875C">
+            <End Role="Tenants" EntitySet="Tenants" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelDBContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="ModelDB.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="employe_id" ColumnName="employe_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees_roles">
+            <EntityTypeMapping TypeName="ModelDB.Employees_roles">
+              <MappingFragment StoreEntitySet="Employees_roles">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mall">
+            <EntityTypeMapping TypeName="ModelDB.Mall">
+              <MappingFragment StoreEntitySet="Mall">
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="mall_id" ColumnName="mall_id" />
+                <ScalarProperty Name="mall_name" ColumnName="mall_name" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="number_of_pavilion" ColumnName="number_of_pavilion" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="value_added_factor" ColumnName="value_added_factor" />
+                <ScalarProperty Name="number_of_storeys" ColumnName="number_of_storeys" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mall_statuses">
+            <EntityTypeMapping TypeName="ModelDB.Mall_statuses">
+              <MappingFragment StoreEntitySet="Mall_statuses">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pavilion">
+            <EntityTypeMapping TypeName="ModelDB.Pavilion">
+              <MappingFragment StoreEntitySet="Pavilion">
+                <ScalarProperty Name="mall_id" ColumnName="mall_id" />
+                <ScalarProperty Name="pavilion_number" ColumnName="pavilion_number" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="square" ColumnName="square" />
+                <ScalarProperty Name="cost_per_square_meter" ColumnName="cost_per_square_meter" />
+                <ScalarProperty Name="value_added_factor" ColumnName="value_added_factor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pavilion_statuses">
+            <EntityTypeMapping TypeName="ModelDB.Pavilion_statuses">
+              <MappingFragment StoreEntitySet="Pavilion_statuses">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rent">
+            <EntityTypeMapping TypeName="ModelDB.Rent">
+              <MappingFragment StoreEntitySet="Rent">
+                <ScalarProperty Name="rent_id" ColumnName="rent_id" />
+                <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
+                <ScalarProperty Name="mall_id" ColumnName="mall_id" />
+                <ScalarProperty Name="pavilion_number" ColumnName="pavilion_number" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rent_statuses">
+            <EntityTypeMapping TypeName="ModelDB.Rent_statuses">
+              <MappingFragment StoreEntitySet="Rent_statuses">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ModelDB.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tenants">
+            <EntityTypeMapping TypeName="ModelDB.Tenants">
+              <MappingFragment StoreEntitySet="Tenants">
+                <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
