@@ -9,21 +9,6 @@
         Height="450" 
         Width="800">
     <Grid>
-        <Button Content="Загрузить фотографии сотрудников" 
-                HorizontalAlignment="Left" 
-                Name="LoadEmployeesImages"
-                Margin="10,10,0,0" 
-                VerticalAlignment="Top"
-                FontSize="15"
-                Click="LoadEmployeesImages_Click"/>
-
-        <Button Content="Загрузить фотографии ТЦ" 
-                HorizontalAlignment="Left"
-                Name="LoadMallImages"
-                Margin="10,50,0,0" 
-                VerticalAlignment="Top"
-                FontSize="15"
-                Click="LoadMallImages_Click"/>
-
+        <Frame x:Name="Frame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

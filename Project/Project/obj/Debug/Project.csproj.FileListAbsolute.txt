@@ -20,3 +20,7 @@ C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Pro
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Project.csproj.CopyComplete
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Project.exe
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Project.pdb
+C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\LoginPage.g.cs
+C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\LoginPage.baml
+C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\ManagerPage.g.cs
+C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\ManagerPage.baml
