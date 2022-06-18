@@ -22,10 +22,10 @@ namespace Project
 
         private void UpdateImage()
         {
-            CaptchaImage.Source = ImageSourceFromBitmap(CreateImage((int)CaptchaImage.Width, (int)CaptchaImage.Height));
+            CaptchaImage.Source = BitmapToImageSource(CreateImage((int)CaptchaImage.Width, (int)CaptchaImage.Height));
         }
 
-        public System.Windows.Media.ImageSource ImageSourceFromBitmap(Bitmap bmp)
+        public System.Windows.Media.ImageSource BitmapToImageSource(Bitmap bmp)
         {
             try
             {
@@ -55,7 +55,24 @@ namespace Project
                 {
                     Debug.WriteLine("Пользователь найден.");
                     Employees em = Employees_[0];
-                    Manager.MainFrame.Navigate(new ManagerPage());
+                    switch (em.role)
+                    {
+                        case 1:
+
+                            break;
+                        case 2:
+
+                            break;
+                        case 3:
+                            //Manager.Instance.MainFrame.Navigate(new ManagerCPage());
+                            break;
+                        case 4:
+
+                            break;
+                        default:
+
+                            break;
+                    }
                 }
                 if (Count == 3)
                 {
@@ -152,8 +169,6 @@ namespace Project
             Debug.WriteLine("Фото ТЦ загружены.");
         }
 
-        #region 
-
         private Bitmap CreateImage(int Width, int Height)
         {
             Random rnd = new Random();
@@ -240,7 +255,6 @@ namespace Project
             }
             return result;
         }
-        #endregion
 
         private void TextBlock_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

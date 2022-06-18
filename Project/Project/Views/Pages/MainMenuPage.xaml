@@ -1,0 +1,34 @@
+﻿<Page x:Class="Project.Views.Pages.MainMenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:Project.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" 
+      d:DesignWidth="800"
+      Title="MainMenuPage">
+
+    <Page.DataContext>
+        <vm:MainMenuViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="#FF104EA9">
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom">
+
+            <Button Content="{Binding EntryButtonName}"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding EntryCommand}"/>
+
+            <Button Style="{StaticResource ButtonTemplate}"
+                    Content="{Binding RegistrationButtonName}"
+                    Command="{Binding RegistrationCommand}"/>
+
+            <Button Style="{StaticResource ButtonTemplate}"
+                    Content="{Binding ExitButtonName}"
+                    Command="{Binding CloseApplicationCommand}"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Project
 {
     /// <summary>
-    /// Логика взаимодействия для ManagerPage.xaml
+    /// Логика взаимодействия для ManagerCPage.xaml
     /// </summary>
-    public partial class ManagerPage : Page
+    public partial class ManagerCPage : Page
     {
-        public ManagerPage()
+        public ManagerCPage()
         {
             InitializeComponent();
         }

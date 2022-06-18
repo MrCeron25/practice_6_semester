@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\App.xaml
-3-1563631980
+41125825308
 21750853300
-22-2078805702
+30-317328120
 19647177303
-LoginPage.xaml;MainWindow.xaml;ManagerPage.xaml;
+Views\Pages\LoginPage.xaml;Views\Pages\MainMenuPage.xaml;Views\Windows\MainWindow.xaml;ManagerCPage.xaml;
 
 False
 
