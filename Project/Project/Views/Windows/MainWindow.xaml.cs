@@ -11,10 +11,10 @@ namespace Project
             Manager.Instance.Context = new Entities();
 
             Manager.Instance.MainFrame = MainFrame;
-            Manager.Instance.MainFrame.Navigate(new LoginPage());
+            Manager.Instance.MainFrameNavigate(new LoginPage());
 
             Manager.Instance.MenuFrame = MenuFrame;
-            Manager.Instance.MenuFrame.Navigate(new MainMenuPage());
+            Manager.Instance.MenuFrameNavigate(new MainMenuPage());
         }
     }
 }

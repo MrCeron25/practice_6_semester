@@ -15,39 +15,58 @@
     </Page.DataContext>
 
     <Grid Background="White">
-        <Button Content="Загрузить фотографии сотрудников" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-                Name="LoadEmployeesImages"
-                Visibility="Visible"
-                Style="{StaticResource ButtonTemplate}"
-                Click="LoadEmployeesImages_Click"/>
-
-        <Button Content="Загрузить фотографии ТЦ" 
+        <Button Content="{Binding EmployeesImagesButtonText}"
                 HorizontalAlignment="Left"
-                Name="LoadMallImages"
-                Margin="10,50,0,0" 
                 VerticalAlignment="Top"
-                FontSize="15"
-                Visibility="Visible"
-                Click="LoadMallImages_Click"/>
+                Visibility="{Binding LoadEmployeesImagesVisibility}"
+                Style="{StaticResource ButtonTemplate}"
+                Command="{Binding LoadEmployeesImagesCommand}"/>
+
+        <Button Content="{Binding LoadMallImagesButtonText}" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,50,0,0"
+                Style="{StaticResource ButtonTemplate}"
+                Visibility="{Binding LoadMallImagesVisibility}"
+                Command="{Binding LoadMallImagesCommand}"/>
+
         <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="300">
-            <Label Content="{Binding LoginLabelName}" Margin="10" HorizontalAlignment="Center"/>
-            <TextBox Name="Login" Margin="10"/>
-            <Label Content="Пароль" Margin="10" HorizontalAlignment="Center"/>
-            <PasswordBox x:Name="Password" Password="" Margin="10"/>
-            <Button Content="Вход" 
-                    Margin="10" 
-                    Name="Entry"
-                    Click="Entry_Click"/>
+            <Label Content="{Binding LoginLabelName}"
+                   Margin="10"
+                   HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding LoginText}"
+                     Margin="10"/>
+            <Label Content="{Binding PasswordLabelName}"
+                   Margin="10"
+                   HorizontalAlignment="Center"/>
+            <PasswordBox x:Name="Password" Password="7SP9CV" Margin="10"/>
+            <Button Content="{Binding EntryButtonText}"
+                    Margin="10"
+                    Command="{Binding EntryCommand}"
+                    CommandParameter="{Binding ElementName=Password}"/>
 
-            <Image x:Name="CaptchaImage" Height="60" Width="250" Margin="10" Visibility="Hidden"/>
-            <TextBlock x:Name="UpdateCaptcha" Text="Изменить картинку" Margin="10" HorizontalAlignment="Center" TextDecorations="Underline"
-                       Foreground="Blue" PreviewMouseDown="TextBlock_PreviewMouseDown" Visibility="Hidden"/>
-            <TextBox Name="CaptchaText" Margin="10" Visibility="Hidden"/>
+            <Image Source="{Binding CaptchaImage}"
+                   Height="60"
+                   Width="250"
+                   Margin="10"
+                   Visibility="{Binding CaptchaImageVisibility}"/>
+            <TextBlock Text="{Binding UpdateCaptchaText}" 
+                       Margin="10"
+                       HorizontalAlignment="Center"
+                       TextDecorations="Underline"
+                       Foreground="Blue"
+                       Visibility="{Binding UpdateCaptchaTextBlockVisibility}">
+                <TextBlock.InputBindings>
+                    <MouseBinding Command="{Binding UpdateCaptchaLinkCommand}"
+                                  MouseAction="LeftClick"/>
+                </TextBlock.InputBindings>
+            </TextBlock>
+            <TextBox Text="{Binding CaptchaText}"
+                     Margin="10"
+                     Visibility="{Binding CaptchaTextBoxVisibility}"/>
         </StackPanel>
 
     </Grid>

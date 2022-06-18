@@ -78,7 +78,7 @@ namespace Project.ViewModels
 
         private void OnRegistrationCommandExecuted(object p)
         {
-            //Manager.Instance.MainFrame.Navigate(new RegistrationPage());
+
         }
 
         #endregion
