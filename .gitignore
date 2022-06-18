@@ -1,6 +1,6 @@
 *.log
 *.exe
 .vs/
-**/packages
-**/obj/
-**/bin/
+packages/
+obj/
+bin/
