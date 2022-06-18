@@ -239,24 +239,7 @@ namespace Project.ViewModels
                 result = true;
                 Debug.WriteLine("Пользователь найден.");
                 Employees em = Employees_[0];
-                switch (em.role)
-                {
-                    case 1:
-
-                        break;
-                    case 2:
-
-                        break;
-                    case 3:
-                        Manager.Instance.MainFrameNavigate(new ManagerCPage());
-                        break;
-                    case 4:
-
-                        break;
-                    default:
-
-                        break;
-                }
+                Manager.Instance.LoadMainFrameEmployee(em);
             }
             if (Count == 3)
             {
@@ -377,7 +360,6 @@ namespace Project.ViewModels
             return result;
         }
 
-
         #region Команды
         public ICommand LoadEmployeesImagesCommand { get; }
 
@@ -386,32 +368,28 @@ namespace Project.ViewModels
         private void OnLoadEmployeesImagesCommandExecuted(object parameters)
         {
             string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image Сотрудники";
-
             DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
-
-            List<string> employeesImages = new List<string>();
-
             foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
                 if (fileInfo.Extension == ".jpg")
                 {
-                    Debug.WriteLine(fileInfo);
-                    employeesImages.Add(fileInfo.FullName);
-                }
-            }
-            int index = 0;
-            using (Entities context = new Entities())
-            {
-                foreach (Employees employee in context.Employees)
-                {
-                    employee.photo = Tools.GetImageBytes(employeesImages[index++]);
-                    if (index == employeesImages.Count)
+                    string fileName = fileInfo.FullName;
+                    string[] fullName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0].Split(' ');
+                    string surname = fullName[0];
+                    string name = fullName[1];
+                    string patronymic = fullName[2];
+                    Employees employee = (from em in Manager.Instance.Context.Employees
+                                          where em.name == name && em.surname == surname && em.patronymic == patronymic
+                                          select em).FirstOrDefault();
+                    if (employee != null)
                     {
-                        index = 0;
+                        Debug.WriteLine(fileInfo);
+                        employee.photo = Tools.GetImageBytes(fileInfo.FullName);
                     }
                 }
-                context.SaveChanges();
+
             }
+            Manager.Instance.Context.SaveChanges();
             Debug.WriteLine("Фото сотрудников загружены.");
         }
 
@@ -422,32 +400,24 @@ namespace Project.ViewModels
         private void OnLoadMallImagesCommandExecuted(object parameters)
         {
             string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image ТЦ";
-
             DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
-
-            List<string> mallImages = new List<string>();
-
             foreach (FileInfo fileInfo in directoryInfo.GetFiles())
             {
                 if (fileInfo.Extension == ".jpg")
                 {
-                    Debug.WriteLine(fileInfo);
-                    mallImages.Add(fileInfo.FullName);
-                }
-            }
-            int index = 0;
-            using (Entities context = new Entities())
-            {
-                foreach (Mall mall in context.Mall)
-                {
-                    mall.photo = Tools.GetImageBytes(mallImages[index++]);
-                    if (index == mallImages.Count)
+                    string fileName = fileInfo.FullName;
+                    string mallName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0];
+                    Mall mall = (from m in Manager.Instance.Context.Mall
+                                 where m.mall_name == mallName
+                                 select m).FirstOrDefault();
+                    if (mall != null)
                     {
-                        index = 0;
+                        Debug.WriteLine(fileInfo);
+                        mall.photo = Tools.GetImageBytes(fileInfo.FullName);
                     }
                 }
-                context.SaveChanges();
             }
+            Manager.Instance.Context.SaveChanges();
             Debug.WriteLine("Фото ТЦ загружены.");
         }
 
@@ -495,11 +465,6 @@ namespace Project.ViewModels
         #region Конструктор
         public LoginPageViewModel()
         {
-            //LoadEmployeesImagesCommand = LambdaCommand
-            //    .Builder()
-            //    .CanExecute(CanLoadEmployeesImagesCommandExecute)
-            //    .Execute(OnLoadEmployeesImagesCommandExecuted)
-            //    .Build();
             LoadEmployeesImagesCommand = new LambdaCommand(OnLoadEmployeesImagesCommandExecuted, CanLoadEmployeesImagesCommandExecute);
             LoadMallImagesCommand = new LambdaCommand(OnLoadMallImagesCommandExecuted, CanLoadMallImagesCommandExecute);
             EntryCommand = new LambdaCommand(OnEntryCommandExecuted, CanEntryCommandExecute);

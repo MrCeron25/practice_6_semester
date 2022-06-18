@@ -37,5 +37,17 @@ namespace Project
             }
             Instance.MainFrame.Navigate(content);
         }
+
+        public void LoadMainFrameEmployee(Employees employee)
+        {
+            if (employee != null)
+            {
+                Page page = ManagerRoles.ManagerPages[employee.role];
+                if (page != null)
+                {
+                    Instance.MainFrameNavigate(page);
+                }
+            }
+        }
     }
 }
