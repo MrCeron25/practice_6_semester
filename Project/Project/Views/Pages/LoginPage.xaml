@@ -34,7 +34,7 @@
         <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Width="200">
+                    Width="300">
             <Label Content="{Binding LoginLabelName}" Margin="10" HorizontalAlignment="Center"/>
             <TextBox Name="Login" Margin="10"/>
             <Label Content="Пароль" Margin="10" HorizontalAlignment="Center"/>
@@ -44,7 +44,7 @@
                     Name="Entry"
                     Click="Entry_Click"/>
 
-            <Image x:Name="CaptchaImage" Height="60" Width="160" Margin="10" Visibility="Hidden"/>
+            <Image x:Name="CaptchaImage" Height="60" Width="250" Margin="10" Visibility="Hidden"/>
             <TextBlock x:Name="UpdateCaptcha" Text="Изменить картинку" Margin="10" HorizontalAlignment="Center" TextDecorations="Underline"
                        Foreground="Blue" PreviewMouseDown="TextBlock_PreviewMouseDown" Visibility="Hidden"/>
             <TextBox Name="CaptchaText" Margin="10" Visibility="Hidden"/>

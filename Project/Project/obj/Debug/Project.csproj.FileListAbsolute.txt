@@ -27,3 +27,4 @@ C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Pro
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Project.pdb
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Views\Pages\LoginPage.g.cs
 C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Views\Pages\LoginPage.baml
+C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Project\Project\obj\Debug\Project.csproj.AssemblyReference.cache

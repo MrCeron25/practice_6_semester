@@ -11,43 +11,43 @@ namespace Project.ViewModels
     {
         #region Вход
 
-        private string _EntryButtonName = "Вход";
+        private string _entryButtonName = "Вход";
 
         /// <summary>
         /// Вход
         /// </summary>
         public string EntryButtonName
         {
-            get => _EntryButtonName;
-            set => Set(ref _EntryButtonName, value);
+            get => _entryButtonName;
+            set => Set(ref _entryButtonName, value);
         }
 
         #endregion
 
         #region Регистрация
-        private string _RegistrationButtonName = "Регистрация";
+        private string _registrationButtonName = "Регистрация";
 
         /// <summary>
         /// Регистрация
         /// </summary>
         public string RegistrationButtonName
         {
-            get => _RegistrationButtonName;
-            set => Set(ref _RegistrationButtonName, value);
+            get => _registrationButtonName;
+            set => Set(ref _registrationButtonName, value);
         }
 
         #endregion
 
         #region Выход
-        private string _ExitButtonName = "Выход";
+        private string _exitButtonName = "Выход";
 
         /// <summary>
         /// Выход
         /// </summary>
         public string ExitButtonName
         {
-            get => _ExitButtonName;
-            set => Set(ref _ExitButtonName, value);
+            get => _exitButtonName;
+            set => Set(ref _exitButtonName, value);
         }
 
         #endregion

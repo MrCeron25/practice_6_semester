@@ -6,7 +6,6 @@ namespace Project.ViewModels.Base
     internal abstract class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
         {
             // CallerMemberName - компилятор автоматом подставит имя метода из которого вызывается метод
@@ -23,7 +22,10 @@ namespace Project.ViewModels.Base
         /// <returns></returns>
         protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string PropertyName = null)
         {
-            if (Equals(field, value)) return false;
+            if (Equals(field, value))
+            {
+                return false;
+            }
             field = value;
             OnPropertyChanged(PropertyName);
             return true;

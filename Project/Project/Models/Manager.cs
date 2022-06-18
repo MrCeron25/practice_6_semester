@@ -4,17 +4,17 @@ namespace Project
 {
     public class Manager
     {
-        private static Manager _INSTANCE;
+        private static Manager _instance;
 
         public static Manager Instance
         {
             get
             {
-                if (_INSTANCE == null)
+                if (_instance == null)
                 {
-                    _INSTANCE = new Manager();
+                    _instance = new Manager();
                 }
-                return _INSTANCE;
+                return _instance;
             }
         }
 

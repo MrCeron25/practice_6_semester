@@ -8,42 +8,42 @@ namespace Project.ViewModels
     internal class LoginPageViewModel : ViewModel
     {
         #region Логин
-        private string _LoginLabelName = "Логин";
+        private string _loginLabelName = "Логин";
 
         /// <summary>
         /// Логин
         /// </summary>
         public string LoginLabelName
         {
-            get => _LoginLabelName;
-            set => Set(ref _LoginLabelName, value);
+            get => _loginLabelName;
+            set => Set(ref _loginLabelName, value);
         }
         #endregion
 
         #region Регистрация
-        private string _RegistrationButtonName = "Регистрация";
+        private string _registrationButtonName = "Регистрация";
 
         /// <summary>
         /// Регистрация
         /// </summary>
         public string LoginText
         {
-            get => _RegistrationButtonName;
-            set => Set(ref _RegistrationButtonName, value);
+            get => _registrationButtonName;
+            set => Set(ref _registrationButtonName, value);
         }
 
         #endregion
 
         #region Выход
-        private string _ExitButtonName = "Выход";
+        private string _exitButtonName = "Выход";
 
         /// <summary>
         /// Выход
         /// </summary>
         public string ExitButtonName
         {
-            get => _ExitButtonName;
-            set => Set(ref _ExitButtonName, value);
+            get => _exitButtonName;
+            set => Set(ref _exitButtonName, value);
         }
 
         #endregion
