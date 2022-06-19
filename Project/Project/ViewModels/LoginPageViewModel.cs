@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Interop;
 using System.Windows.Controls;
+using Project.Models;
 
 namespace Project.ViewModels
 {
@@ -227,7 +228,8 @@ namespace Project.ViewModels
         {
             bool result = false;
             List<Employees> Employees_ = (from em in Manager.Instance.Context.Employees
-                                          where em.login.ToLower() == LoginText.ToLower() && em.password == Password
+                                          where em.login.ToLower() == LoginText.ToLower() &&
+                                                em.password == Password
                                           select em).ToList();
             if (Employees_.Count == 0)
             {
@@ -239,7 +241,7 @@ namespace Project.ViewModels
                 result = true;
                 Debug.WriteLine("Пользователь найден.");
                 Employees em = Employees_[0];
-                Manager.Instance.LoadMainFrameEmployee(em);
+                Manager.Instance.LoadEmployeeInterface(em);
             }
             if (Count == 3)
             {

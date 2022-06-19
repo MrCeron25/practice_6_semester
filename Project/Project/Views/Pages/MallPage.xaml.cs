@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace Project
+namespace Project.Views.Pages
 {
-    public partial class ManagerCPage : Page
+    public partial class MallPage : Page
     {
-        public ManagerCPage()
+        public MallPage()
         {
             InitializeComponent();
         }

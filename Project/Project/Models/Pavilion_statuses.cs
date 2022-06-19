@@ -7,17 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Project
+namespace Project.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class Pavilion_statuses
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pavilion_statuses()
+        {
+            this.Pavilion = new HashSet<Pavilion>();
+        }
+    
+        public long status_id { get; set; }
+        public string status_name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pavilion> Pavilion { get; set; }
     }
 }

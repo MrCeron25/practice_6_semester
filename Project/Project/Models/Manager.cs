@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Project.Models;
+using System.Windows.Controls;
 
 namespace Project
 {
@@ -38,14 +39,19 @@ namespace Project
             Instance.MainFrame.Navigate(content);
         }
 
-        public void LoadMainFrameEmployee(Employees employee)
+        public void LoadEmployeeInterface(Employees employee)
         {
             if (employee != null)
             {
-                Page page = ManagerRoles.ManagerPages[employee.role];
-                if (page != null)
+                Page main = ManagerRoles.ManagerPages[employee.role][0];
+                if (main != null)
                 {
-                    Instance.MainFrameNavigate(page);
+                    Instance.MainFrameNavigate(main);
+                }
+                Page menu = ManagerRoles.ManagerPages[employee.role][1];
+                if (menu != null)
+                {
+                    Instance.MenuFrameNavigate(menu);
                 }
             }
         }

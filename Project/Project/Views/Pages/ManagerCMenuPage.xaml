@@ -1,4 +1,4 @@
-﻿<Page x:Class="Project.Views.Pages.MainMenuPage"
+﻿<Page x:Class="Project.Views.Pages.ManagerCMenuPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,10 +7,10 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" 
       d:DesignWidth="800"
-      Title="MainMenuPage">
-
+      Title="ManagerCMenuPage">
+    
     <Page.DataContext>
-        <vm:MainMenuViewModel/>
+        <vm:ManagerCMenuPageViewModel/>
     </Page.DataContext>
 
     <Grid Background="#FF104EA9">
@@ -18,13 +18,17 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom">
 
-            <Button Content="{Binding EntryButtonName}"
+            <Button Content="{Binding MallButtonName}"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding EntryCommand}"/>
+                    Command="{Binding GoMallCommand}"/>
 
-            <Button Style="{StaticResource ButtonTemplate}"
-                    Content="{Binding ExitButtonName}"
-                    Command="{Binding CloseApplicationCommand}"/>
+            <Button Content="{Binding PavilionButtonName}"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding GoPavilionCommand}"/>
+
+            <Button Content="{Binding ExitButtonName}"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding ExitCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

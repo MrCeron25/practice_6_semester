@@ -7,30 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Project
+namespace Project.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Pavilion
+    public partial class Mall_statuses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Pavilion()
+        public Mall_statuses()
         {
-            this.Rent = new HashSet<Rent>();
+            this.Mall = new HashSet<Mall>();
         }
     
-        public long mall_id { get; set; }
-        public string pavilion_number { get; set; }
-        public int floor { get; set; }
         public long status_id { get; set; }
-        public double square { get; set; }
-        public double cost_per_square_meter { get; set; }
-        public double value_added_factor { get; set; }
+        public string status_name { get; set; }
     
-        public virtual Mall Mall { get; set; }
-        public virtual Pavilion_statuses Pavilion_statuses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rent> Rent { get; set; }
+        public virtual ICollection<Mall> Mall { get; set; }
     }
 }

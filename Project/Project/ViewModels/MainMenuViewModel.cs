@@ -10,9 +10,7 @@ namespace Project.ViewModels
     internal class MainMenuViewModel : ViewModel
     {
         #region Вход
-
         private string _entryButtonName = "Вход";
-
         /// <summary>
         /// Вход
         /// </summary>
@@ -21,26 +19,10 @@ namespace Project.ViewModels
             get => _entryButtonName;
             set => Set(ref _entryButtonName, value);
         }
-
-        #endregion
-
-        #region Регистрация
-        private string _registrationButtonName = "Регистрация";
-
-        /// <summary>
-        /// Регистрация
-        /// </summary>
-        public string RegistrationButtonName
-        {
-            get => _registrationButtonName;
-            set => Set(ref _registrationButtonName, value);
-        }
-
         #endregion
 
         #region Выход
         private string _exitButtonName = "Выход";
-
         /// <summary>
         /// Выход
         /// </summary>
@@ -49,51 +31,35 @@ namespace Project.ViewModels
             get => _exitButtonName;
             set => Set(ref _exitButtonName, value);
         }
-
         #endregion
 
-        #region Команды
-
+        #region Закрытие приложения
         public ICommand CloseApplicationCommand { get; }
-
         private bool CanCloseApplicationCommandExecute(object parameters) => true;
-
         private void OnCloseApplicationCommandExecuted(object parameters)
         {
             Application.Current.Shutdown();
         }
+        #endregion
 
+        #region Вход
         public ICommand EntryCommand { get; }
-
         private bool CanEntryCommandExecute(object parameters) => true;
-
         private void OnEntryCommandExecuted(object parameters)
         {
             Manager.Instance.MainFrame.Navigate(new LoginPage());
         }
-
-        public ICommand RegistrationCommand { get; }
-
-        private bool CanRegistrationCommandExecute(object p) => true;
-
-        private void OnRegistrationCommandExecuted(object p)
-        {
-
-        }
-
         #endregion
 
-        #region Test Connect
-
+        #region Тестовое подключение
         /// <summary>
         /// Для ускорения загрузки данных для EF
         /// </summary>
         private void TestConnect()
         {
-            var data = (from em in Manager.Instance.Context.Employees
-                        select em);
+            var data = from em in Manager.Instance.Context.Employees
+                       select em;
         }
-
         #endregion
 
         #region Конструктор
@@ -101,7 +67,6 @@ namespace Project.ViewModels
         {
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
             EntryCommand = new LambdaCommand(OnEntryCommandExecuted, CanEntryCommandExecute);
-            RegistrationCommand = new LambdaCommand(OnRegistrationCommandExecuted, CanRegistrationCommandExecute);
             Thread testConnect = new Thread(TestConnect);
             testConnect.Start();
         }

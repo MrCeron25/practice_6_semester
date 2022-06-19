@@ -1,4 +1,5 @@
-﻿using Project.Views.Pages;
+﻿using Project.Models;
+using Project.Views.Pages;
 using System.Windows;
 
 namespace Project
@@ -11,9 +12,9 @@ namespace Project
             Manager.Instance.Context = new Entities();
 
             Manager.Instance.MainFrame = MainFrame;
-            Manager.Instance.MainFrameNavigate(new LoginPage());
-
             Manager.Instance.MenuFrame = MenuFrame;
+
+            Manager.Instance.MainFrameNavigate(new LoginPage());
             Manager.Instance.MenuFrameNavigate(new MainMenuPage());
         }
     }

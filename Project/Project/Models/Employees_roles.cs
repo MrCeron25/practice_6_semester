@@ -7,32 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Project
+namespace Project.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Employees
+    public partial class Employees_roles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employees()
+        public Employees_roles()
         {
-            this.Rent = new HashSet<Rent>();
+            this.Employees = new HashSet<Employees>();
         }
     
-        public long employe_id { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
-        public string patronymic { get; set; }
-        public string login { get; set; }
-        public string password { get; set; }
-        public long role { get; set; }
-        public string phone { get; set; }
-        public string sex { get; set; }
-        public byte[] photo { get; set; }
+        public long role_id { get; set; }
+        public string role_name { get; set; }
     
-        public virtual Employees_roles Employees_roles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rent> Rent { get; set; }
+        public virtual ICollection<Employees> Employees { get; set; }
     }
 }
