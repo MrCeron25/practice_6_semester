@@ -15,67 +15,140 @@
     </Page.DataContext>
 
     <Grid Background="White">
-        <TextBlock Text="{Binding MallTitleName}"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="Название : "
+                   Grid.Row="0"
+                   Grid.Column="0"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   FontSize="30"
-                   FontWeight="Bold"/>
-        <ListBox Margin="10,50,10,10"
-                  ItemsSource="{Binding Malls}" Grid.ColumnSpan="3">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Vertical"
-                                    Grid.Column="0">
-                            <TextBlock Text="{Binding Path=mall_name}"
-                                       FontWeight="Bold"
-                                       FontSize="20"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Статус : "/>
-                                <TextBlock Text="{Binding Path=status_name}"
-                                           Foreground="Red"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Количество павильонов : "/>
-                                <TextBlock Text="{Binding Path=number_of_pavilion}"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Город : "/>
-                                <TextBlock Text="{Binding Path=city}"
-                                       Foreground="Gray"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Этажность : "/>
-                                <TextBlock Text="{Binding Path=number_of_storeys}"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Коэффициент добавочной стоимости : "/>
-                                <TextBlock Text="{Binding Path=value_added_factor}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Column="1">
-                            <StackPanel Orientation="Vertical"
-                                        VerticalAlignment="Center"
-                                        Margin="30,0,0,0">
-                                <TextBlock Text="Цена : "/>
-                                <TextBlock Text="{Binding Path=cost,StringFormat={}{0:#,#}}"
-                                           Foreground="Green"
-                                           FontWeight="Bold"/>
-                            </StackPanel>
-                            <Image Source="{Binding Path=photo}"
-                                   Margin="100,10,10,10"
-                                   MaxHeight="100"
-                                   MaxWidth="100"/>
-                            <Button Content="Удалить"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                   VerticalAlignment="Center"/>
+        <TextBox Text="{Binding CurrentMall.mall_name}"
+                 Grid.Row="0"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"
+                 Margin="10"/>
+
+
+        <TextBlock Text="Статус : "
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1"
+                  ItemsSource="{Binding MallStatuses}"
+                  SelectedItem="{Binding MallStatus}"
+                  VerticalAlignment="Center"
+                  Grid.Column="1"
+                  Margin="10"/>
+
+
+        <TextBlock Text="Цена : "
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBox Text="{Binding CurrentMall.cost}" 
+                 Margin="10"
+                 Grid.Row="2"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"/>
+
+
+        <TextBlock Text="Количество павильонов : "
+                       Grid.Row="3"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Grid.Column="0"/>
+        <TextBox Text="{Binding CurrentMall.number_of_pavilion}" 
+                     Margin="10"
+                     Grid.Row="3"
+                 VerticalAlignment="Center"
+                   Grid.Column="1"/>
+
+
+        <TextBlock Text="Город : "
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                       Grid.Row="4"
+                   Grid.Column="0"/>
+        <TextBox Text="{Binding CurrentMall.city}" 
+                     Margin="10"
+                     Grid.Row="4"
+                 VerticalAlignment="Center"
+                   Grid.Column="1"/>
+
+
+        <TextBlock Text="Коофициент добавочной стоимости : "
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                       Grid.Row="5"
+                   Grid.Column="0"/>
+        <TextBox Text="{Binding CurrentMall.value_added_factor}" 
+                     Margin="10"
+                 VerticalAlignment="Center"
+                     Grid.Row="5"
+                   Grid.Column="1"/>
+
+
+        <TextBlock Text="Этажность : "
+                   VerticalAlignment="Center"
+                       Grid.Row="6"
+                   HorizontalAlignment="Center"
+                   Grid.Column="0"/>
+        <TextBox Text="{Binding CurrentMall.number_of_storeys}" 
+                     Margin="10"
+                 VerticalAlignment="Center"
+                     Grid.Row="6"
+                   Grid.Column="1"/>
+
+
+        <TextBlock Text="Фото : "
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                       Grid.Row="7"
+                   Grid.Column="0"/>
+        <DockPanel  Margin="10"
+                     Grid.Row="7"
+                   Grid.Column="1">
+            <Button Content="Загрузить"
+                    Command="{Binding LoadPhotoCommand}"
+                    Margin="10"
+                    Width="100"
+                    HorizontalAlignment="Left"/>
+        </DockPanel>
+        <Image Width="200"
+                Height="200"
+                Stretch="Uniform"
+                HorizontalAlignment="Right"
+                Grid.RowSpan="8"
+                Grid.Row="7"
+                Grid.Column="1"
+                Source="{Binding LoadedImage}"/>
+
+
+
+        <Button Content="{Binding ButtonName}"
+                Command="{Binding SaveMallCommand}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Margin="10"
+                Padding="10"/>
     </Grid>
 </Page>

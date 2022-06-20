@@ -8,9 +8,10 @@ namespace Project
     {
         public static Dictionary<long, List<Page>> ManagerPages = new Dictionary<long, List<Page>>()
         {
+            { 0, new List<Page>() { new LoginPage(), new MainMenuPage() } }, // Гость (форма входа)
             { 1, null }, // Администратор
             { 2, null }, // Менеджер А
-            { 3, new List<Page>() { new MallPage(), new ManagerCMenuPage() } }, // Менеджер С
+            { 3, new List<Page>() { new ViewingMallPage(), new ManagerCMenuPage() } }, // Менеджер С
             { 4, null } // Удален
         };
     }

@@ -1,98 +1,187 @@
-﻿using Project.Infrastructure.Commands;
+﻿using Microsoft.Win32;
+using Project.Infrastructure.Commands;
+using Project.Models;
 using Project.ViewModels.Base;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Linq;
+using System.Windows.Media.Imaging;
+using System.Windows;
+using Project.Views.Pages;
 
 namespace Project.ViewModels
 {
-    public class MallItem
+
+    public enum MallAction
     {
-        public long mall_id { get; set; }
-        public string mall_name { get; set; }
-        public string status_name { get; set; }
-        public int number_of_pavilion { get; set; }
-        public string city { get; set; }
-        public decimal cost { get; set; }
-        public int number_of_storeys { get; set; }
-        public double value_added_factor { get; set; }
-        public byte[] photo { get; set; }
+        Add,
+        Change
     }
 
     internal class MallPageViewModel : ViewModel
     {
         #region ТЦ
-        private List<MallItem> _mallsName;
+        private Mall _currentMall;
         /// <summary>
         /// ТЦ
         /// </summary>
-        public List<MallItem> Malls
+        public Mall CurrentMall
         {
-            get => _mallsName;
-            set => Set(ref _mallsName, value);
+            get => _currentMall;
+            set => Set(ref _currentMall, value);
         }
         #endregion
 
-        #region ТЦ
-        private string _mallTitleName = "Торговые центры";
+        #region Действие
+        private MallAction? _сurrentMallAction = null;
         /// <summary>
-        /// ТЦ
+        /// Действие
         /// </summary>
-        public string MallTitleName
+        public MallAction? CurrentMallAction
         {
-            get => _mallTitleName;
-            set => Set(ref _mallTitleName, value);
+            get => _сurrentMallAction;
+            set => Set(ref _сurrentMallAction, value);
         }
         #endregion
 
-        #region Команда перехода на страницу ТЦ
-        public ICommand GoMallCommand { get; }
-        private bool CanGoMallCommandExecute(object parameters) => true;
-        private void OnGoMallCommandExecuted(object parameters)
+        #region Статусы
+        private ObservableCollection<string> _mallStatuses;
+        /// <summary>
+        /// Статусы
+        /// </summary>
+        public ObservableCollection<string> MallStatuses
         {
-
-        }
-
-        #endregion
-
-        #region Команда перехода на страницу павильонов
-        public ICommand GoPavilionCommand { get; }
-        private bool CanGoPavilionCommandExecute(object parameters) => true;
-        private void OnGoPavilionCommandExecuted(object parameters)
-        {
-
+            get => _mallStatuses;
+            set => Set(ref _mallStatuses, value);
         }
         #endregion
 
-        #region Команда выхода
-        public ICommand ExitCommand { get; }
-        private bool CanExitCommandExecute(object p) => true;
-        private void OnExitCommandExecuted(object p)
+        #region Статус
+        private string _mallStatus;
+        /// <summary>
+        /// Статус
+        /// </summary>
+        public string MallStatus
         {
+            get => _mallStatus;
+            set => Set(ref _mallStatus, value);
+        }
+        #endregion
 
+        #region Img
+        private BitmapImage _loadedImage;
+        /// <summary>
+        /// Img
+        /// </summary>
+        public BitmapImage LoadedImage
+        {
+            get => _loadedImage;
+            set => Set(ref _loadedImage, value);
+        }
+        #endregion
+
+        #region ButtonName
+        private string _ButtonName;
+        /// <summary>
+        /// ButtonName
+        /// </summary>
+        public string ButtonName
+        {
+            get => _ButtonName;
+            set => Set(ref _ButtonName, value);
+        }
+        #endregion
+
+        #region Команда добавления ТЦ
+        public ICommand ExecuteCommand { get; }
+        private bool CanExecuteCommandExecute(object parameters) => true;
+        private void OnExecuteCommandExecuted(object parameters)
+        {
+            if (
+                string.IsNullOrEmpty(CurrentMall.city) ||
+                string.IsNullOrEmpty(CurrentMall.mall_name) ||
+                CurrentMall.photo == null
+                )
+            {
+                MessageBox.Show($"Заполните все поля.");
+            }
+            else
+            {
+                try
+                {
+                    CurrentMall.status_id = (
+                        from ms in Manager.Instance.Context.Mall_statuses
+                        where ms.status_name == MallStatus
+                        select ms.status_id
+                    ).FirstOrDefault();
+                    Manager.Instance.Context.Mall.Add(new Mall()
+                    {
+                        mall_name = CurrentMall.mall_name,
+                        status_id = CurrentMall.status_id,
+                        cost = CurrentMall.cost,
+                        number_of_pavilion = CurrentMall.number_of_pavilion,
+                        city = CurrentMall.city,
+                        value_added_factor = CurrentMall.value_added_factor,
+                        number_of_storeys = CurrentMall.number_of_storeys,
+                        photo = CurrentMall.photo,
+                    });
+                    Manager.Instance.Context.SaveChanges();
+                    MessageBox.Show($"Торговый центр добавлен.");
+                    Manager.Instance.MainFrameNavigate(new ViewingMallPage());
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Ошибка :\n{e.Message}");
+                }
+            }
+        }
+        #endregion
+
+        #region Загрузка фотографии
+        public ICommand LoadPhotoCommand { get; }
+        private bool CanLoadPhotoCommandExecute(object parameters) => true;
+        private void OnLoadPhotoCommandExecuted(object parameters)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Image Files|*.jpg;*png;";
+            if ((bool)fileDialog.ShowDialog())
+            {
+                CurrentMall.photo = Tools.GetImageBytes(fileDialog.FileName);
+                LoadedImage = new BitmapImage(new Uri(fileDialog.FileName));
+            }
         }
         #endregion
 
         #region Конструктор
         public MallPageViewModel()
         {
-            GoMallCommand = new LambdaCommand(OnGoMallCommandExecuted, CanGoMallCommandExecute);
-            GoPavilionCommand = new LambdaCommand(OnGoPavilionCommandExecuted, CanGoPavilionCommandExecute);
-            ExitCommand = new LambdaCommand(OnExitCommandExecuted, CanExitCommandExecute);
-            Malls = (from mall in Manager.Instance.Context.Mall
-                     join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
-                     select new MallItem
-                     {
-                         mall_id = mall.mall_id,
-                         mall_name = mall.mall_name,
-                         status_name = ms.status_name,
-                         number_of_pavilion = mall.number_of_pavilion,
-                         city = mall.city,
-                         cost = mall.cost,
-                         number_of_storeys = mall.number_of_storeys,
-                         value_added_factor = mall.value_added_factor,
-                         photo = mall.photo
-                     }).ToList();
+            switch (CurrentMallAction)
+            {
+                case MallAction.Add:
+                    ButtonName = "Добавить";
+                    break;
+                case MallAction.Change:
+                    ButtonName = "Изменить";
+                    break;
+                default:
+                    break;
+            }
+            ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
+            LoadPhotoCommand = new LambdaCommand(OnLoadPhotoCommandExecuted, CanLoadPhotoCommandExecute);
+            MallStatuses = new ObservableCollection<string>(
+                from ms in Manager.Instance.Context.Mall_statuses
+                orderby ms.status_name
+                select ms.status_name
+                );
+            CurrentMall = new Mall();
+            //if (CurrentMall == null)
+            //{
+            //}
+            //else
+            //{
+            //    LoadedImage = Tools.BytesToImage(CurrentMall.photo);
+            //}
         }
         #endregion
     }

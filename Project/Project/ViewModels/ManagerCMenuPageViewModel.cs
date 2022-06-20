@@ -48,7 +48,7 @@ namespace Project.ViewModels
         private bool CanGoMallCommandExecute(object parameters) => true;
         private void OnGoMallCommandExecuted(object parameters)
         {
-            Manager.Instance.MainFrameNavigate(new MallPage());
+            Manager.Instance.MainFrameNavigate(new ViewingMallPage());
         }
 
         #endregion
@@ -67,8 +67,7 @@ namespace Project.ViewModels
         private bool CanExitCommandExecute(object p) => true;
         private void OnExitCommandExecuted(object p)
         {
-            Manager.Instance.MainFrameNavigate(new LoginPage());
-            Manager.Instance.MenuFrameNavigate(new MainMenuPage());
+            Manager.Instance.LoadEmployeeInterface(new Models.Employees { role = 0 });
         }
         #endregion
 

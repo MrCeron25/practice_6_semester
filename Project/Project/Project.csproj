@@ -74,9 +74,13 @@
     <Compile Include="Infrastructure\Commands\Base\Command.cs" />
     <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="Models\ManagerRoles.cs" />
-    <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="ViewModels\MallPageViewModel.cs" />
+    <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="ViewModels\ViewingMallPageViewModel.cs" />
     <Compile Include="ViewModels\ManagerCMenuPageViewModel.cs" />
+    <Compile Include="Views\Pages\MallPage.xaml.cs">
+      <DependentUpon>MallPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -87,8 +91,8 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Manager.cs" />
-    <Compile Include="Views\Pages\MallPage.xaml.cs">
-      <DependentUpon>MallPage.xaml</DependentUpon>
+    <Compile Include="Views\Pages\ViewingMallPage.xaml.cs">
+      <DependentUpon>ViewingMallPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\ManagerCMenuPage.xaml.cs">
       <DependentUpon>ManagerCMenuPage.xaml</DependentUpon>
@@ -119,6 +123,10 @@
     </Compile>
     <Compile Include="Models\Tools.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
+    <Page Include="Views\Pages\MallPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,7 +135,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\MallPage.xaml">
+    <Page Include="Views\Pages\ViewingMallPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

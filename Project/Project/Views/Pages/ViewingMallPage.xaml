@@ -1,0 +1,101 @@
+﻿<Page x:Class="Project.Views.Pages.ViewingMallPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Project.Views.Pages"
+      xmlns:vm="clr-namespace:Project.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" 
+      d:DesignWidth="800"
+      Title="ViewingMallPage">
+
+    <Page.DataContext>
+        <vm:ViewingMallPageViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0">
+            <TextBlock Text="{Binding MallTitleName}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Margin="0,0,50,0"/>
+            <!--<StackPanel Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        MinWidth="100">
+                <TextBlock Text="Статус : "/>
+                <ComboBox ItemsSource="">
+                    <ComboBoxItem Content="Все" IsSelected="True"/>
+                </ComboBox>
+            </StackPanel>-->
+            <Button Content="Добавить"
+                    Margin="10"
+                    Command="{Binding AddMallCommand}"/>
+            <Button Content="Изменить"
+                    Margin="10"
+                    Command="{Binding ChangeMallCommand}"/>
+            <Button Content="Удалить"
+                    Margin="10"
+                    Command="{Binding DeleteMallCommand}"/>
+        </StackPanel>
+        <ListView Margin="10,10,10,10"
+                  ItemsSource="{Binding Malls}"
+                  SelectedItem="{Binding SelectedMall}"
+                  HorizontalContentAlignment="Stretch"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=mall_name}"
+                                       FontWeight="Bold"
+                                       FontSize="20"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Статус : "/>
+                                <TextBlock Text="{Binding Path=status_name}"
+                                           Foreground="Red"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Количество павильонов : "/>
+                                <TextBlock Text="{Binding Path=number_of_pavilion}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Город : "/>
+                                <TextBlock Text="{Binding Path=city}"
+                                       Foreground="Gray"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Этажность : "/>
+                                <TextBlock Text="{Binding Path=number_of_storeys}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Коэффициент добавочной стоимости : "/>
+                                <TextBlock Text="{Binding Path=value_added_factor}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Right">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Цена : "/>
+                                <TextBlock Text="{Binding Path=cost,StringFormat={}{0:### ### ###}}"
+                                           Foreground="Green"
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                            <Image Source="{Binding Path=photo}"
+                                   Margin="100,10,10,10"
+                                   MaxHeight="150"
+                                   MaxWidth="150"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
