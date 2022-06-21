@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Project.ViewModels"
         Title="{Binding Title}" 
+        Icon="{Binding IconImage}"
         Height="700" 
         Width="1000"
         MinHeight="700"

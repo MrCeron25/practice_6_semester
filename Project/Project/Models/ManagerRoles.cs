@@ -6,6 +6,9 @@ namespace Project
 {
     public class ManagerRoles
     {
+        /// <summary>
+        /// Менеджер по загрузке страниц для каждого пользователя
+        /// </summary>
         public static Dictionary<long, List<Page>> ManagerPages = new Dictionary<long, List<Page>>()
         {
             { 0, new List<Page>() { new LoginPage(), new MainMenuPage() } }, // Гость (форма входа)

@@ -4,7 +4,6 @@ using Project.Models;
 using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -160,7 +159,11 @@ namespace Project.ViewModels
                     where m.mall_id == SelectedMall.mall_id
                     select m
                     ).FirstOrDefault();
-                Manager.Instance.Context.Mall.Remove(mall);
+                mall.status_id = (
+                    from m in Manager.Instance.Context.Mall_statuses
+                    where m.status_name == "Удалён"
+                    select m.status_id
+                    ).FirstOrDefault();
                 Manager.Instance.Context.SaveChanges();
                 Malls.Remove(SelectedMall); // или UpdateMalls();
                 MessageBox.Show($"Торговый центр удалён.");
@@ -297,8 +300,10 @@ namespace Project.ViewModels
         private bool CanLoadPhotoCommandExecute(object parameters) => true;
         private void OnLoadPhotoCommandExecuted(object parameters)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Image Files|*.jpg;*png;";
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
+                Filter = "Image Files|*.jpg;*png;"
+            };
             if ((bool)fileDialog.ShowDialog())
             {
                 CurrentMall.photo = Tools.GetImageBytes(fileDialog.FileName);
@@ -316,6 +321,7 @@ namespace Project.ViewModels
             from mall in Manager.Instance.Context.Mall
             join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
             orderby mall.city, ms.status_name
+            where ms.status_name != "Удалён"
             select new MallItem
             {
                 mall_id = mall.mall_id,

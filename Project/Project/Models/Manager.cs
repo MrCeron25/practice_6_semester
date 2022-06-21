@@ -39,6 +39,10 @@ namespace Project
             Instance.MainFrame.Navigate(content);
         }
 
+        /// <summary>
+        /// По пользователю загружает нужный интерфейс
+        /// </summary>
+        /// <param name="employee"></param>
         public void LoadEmployeeInterface(Employees employee)
         {
             if (employee != null)
