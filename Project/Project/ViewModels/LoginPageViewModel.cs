@@ -11,6 +11,7 @@ using System.Linq;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using Project.Models;
+using System.Data.SqlClient;
 
 namespace Project.ViewModels
 {
@@ -369,30 +370,36 @@ namespace Project.ViewModels
 
         private void OnLoadEmployeesImagesCommandExecuted(object parameters)
         {
-            string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image Сотрудники";
-            DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
-            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            try
             {
-                if (fileInfo.Extension == ".jpg")
+                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image Сотрудники";
+                DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
+                foreach (FileInfo fileInfo in directoryInfo.GetFiles())
                 {
-                    string fileName = fileInfo.FullName;
-                    string[] fullName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0].Split(' ');
-                    string surname = fullName[0];
-                    string name = fullName[1];
-                    string patronymic = fullName[2];
-                    Employees employee = (from em in Manager.Instance.Context.Employees
-                                          where em.name == name && em.surname == surname && em.patronymic == patronymic
-                                          select em).FirstOrDefault();
-                    if (employee != null)
+                    if (fileInfo.Extension == ".jpg")
                     {
-                        Debug.WriteLine(fileInfo);
-                        employee.photo = Tools.GetImageBytes(fileInfo.FullName);
+                        string fileName = fileInfo.FullName;
+                        string[] fullName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0].Split(' ');
+                        string surname = fullName[0];
+                        string name = fullName[1];
+                        string patronymic = fullName[2];
+                        Employees employee = (from em in Manager.Instance.Context.Employees
+                                              where em.name == name && em.surname == surname && em.patronymic == patronymic
+                                              select em).FirstOrDefault();
+                        if (employee != null)
+                        {
+                            Debug.WriteLine(fileInfo);
+                            employee.photo = Tools.GetImageBytes(fileInfo.FullName);
+                        }
                     }
                 }
-
+                Manager.Instance.Context.SaveChanges();
+                Debug.WriteLine("Фото сотрудников загружены.");
             }
-            Manager.Instance.Context.SaveChanges();
-            Debug.WriteLine("Фото сотрудников загружены.");
+            catch (Exception e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
+            }
         }
 
         public ICommand LoadMallImagesCommand { get; }
@@ -401,26 +408,33 @@ namespace Project.ViewModels
 
         private void OnLoadMallImagesCommandExecuted(object parameters)
         {
-            string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image ТЦ";
-            DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
-            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            try
             {
-                if (fileInfo.Extension == ".jpg")
+                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image ТЦ";
+                DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
+                foreach (FileInfo fileInfo in directoryInfo.GetFiles())
                 {
-                    string fileName = fileInfo.FullName;
-                    string mallName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0];
-                    Mall mall = (from m in Manager.Instance.Context.Mall
-                                 where m.mall_name == mallName
-                                 select m).FirstOrDefault();
-                    if (mall != null)
+                    if (fileInfo.Extension == ".jpg")
                     {
-                        Debug.WriteLine(fileInfo);
-                        mall.photo = Tools.GetImageBytes(fileInfo.FullName);
+                        string fileName = fileInfo.FullName;
+                        string mallName = fileName.Substring(fileName.LastIndexOf('\\') + 1).Split('.')[0];
+                        Mall mall = (from m in Manager.Instance.Context.Mall
+                                     where m.mall_name == mallName
+                                     select m).FirstOrDefault();
+                        if (mall != null)
+                        {
+                            Debug.WriteLine(fileInfo);
+                            mall.photo = Tools.GetImageBytes(fileInfo.FullName);
+                        }
                     }
                 }
+                Manager.Instance.Context.SaveChanges();
+                Debug.WriteLine("Фото ТЦ загружены.");
             }
-            Manager.Instance.Context.SaveChanges();
-            Debug.WriteLine("Фото ТЦ загружены.");
+            catch (Exception e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
+            }
         }
 
         public ICommand EntryCommand { get; }

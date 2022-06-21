@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace Project
@@ -8,12 +10,23 @@ namespace Project
         public static byte[] GetImageBytes(string filePath)
         {
             byte[] photo = null;
-            using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            try
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    photo = reader.ReadBytes((int)stream.Length);
+                    using (BinaryReader reader = new BinaryReader(stream))
+                    {
+                        photo = reader.ReadBytes((int)stream.Length);
+                    }
                 }
+            }
+            catch (InvalidOperationException e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
             }
             return photo;
         }
@@ -21,13 +34,24 @@ namespace Project
         public static BitmapImage BytesToImage(byte[] bytes)
         {
             BitmapImage image = null;
-            using (MemoryStream ms = new MemoryStream(bytes))
+            try
             {
-                image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
-                image.EndInit();
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
             }
             return image;
         }

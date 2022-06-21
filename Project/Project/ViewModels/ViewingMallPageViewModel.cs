@@ -5,6 +5,8 @@ using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -104,7 +106,7 @@ namespace Project.ViewModels
         }
         #endregion
 
-        #region ТЦ
+        #region ТЦ название
         private string _mallTitleName = "Торговые центры";
         /// <summary>
         /// ТЦ
@@ -161,7 +163,7 @@ namespace Project.ViewModels
                     ).FirstOrDefault();
                 mall.status_id = (
                     from m in Manager.Instance.Context.Mall_statuses
-                    where m.status_name == "Удалён"
+                    where m.status_name == DeleteNameSorting
                     select m.status_id
                     ).FirstOrDefault();
                 Manager.Instance.Context.SaveChanges();
@@ -170,36 +172,8 @@ namespace Project.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Ошибка :\n{e.Message}");
+                MessageBox.Show($"Ошибка :\n{e}");
             }
-        }
-        #endregion
-
-
-        #region MallPage
-
-        #region ТЦ
-        private Mall _currentMall = new Mall();
-        /// <summary>
-        /// ТЦ
-        /// </summary>
-        public Mall CurrentMall
-        {
-            get => _currentMall;
-            set => Set(ref _currentMall, value);
-        }
-        #endregion
-
-
-        #region MallAction
-        private MallAction _currentMallAction = MallAction.None;
-        /// <summary>
-        /// MallAction
-        /// </summary>
-        public MallAction CurrentMallAction
-        {
-            get => _currentMallAction;
-            set => Set(ref _currentMallAction, value);
         }
         #endregion
 
@@ -215,15 +189,27 @@ namespace Project.ViewModels
         }
         #endregion
 
-        #region Статус
-        private string _selectedMallStatus;
+        #region Текущий ТЦ
+        private Mall _currentMall = new Mall();
         /// <summary>
-        /// Статус
+        /// ТЦ
         /// </summary>
-        public string SelectedMallStatus
+        public Mall CurrentMall
         {
-            get => _selectedMallStatus;
-            set => Set(ref _selectedMallStatus, value);
+            get => _currentMall;
+            set => Set(ref _currentMall, value);
+        }
+        #endregion
+
+        #region MallAction
+        private MallAction _currentMallAction = MallAction.None;
+        /// <summary>
+        /// MallAction
+        /// </summary>
+        public MallAction CurrentMallAction
+        {
+            get => _currentMallAction;
+            set => Set(ref _currentMallAction, value);
         }
         #endregion
 
@@ -256,11 +242,17 @@ namespace Project.ViewModels
         private bool CanExecuteCommandExecute(object parameters) => true;
         private void OnExecuteCommandExecuted(object parameters)
         {
-            if (
-                string.IsNullOrEmpty(CurrentMall.city) ||
-                string.IsNullOrEmpty(CurrentMall.mall_name) ||
-                CurrentMall.photo == null
-                )
+            if (CurrentMall.cost < 0 ||
+                CurrentMall.number_of_pavilion < 0 ||
+                CurrentMall.value_added_factor < 0 ||
+                CurrentMall.number_of_storeys < 0)
+            {
+                MessageBox.Show($"Числовые поля должны быть положительными.");
+            }
+            else if (string.IsNullOrEmpty(CurrentMall.mall_name.Trim()) ||
+                     SelectedMallStatus == null ||
+                     string.IsNullOrEmpty(CurrentMall.city.Trim()) ||
+                     CurrentMall.photo == null)
             {
                 MessageBox.Show($"Заполните все поля.");
             }
@@ -273,6 +265,8 @@ namespace Project.ViewModels
                         where ms.status_name == SelectedMallStatus
                         select ms.status_id
                     ).FirstOrDefault();
+                    CurrentMall.mall_name = CurrentMall.mall_name.Trim();
+                    CurrentMall.city = CurrentMall.city.Trim();
                     switch (CurrentMallAction)
                     {
                         case MallAction.Add:
@@ -285,13 +279,14 @@ namespace Project.ViewModels
                     }
                     Manager.Instance.Context.SaveChanges();
                     Manager.Instance.MainFrameNavigate(new ViewingMallPage());
-                    UpdateMalls();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"Ошибка :\n{e.Message}");
+                    MessageBox.Show($"Ошибка :\n{e}");
                 }
             }
+            SelectedMallStatusSorting = AllNameSorting;
+            UpdateMalls();
         }
         #endregion
 
@@ -300,18 +295,180 @@ namespace Project.ViewModels
         private bool CanLoadPhotoCommandExecute(object parameters) => true;
         private void OnLoadPhotoCommandExecuted(object parameters)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog
+            try
             {
-                Filter = "Image Files|*.jpg;*png;"
-            };
-            if ((bool)fileDialog.ShowDialog())
+                OpenFileDialog fileDialog = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.jpg;*png;"
+                };
+                if ((bool)fileDialog.ShowDialog())
+                {
+                    if (fileDialog.FileName.EndsWith(".jpg") ||
+                        fileDialog.FileName.EndsWith(".png"))
+                    {
+                        CurrentMall.photo = Tools.GetImageBytes(fileDialog.FileName);
+                        LoadedImage = new BitmapImage(new Uri(fileDialog.FileName));
+                    }
+                }
+            }
+            catch (Exception e)
             {
-                CurrentMall.photo = Tools.GetImageBytes(fileDialog.FileName);
-                LoadedImage = new BitmapImage(new Uri(fileDialog.FileName));
+                Console.WriteLine(e.Message);
             }
         }
         #endregion
 
+        #region Сортировка статусов торговых центров
+        private ObservableCollection<string> _mallStatusesSorting = GetMallStatuses();
+        /// <summary>
+        /// Сортировка статусов торговых центров
+        /// </summary>
+        public ObservableCollection<string> MallStatusesSorting
+        {
+            get => _mallStatusesSorting;
+            set => Set(ref _mallStatusesSorting, value);
+        }
+        #endregion
+
+        #region Выбранная сортировка статусов
+        private string _selectedMallStatusSorting;
+        /// <summary>
+        /// Выбранная сортировка статусов
+        /// </summary>
+        public string SelectedMallStatusSorting
+        {
+            get => _selectedMallStatusSorting;
+            set
+            {
+                UpdateCities();
+                SelectedCity = null;
+                CityIsEnabled = value != null;
+                if (AllNameSorting == value)
+                {
+                    UpdateMalls();
+                }
+                else
+                {
+                    Malls = new ObservableCollection<MallItem>(
+                    from mall in Manager.Instance.Context.Mall
+                    join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
+                    orderby mall.city, ms.status_name
+                    where ms.status_name == value
+                    select new MallItem
+                    {
+                        mall_id = mall.mall_id,
+                        mall_name = mall.mall_name,
+                        status_name = ms.status_name,
+                        status_id = ms.status_id,
+                        number_of_pavilion = mall.number_of_pavilion,
+                        city = mall.city,
+                        cost = mall.cost,
+                        number_of_storeys = mall.number_of_storeys,
+                        value_added_factor = mall.value_added_factor,
+                        photo = mall.photo
+                    });
+                }
+                Set(ref _selectedMallStatusSorting, value);
+            }
+        }
+        #endregion
+
+        #region Города
+        private ObservableCollection<string> _cities;
+        /// <summary>
+        /// Города
+        /// </summary>
+        public ObservableCollection<string> Cities
+        {
+            get => _cities;
+            set => Set(ref _cities, value);
+        }
+        #endregion
+
+        #region Состояние городов
+        private bool _сityIsEnabled;
+        /// <summary>
+        /// Состояние городов
+        /// </summary>
+        public bool CityIsEnabled
+        {
+            get => Cities.Count != 0;
+            set => Set(ref _сityIsEnabled, value);
+        }
+        #endregion
+
+        #region Выбранный город
+        private string _selectedCity;
+        /// <summary>
+        /// Выбранный город
+        /// </summary>
+        public string SelectedCity
+        {
+            get => _selectedCity;
+            set
+            {
+                if (value != null)
+                {
+                    if (AllNameSorting == SelectedMallStatusSorting)
+                    {
+                        Malls = new ObservableCollection<MallItem>(
+                        from mall in Manager.Instance.Context.Mall
+                        join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
+                        orderby mall.city, ms.status_name
+                        where mall.city == value &&
+                              ms.status_name != DeleteNameSorting
+                        select new MallItem
+                        {
+                            mall_id = mall.mall_id,
+                            mall_name = mall.mall_name,
+                            status_name = ms.status_name,
+                            status_id = ms.status_id,
+                            number_of_pavilion = mall.number_of_pavilion,
+                            city = mall.city,
+                            cost = mall.cost,
+                            number_of_storeys = mall.number_of_storeys,
+                            value_added_factor = mall.value_added_factor,
+                            photo = mall.photo
+                        });
+                    }
+                    else
+                    {
+                        Malls = new ObservableCollection<MallItem>(
+                        from mall in Manager.Instance.Context.Mall
+                        join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
+                        orderby mall.city, ms.status_name
+                        where mall.city == value &&
+                              ms.status_name == SelectedMallStatusSorting
+                        select new MallItem
+                        {
+                            mall_id = mall.mall_id,
+                            mall_name = mall.mall_name,
+                            status_name = ms.status_name,
+                            status_id = ms.status_id,
+                            number_of_pavilion = mall.number_of_pavilion,
+                            city = mall.city,
+                            cost = mall.cost,
+                            number_of_storeys = mall.number_of_storeys,
+                            value_added_factor = mall.value_added_factor,
+                            photo = mall.photo
+                        });
+                    }
+                }
+                Set(ref _selectedCity, value);
+            }
+        }
+        #endregion
+
+        #region Статус
+        private string _selectedMallStatus;
+        /// <summary>
+        /// Статус
+        /// </summary>
+        public string SelectedMallStatus
+        {
+            get => _selectedMallStatus;
+            set => Set(ref _selectedMallStatus, value);
+        }
         #endregion
 
         #region UpdateMalls
@@ -321,7 +478,7 @@ namespace Project.ViewModels
             from mall in Manager.Instance.Context.Mall
             join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
             orderby mall.city, ms.status_name
-            where ms.status_name != "Удалён"
+            where ms.status_name != DeleteNameSorting
             select new MallItem
             {
                 mall_id = mall.mall_id,
@@ -338,14 +495,67 @@ namespace Project.ViewModels
         }
         #endregion
 
-        #region UpdateMallStatuses
-        private void UpdateMallStatuses()
+        #region GetMallStatuses
+        private static ObservableCollection<string> GetMallStatuses()
         {
-            MallStatuses = new ObservableCollection<string>(
+            return new ObservableCollection<string>(
                 from ms in Manager.Instance.Context.Mall_statuses
                 orderby ms.status_name
                 select ms.status_name
                 );
+        }
+        #endregion
+
+
+        #region GetCities
+        private void UpdateCities()
+        {
+            Cities = GetCities();
+        }
+        #endregion
+
+        #region GetCities
+        private ObservableCollection<string> GetCities()
+        {
+            return new ObservableCollection<string>((
+                    from m in Manager.Instance.Context.Mall
+                    orderby m.city
+                    where m.status_id != (from ms in Manager.Instance.Context.Mall_statuses
+                                          where ms.status_name == DeleteNameSorting
+                                          select ms.status_id).FirstOrDefault()
+                    select m.city
+                ).Distinct().ToList());
+        }
+        #endregion
+
+        #region UpdateMallStatuses
+        private void UpdateMallStatuses()
+        {
+            MallStatuses = GetMallStatuses();
+        }
+        #endregion
+
+        #region Статус сортировки Всё
+        private string _allNameSorting = "Всё";
+        /// <summary>
+        /// Статус сортировки Всё
+        /// </summary>
+        public string AllNameSorting
+        {
+            get => _allNameSorting;
+            set => Set(ref _allNameSorting, value);
+        }
+        #endregion
+
+        #region Статус сортировки Удалён
+        private string _deleteNameSorting = "Удалён";
+        /// <summary>
+        /// Статус сортировки Удалён
+        /// </summary>
+        public string DeleteNameSorting
+        {
+            get => _deleteNameSorting;
+            set => Set(ref _deleteNameSorting, value);
         }
         #endregion
 
@@ -360,6 +570,15 @@ namespace Project.ViewModels
             ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
             LoadPhotoCommand = new LambdaCommand(OnLoadPhotoCommandExecuted, CanLoadPhotoCommandExecute);
             UpdateMallStatuses();
+
+            // убираю сортировку по удаленным ТЦ
+            MallStatusesSorting.Remove(DeleteNameSorting);
+            // добавляю общую сортировку
+            MallStatusesSorting.Add(AllNameSorting);
+            // текущим выбранным ставим все
+            SelectedMallStatusSorting = AllNameSorting;
+
+            UpdateCities();
         }
         #endregion
     }
