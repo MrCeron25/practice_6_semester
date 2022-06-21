@@ -10,11 +10,8 @@
       d:DesignWidth="800"
       Title="ViewingMallPage">
 
-    <Page.DataContext>
-        <vm:ViewingMallPageViewModel/>
-    </Page.DataContext>
-
-    <Grid Background="White">
+    <Grid Background="White"
+          DataContext="{StaticResource ViewingMallPageViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
@@ -22,15 +19,16 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0">
             <TextBlock Text="{Binding MallTitleName}"
+                       Style="{StaticResource TextBlockTemplate}"
+                       FontWeight="Bold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
-                       FontSize="30"
-                       FontWeight="Bold"
-                       Margin="0,0,50,0"/>
+                       Margin="20"/>
             <!--<StackPanel Orientation="Vertical"
                         VerticalAlignment="Center"
                         MinWidth="100">
-                <TextBlock Text="Статус : "/>
+                <TextBlock Text="Статус : "
+                        Style="{StaticResource TextBlockTemplate}"/>
                 <ComboBox ItemsSource="">
                     <ComboBoxItem Content="Все" IsSelected="True"/>
                 </ComboBox>
@@ -55,38 +53,46 @@
                     <Grid HorizontalAlignment="Stretch">
                         <StackPanel>
                             <TextBlock Text="{Binding Path=mall_name}"
-                                       FontWeight="Bold"
-                                       FontSize="20"/>
+                                       Style="{StaticResource TextBlockTemplate}"
+                                       FontWeight="Bold"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Статус : "/>
+                                <TextBlock Text="Статус : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=status_name}"
-                                           Foreground="Red"/>
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Количество павильонов : "/>
-                                <TextBlock Text="{Binding Path=number_of_pavilion}"/>
+                                <TextBlock Text="Количество павильонов : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=number_of_pavilion}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Город : "/>
+                                <TextBlock Text="Город : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=city}"
-                                       Foreground="Gray"/>
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Этажность : "/>
-                                <TextBlock Text="{Binding Path=number_of_storeys}"/>
+                                <TextBlock Text="Этажность : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=number_of_storeys}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Коэффициент добавочной стоимости : "/>
-                                <TextBlock Text="{Binding Path=value_added_factor}"/>
+                                <TextBlock Text="Коэффициент добавочной стоимости : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=value_added_factor}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Right">
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Цена : "/>
+                                <TextBlock Text="Цена : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=cost,StringFormat={}{0:### ### ###}}"
-                                           Foreground="Green"
-                                           FontWeight="Bold"/>
+                                           Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <Image Source="{Binding Path=photo}"
                                    Margin="100,10,10,10"
