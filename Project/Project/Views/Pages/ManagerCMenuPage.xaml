@@ -13,7 +13,8 @@
         <vm:ManagerCMenuPageViewModel/>
     </Page.DataContext>
 
-    <Grid Background="#FF104EA9">
+    <Grid Background="White">
+        <Image Style="{StaticResource ImageTemplate}"/>
         <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom">

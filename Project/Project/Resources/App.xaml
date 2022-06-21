@@ -6,12 +6,12 @@
     <Application.Resources>
         <local:ViewingMallPageViewModel x:Key="ViewingMallPageViewModel"/>
         
-        <!--<Style x:Key="ButtonTemplate" TargetType="Button">
-            <Setter Property="Margin" Value="10,10,10,10"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="#FFB906"/>
-        </Style>-->
+        <Style x:Key="ButtonTemplate" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="#FFFF9C1A"/>
+        </Style>
 
         <Style x:Key="TextBlockTemplate" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
@@ -19,12 +19,29 @@
             <Setter Property="Foreground" Value="#FF37474F"/>
         </Style>
 
-        <!--<Style x:Key="TextBoxTemplate" TargetType="TextBox">
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Margin" Value="20,20,20,20"/>
+        <Style x:Key="TextBoxTemplate" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Foreground" Value="#FF37474F"/>
         </Style>
 
+        <Style x:Key="ImageTemplate" TargetType="Image">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Source" Value="..\Images\Эмблема.png"/>
+
+        </Style>
+
+        <Style x:Key="AuthorTemplate" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Text" Value="Алексеева Артёма ПКС-305"/>
+        </Style>
+
+        <!--
         <Style x:Key="CenteringBoldTextBoxTemplate" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -59,14 +76,5 @@
             <Setter Property="Margin" Value="10,0,10,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>-->
-
-        <Style x:Key="AuthorTemplate" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Opacity" Value="0.5"/>
-            <Setter Property="Text" Value="Алексеева Артёма ПКС-305"/>
-        </Style>
     </Application.Resources>
 </Application>

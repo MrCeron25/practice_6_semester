@@ -10,10 +10,6 @@
       d:DesignWidth="800"
       Title="MallPage">
 
-    <!--<Page.DataContext>
-        <vm:ViewingMallPageViewModel/>
-    </Page.DataContext>-->
-
     <Grid Background="White"
           DataContext="{StaticResource ViewingMallPageViewModel}">
         <Grid.ColumnDefinitions>
@@ -33,15 +29,20 @@
         </Grid.RowDefinitions>
 
 
+        <TextBlock Style="{StaticResource AuthorTemplate}"
+                   Grid.RowSpan="9"
+                   Grid.ColumnSpan="2"/>
         <TextBlock Text="Название : "
                    Grid.Row="0"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.mall_name}"
                  Grid.Row="0"
                  VerticalAlignment="Center"
                  Grid.Column="1"
+                 Style="{StaticResource TextBoxTemplate}"
                  Margin="10"/>
 
 
@@ -49,7 +50,8 @@
                    Grid.Row="1"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center"
+                   Style="{StaticResource TextBlockTemplate}"/>
         
         <ComboBox Grid.Row="1"
                   ItemsSource="{Binding MallStatuses}"
@@ -63,9 +65,11 @@
                    Grid.Row="2"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.cost}" 
                  Margin="10"
+                 Style="{StaticResource TextBoxTemplate}"
                  Grid.Row="2"
                  VerticalAlignment="Center"
                  Grid.Column="1"/>
@@ -75,9 +79,11 @@
                        Grid.Row="3"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.number_of_pavilion}" 
                      Margin="10"
+                 Style="{StaticResource TextBoxTemplate}"
                      Grid.Row="3"
                  VerticalAlignment="Center"
                    Grid.Column="1"/>
@@ -87,10 +93,12 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                        Grid.Row="4"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.city}" 
                      Margin="10"
                      Grid.Row="4"
+                 Style="{StaticResource TextBoxTemplate}"
                  VerticalAlignment="Center"
                    Grid.Column="1"/>
 
@@ -99,9 +107,11 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                        Grid.Row="5"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.value_added_factor}" 
                      Margin="10"
+                 Style="{StaticResource TextBoxTemplate}"
                  VerticalAlignment="Center"
                      Grid.Row="5"
                    Grid.Column="1"/>
@@ -111,10 +121,12 @@
                    VerticalAlignment="Center"
                        Grid.Row="6"
                    HorizontalAlignment="Center"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentMall.number_of_storeys}" 
                      Margin="10"
                  VerticalAlignment="Center"
+                 Style="{StaticResource TextBoxTemplate}"
                      Grid.Row="6"
                    Grid.Column="1"/>
 
@@ -123,13 +135,15 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                        Grid.Row="7"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   Style="{StaticResource TextBlockTemplate}"/>
         <DockPanel  Margin="10"
                      Grid.Row="7"
                    Grid.Column="1">
             <Button Content="Загрузить"
                     Command="{Binding LoadPhotoCommand}"
                     Margin="10"
+                    Style="{StaticResource ButtonTemplate}"
                     Width="100"
                     HorizontalAlignment="Left"/>
         </DockPanel>
@@ -145,6 +159,7 @@
 
 
         <Button Content="{Binding ButtonName}"
+                Style="{StaticResource ButtonTemplate}"
                 Command="{Binding ExecuteCommand}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"

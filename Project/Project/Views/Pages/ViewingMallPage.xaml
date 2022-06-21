@@ -16,6 +16,9 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource AuthorTemplate}"
+                   Grid.Row="2"
+                   Panel.ZIndex="1"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0">
             <TextBlock Text="{Binding MallTitleName}"
@@ -23,7 +26,7 @@
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
-                       Margin="20"/>
+                       Margin="10"/>
             <!--<StackPanel Orientation="Vertical"
                         VerticalAlignment="Center"
                         MinWidth="100">
@@ -35,17 +38,21 @@
             </StackPanel>-->
             <Button Content="Добавить"
                     Margin="10"
+                    Style="{StaticResource ButtonTemplate}"
                     Command="{Binding AddMallCommand}"/>
             <Button Content="Изменить"
+                    Style="{StaticResource ButtonTemplate}"
                     Margin="10"
                     Command="{Binding ChangeMallCommand}"/>
             <Button Content="Удалить"
                     Margin="10"
+                    Style="{StaticResource ButtonTemplate}"
                     Command="{Binding DeleteMallCommand}"/>
         </StackPanel>
         <ListView Margin="10,10,10,10"
                   ItemsSource="{Binding Malls}"
                   SelectedItem="{Binding SelectedMall}"
+                  SelectionMode="Single"
                   HorizontalContentAlignment="Stretch"
                   Grid.Row="1">
             <ListView.ItemTemplate>
@@ -90,6 +97,7 @@
                                     HorizontalAlignment="Right">
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="Цена : "
+                                           FontWeight="Bold"
                                            Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=cost,StringFormat={}{0:### ### ###}}"
                                            Style="{StaticResource TextBlockTemplate}"/>
