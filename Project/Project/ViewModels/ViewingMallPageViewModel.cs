@@ -5,8 +5,6 @@ using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -14,56 +12,6 @@ using System.Windows.Media.Imaging;
 
 namespace Project.ViewModels
 {
-    public class MallItem
-    {
-        public long mall_id { get; set; }
-        public string mall_name { get; set; }
-        public long status_id { get; set; }
-        public string status_name { get; set; }
-        public int number_of_pavilion { get; set; }
-        public string city { get; set; }
-        public decimal cost { get; set; }
-        public int number_of_storeys { get; set; }
-        public double value_added_factor { get; set; }
-        public byte[] photo { get; set; }
-
-        public static explicit operator Mall(MallItem mallItem)
-        {
-            return new Mall
-            {
-                mall_id = mallItem.mall_id,
-                mall_name = mallItem.mall_name,
-                status_id = mallItem.status_id,
-                cost = mallItem.cost,
-                number_of_pavilion = mallItem.number_of_pavilion,
-                city = mallItem.city,
-                value_added_factor = mallItem.value_added_factor,
-                number_of_storeys = mallItem.number_of_storeys,
-                photo = mallItem.photo,
-            };
-        }
-        public static explicit operator MallItem(Mall mall)
-        {
-            return new MallItem
-            {
-                mall_id = mall.mall_id,
-                mall_name = mall.mall_name,
-                status_id = mall.status_id,
-                status_name = (
-                    from m in Manager.Instance.Context.Mall_statuses
-                    where m.status_id == mall.status_id
-                    select m.status_name
-                    ).FirstOrDefault(),
-                number_of_pavilion = mall.number_of_pavilion,
-                city = mall.city,
-                cost = mall.cost,
-                number_of_storeys = mall.number_of_storeys,
-                value_added_factor = mall.value_added_factor,
-                photo = mall.photo
-            };
-        }
-    }
-
     internal class ViewingMallPageViewModel : ViewModel
     {
         #region ТЦ
@@ -125,7 +73,7 @@ namespace Project.ViewModels
         {
             LoadedImage = null;
             CurrentMall = new Mall();
-            CurrentMallAction = MallAction.Add;
+            CurrentActionEntities = ActionEntities.Add;
             ButtonName = "Добавить";
             Manager.Instance.MainFrameNavigate(new MallPage());
         }
@@ -136,7 +84,7 @@ namespace Project.ViewModels
         private bool CanChangeMallCommandExecute(object parameters) => IsSelected;
         private void OnChangeMallCommandExecuted(object parameters)
         {
-            CurrentMallAction = MallAction.Change;
+            CurrentActionEntities = ActionEntities.Change;
             ButtonName = "Изменить";
             CurrentMall = (
                     from m in Manager.Instance.Context.Mall
@@ -201,15 +149,15 @@ namespace Project.ViewModels
         }
         #endregion
 
-        #region MallAction
-        private MallAction _currentMallAction = MallAction.None;
+        #region ActionEntities
+        private ActionEntities _currentActionEntities = ActionEntities.None;
         /// <summary>
-        /// MallAction
+        /// ActionEntities
         /// </summary>
-        public MallAction CurrentMallAction
+        public ActionEntities CurrentActionEntities
         {
-            get => _currentMallAction;
-            set => Set(ref _currentMallAction, value);
+            get => _currentActionEntities;
+            set => Set(ref _currentActionEntities, value);
         }
         #endregion
 
@@ -267,13 +215,13 @@ namespace Project.ViewModels
                     ).FirstOrDefault();
                     CurrentMall.mall_name = CurrentMall.mall_name.Trim();
                     CurrentMall.city = CurrentMall.city.Trim();
-                    switch (CurrentMallAction)
+                    switch (CurrentActionEntities)
                     {
-                        case MallAction.Add:
+                        case ActionEntities.Add:
                             Manager.Instance.Context.Mall.Add(CurrentMall);
                             MessageBox.Show($"Торговый центр добавлен.");
                             break;
-                        case MallAction.Change:
+                        case ActionEntities.Change:
                             MessageBox.Show($"Торговый центр изменён.");
                             break;
                     }

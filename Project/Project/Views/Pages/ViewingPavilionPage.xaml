@@ -17,8 +17,7 @@
         <TextBlock Style="{StaticResource AuthorTemplate}"
                    Grid.Row="2"
                    Panel.ZIndex="1"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="0">
+        <DockPanel Grid.Row="0">
             <TextBlock Text="{Binding PavilionTitleName}"
                        Style="{StaticResource TextBlockTemplate}"
                        FontWeight="Bold"
@@ -27,13 +26,21 @@
                        Margin="10"/>
             <Button Content="Добавить"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding AddMallCommand}"/>
+                    Command="{Binding AddPavilionCommand}"/>
             <Button Content="Изменить"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding ChangeMallCommand}"/>
+                    Command="{Binding ChangePavilionCommand}"/>
             <Button Content="Удалить"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding DeleteMallCommand}"/>
+                    Command="{Binding DeletePavilionCommand}"/>
+            <StackPanel VerticalAlignment="Center"
+                       HorizontalAlignment="Right">
+                <TextBlock Text="Павильонов : "
+                           Style="{StaticResource TextBlockTemplate}"/>
+                <TextBlock Text="{Binding Path=Pavilions.Count}"
+                           Style="{StaticResource TextBlockTemplate}"
+                           TextAlignment="Right"/>
+            </StackPanel>
             <!--<ComboBox ItemsSource="{Binding MallStatusesSorting}"
                       SelectedItem="{Binding SelectedMallStatusSorting}"
                       Margin="10"
@@ -47,7 +54,7 @@
                       Width="120"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"/>-->
-        </StackPanel>
+        </DockPanel>
         <ListView Margin="10,10,10,10"
                   ItemsSource="{Binding Pavilions}"
                   SelectedItem="{Binding SelectedPavilion}"
@@ -57,68 +64,65 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Stretch">
-                        <DockPanel>
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="ТЦ : "
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=mall_name}"
-                                               Style="{StaticResource TextBlockTemplate}"
-                                               FontWeight="Bold"
-                                               Margin="0,0,30,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Павильон : "
-                                                Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=pavilion_number}"
-                                                Style="{StaticResource TextBlockTemplate}"
-                                                FontWeight="Bold"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Статус ТЦ : "
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=mall_status_name}"
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Этаж : "
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=floor}"
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Статус павильона : "
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=pavilion_status_name}"
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Коэффициент добавочной стоимости : "
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                    <TextBlock Text="{Binding Path=value_added_factor}"
-                                               Style="{StaticResource TextBlockTemplate}"/>
-                                </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="ТЦ : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=mall_name}"
+                                            Style="{StaticResource TextBlockTemplate}"
+                                            FontWeight="Bold"
+                                            Margin="0,0,30,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Павильон : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=pavilion_number}"
+                                            Style="{StaticResource TextBlockTemplate}"
+                                            FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Статус ТЦ : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=mall_status_name}"
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Этаж : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=floor}"
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Статус павильона : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=pavilion_status_name}"
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Коэффициент добавочной стоимости : "
+                                            Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=value_added_factor}"
+                                            Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
-                                        Margin="600,0,0,0"
-                                        VerticalAlignment="Center">
+                                    VerticalAlignment="Center">
                                 <TextBlock Text="Площадь : "
-                                           Style="{StaticResource TextBlockTemplate}"/>
+                                            Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=square,StringFormat=N3}"
-                                           Style="{StaticResource TextBlockTemplate}"
-                                           FontWeight="Bold"/>
+                                            Style="{StaticResource TextBlockTemplate}"
+                                            FontWeight="Bold"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" 
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
-                                        Margin="10,10,50,10">
-                                <TextBlock Text="Стоимость : "
-                                           Style="{StaticResource TextBlockTemplate}"/>
-                                <TextBlock Text="{Binding Path=cost_per_square_meter,StringFormat=N3}"
-                                           Style="{StaticResource TextBlockTemplate}"
-                                           FontWeight="Bold"/>
-                            </StackPanel>
-                        </DockPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Стоимость :"
+                                        Style="{StaticResource TextBlockTemplate}"
+                                       FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=cost_per_square_meter,StringFormat=N3}"
+                                        Style="{StaticResource TextBlockTemplate}"
+                                       TextAlignment="Right"/>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -1,23 +1,20 @@
-﻿<Page x:Class="Project.Views.Pages.MallPage"
+﻿<Page x:Class="Project.Views.Pages.PavilionPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Project.Views.Pages"
-      xmlns:vm="clr-namespace:Project.ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="450" 
-      d:DesignWidth="800"
-      Title="MallPage">
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PavilionPage">
 
     <Grid Background="White"
-          DataContext="{StaticResource ViewingMallPageViewModel}">
+          DataContext="{StaticResource ViewingPavilionPageViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -32,13 +29,13 @@
         <TextBlock Style="{StaticResource AuthorTemplate}"
                    Grid.RowSpan="9"
                    Grid.ColumnSpan="2"/>
-        <TextBlock Text="Название : "
+        <TextBlock Text="Номер этажа : "
                    Grid.Row="0"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.mall_name}"
+        <TextBox Text="{Binding CurrentPavilion.floor}"
                  Grid.Row="0"
                  VerticalAlignment="Center"
                  Grid.Column="1"
@@ -46,28 +43,27 @@
                  Margin="10"/>
 
 
-        <TextBlock Text="Статус : "
+        <TextBlock Text="Номер павильона : "
                    Grid.Row="1"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
+        <TextBox Text="{Binding CurrentPavilion.pavilion_number}" 
+                 Margin="10"
+                 Style="{StaticResource TextBoxTemplate}"
+                 Grid.Row="1"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"/>
 
-        <ComboBox Grid.Row="1"
-                  ItemsSource="{Binding MallStatuses}"
-                  SelectedItem="{Binding SelectedMallStatus}"
-                  VerticalAlignment="Center"
-                  Grid.Column="1"
-                  Margin="10"/>
 
-
-        <TextBlock Text="Цена : "
+        <TextBlock Text="Площадь : "
                    Grid.Row="2"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.cost}" 
+        <TextBox Text="{Binding CurrentPavilion.square}" 
                  Margin="10"
                  Style="{StaticResource TextBoxTemplate}"
                  Grid.Row="2"
@@ -75,86 +71,59 @@
                  Grid.Column="1"/>
 
 
-        <TextBlock Text="Количество павильонов : "
-                       Grid.Row="3"
+        <TextBlock Text="Статус павильона : "
+                   Grid.Row="3"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.number_of_pavilion}" 
-                     Margin="10"
-                 Style="{StaticResource TextBoxTemplate}"
-                     Grid.Row="3"
-                 VerticalAlignment="Center"
-                   Grid.Column="1"/>
+        <ComboBox ItemsSource="{Binding PavilionsStatuses}" 
+                  SelectedItem="{Binding SelectedPavilionStatus}"
+                  Margin="10"
+                  Grid.Row="3"
+                  VerticalAlignment="Center"
+                  Grid.Column="1"/>
 
-
-        <TextBlock Text="Город : "
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                       Grid.Row="4"
+        <TextBlock Text="Торговый центр : "
+                   Grid.Row="4"
                    Grid.Column="0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.city}" 
-                     Margin="10"
-                     Grid.Row="4"
-                 Style="{StaticResource TextBoxTemplate}"
-                 VerticalAlignment="Center"
-                   Grid.Column="1"/>
+        <ComboBox ItemsSource="{Binding PavilionNames}" 
+                  SelectedItem="{Binding SelectedMallPavilionName}"
+                  Margin="10"
+                  VerticalAlignment="Center"
+                  Grid.Row="4"
+                  Grid.Column="1"/>
 
 
         <TextBlock Text="Коофициент добавочной стоимости : "
-                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                        Grid.Row="5"
-                   Grid.Column="0"
-                   Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.value_added_factor}" 
-                     Margin="10"
-                 Style="{StaticResource TextBoxTemplate}"
-                 VerticalAlignment="Center"
-                     Grid.Row="5"
-                   Grid.Column="1"/>
-
-
-        <TextBlock Text="Этажность : "
-                   VerticalAlignment="Center"
-                       Grid.Row="6"
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentMall.number_of_storeys}" 
-                     Margin="10"
+        <TextBox Text="{Binding CurrentPavilion.value_added_factor}" 
+                 Margin="10"
                  VerticalAlignment="Center"
                  Style="{StaticResource TextBoxTemplate}"
-                     Grid.Row="6"
-                   Grid.Column="1"/>
+                 Grid.Row="5"
+                 Grid.Column="1"/>
 
-
-        <TextBlock Text="Фото : "
+        <TextBlock Text="Стоимость : "
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                       Grid.Row="7"
+                   Grid.Row="6"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <DockPanel  Margin="10"
-                     Grid.Row="7"
-                   Grid.Column="1">
-            <Button Content="Загрузить"
-                    Command="{Binding LoadPhotoCommand}"
-                    Margin="10"
-                    Style="{StaticResource ButtonTemplate}"
-                    Width="100"
-                    HorizontalAlignment="Left"/>
-        </DockPanel>
-        <Image Width="200"
-                Height="200"
-                Stretch="Uniform"
-                HorizontalAlignment="Right"
-                Grid.RowSpan="8"
-                Grid.Row="7"
-                Grid.Column="1"
-                Source="{Binding LoadedImage}"/>
+        <TextBox Text="{Binding CurrentPavilion.cost_per_square_meter}" 
+                 Margin="10"
+                 VerticalAlignment="Center"
+                 Style="{StaticResource TextBoxTemplate}"
+                 Grid.Row="6"
+                 Grid.Column="1"/>
+
 
         <Button Content="{Binding ButtonName}"
                 Style="{StaticResource ButtonTemplate}"

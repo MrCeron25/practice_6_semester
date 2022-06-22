@@ -1,35 +1,15 @@
-﻿using Microsoft.Win32;
-using Project.Infrastructure.Commands;
+﻿using Project.Infrastructure.Commands;
 using Project.Models;
 using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace Project.ViewModels
 {
-    public class PavilionItem
-    {
-        public long mall_id { get; set; } // id ТЦ
-        public long mall_status_id { get; set; } // статус ТЦ
-        public string mall_status_name { get; set; } // статус ТЦ
-        public string mall_name { get; set; } // название ТЦ
-        public int floor { get; set; } // номера этажа
-        public string pavilion_number { get; set; } // номера павильона
-        public decimal square { get; set; } // площадь
-        public long pavilion_status_id { get; set; } // статус павильона
-        public string pavilion_status_name { get; set; } // статус павильона
-        public decimal cost_per_square_meter { get; set; } // cтоимость кв. м.
-        public double value_added_factor { get; set; } // коэффициент добавочной стоимости павильона
-    }
-
     internal class ViewingPavilionPageViewModel : ViewModel
     {
         #region Павильоны название
@@ -84,14 +64,22 @@ namespace Project.ViewModels
         }
         #endregion
 
+        #region UpdatePavilions
+        private void UpdatePavilions()
+        {
+            Pavilions = GetPavilions();
+        }
+        #endregion
+
         #region GetPavilions
-        private static ObservableCollection<PavilionItem> GetPavilions()
+        private ObservableCollection<PavilionItem> GetPavilions()
         {
             return new ObservableCollection<PavilionItem>(
                 from p in Manager.Instance.Context.Pavilion
                 join ps in Manager.Instance.Context.Pavilion_statuses on p.status_id equals ps.status_id
                 join m in Manager.Instance.Context.Mall on p.mall_id equals m.mall_id
                 join ms in Manager.Instance.Context.Mall_statuses on m.status_id equals ms.status_id
+                where ps.status_name != DeleteNameSorting
                 select new PavilionItem
                 {
                     mall_id = m.mall_id,
@@ -109,383 +97,256 @@ namespace Project.ViewModels
         }
         #endregion
 
+        #region ButtonName
+        private string _ButtonName;
+        /// <summary>
+        /// ButtonName
+        /// </summary>
+        public string ButtonName
+        {
+            get => _ButtonName;
+            set => Set(ref _ButtonName, value);
+        }
+        #endregion
 
-        //#region Добавить ТЦ
-        //public ICommand AddMallCommand { get; }
-        //private bool CanAddMallCommandExecute(object parameters) => true;
-        //private void OnAddMallCommandExecuted(object parameters)
-        //{
-        //    LoadedImage = null;
-        //    CurrentMall = new Mall();
-        //    CurrentMallAction = MallAction.Add;
-        //    ButtonName = "Добавить";
-        //    Manager.Instance.MainFrameNavigate(new MallPage());
-        //}
-        //#endregion
+        #region GetNewPavilion
+        private Pavilion GetNewPavilion()
+        {
+            return new Pavilion()
+            {
+                pavilion_number = ""
+            };
+        }
+        #endregion
 
-        //#region Изменить ТЦ
-        //public ICommand ChangeMallCommand { get; }
-        //private bool CanChangeMallCommandExecute(object parameters) => IsSelected;
-        //private void OnChangeMallCommandExecuted(object parameters)
-        //{
-        //    CurrentMallAction = MallAction.Change;
-        //    ButtonName = "Изменить";
-        //    CurrentMall = (
-        //            from m in Manager.Instance.Context.Mall
-        //            where m.mall_id == SelectedMall.mall_id
-        //            select m
-        //            ).FirstOrDefault();
-        //    SelectedMallStatus = SelectedMall.status_name;
-        //    LoadedImage = Tools.BytesToImage(CurrentMall.photo);
-        //    Manager.Instance.MainFrameNavigate(new MallPage());
-        //}
-        //#endregion
+        #region Добавить павильон
+        public ICommand AddPavilionCommand { get; }
+        private bool CanAddPavilionCommandExecute(object parameters) => true;
+        private void OnAddPavilionCommandExecuted(object parameters)
+        {
+            CurrentPavilion = GetNewPavilion();
+            CurrentActionEntities = ActionEntities.Add;
+            ButtonName = "Добавить";
+            Manager.Instance.MainFrameNavigate(new PavilionPage());
+        }
+        #endregion
 
-        //#region Удалить ТЦ
-        //public ICommand DeleteMallCommand { get; }
-        //private bool CanDeleteMallCommandExecute(object parameters) => IsSelected;
-        //private void OnDeleteMallCommandExecuted(object parameters)
-        //{
-        //    try
-        //    {
-        //        Mall mall = (
-        //            from m in Manager.Instance.Context.Mall
-        //            where m.mall_id == SelectedMall.mall_id
-        //            select m
-        //            ).FirstOrDefault();
-        //        mall.status_id = (
-        //            from m in Manager.Instance.Context.Mall_statuses
-        //            where m.status_name == DeleteNameSorting
-        //            select m.status_id
-        //            ).FirstOrDefault();
-        //        Manager.Instance.Context.SaveChanges();
-        //        Pavilions.Remove(SelectedMall); // или UpdatePavilions();
-        //        MessageBox.Show($"Торговый центр удалён.");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show($"Ошибка :\n{e}");
-        //    }
-        //}
-        //#endregion
+        #region Изменить павильон
+        public ICommand ChangePavilionCommand { get; }
+        private bool CanChangePavilionCommandExecute(object parameters) => IsSelected;
+        private void OnChangePavilionCommandExecuted(object parameters)
+        {
+            CurrentActionEntities = ActionEntities.Change;
+            ButtonName = "Изменить";
+            CurrentPavilion = (
+                    from p in Manager.Instance.Context.Pavilion
+                    where p.mall_id == SelectedPavilion.mall_id &&
+                          p.pavilion_number == SelectedPavilion.pavilion_number
+                    select p
+                    ).FirstOrDefault();
+            SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
+            SelectedMallPavilionName = SelectedPavilion.mall_name;
+            Manager.Instance.MainFrameNavigate(new PavilionPage());
+        }
+        #endregion
 
-        //#region Статусы
-        //private ObservableCollection<string> _mallStatuses;
-        ///// <summary>
-        ///// Статусы
-        ///// </summary>
-        //public ObservableCollection<string> MallStatuses
-        //{
-        //    get => _mallStatuses;
-        //    set => Set(ref _mallStatuses, value);
-        //}
-        //#endregion
+        #region Удалить павильон
+        public ICommand DeletePavilionCommand { get; }
+        private bool CanDeletePavilionCommandExecute(object parameters) => IsSelected;
+        private void OnDeletePavilionCommandExecuted(object parameters)
+        {
+            try
+            {
+                Pavilion pavilion = (
+                    from p in Manager.Instance.Context.Pavilion
+                    where p.mall_id == SelectedPavilion.mall_id
+                    select p
+                    ).FirstOrDefault();
+                pavilion.status_id = (
+                    from m in Manager.Instance.Context.Mall_statuses
+                    where m.status_name == DeleteNameSorting
+                    select m.status_id
+                ).FirstOrDefault();
+                Manager.Instance.Context.SaveChanges();
+                Pavilions.Remove(SelectedPavilion); // или UpdatePavilions();
+                MessageBox.Show($"Павильон удалён.");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Ошибка :\n{e}");
+            }
+        }
+        #endregion
 
-        //#region Текущий ТЦ
-        //private Mall _currentMall = new Mall();
-        ///// <summary>
-        ///// ТЦ
-        ///// </summary>
-        //public Mall CurrentMall
-        //{
-        //    get => _currentMall;
-        //    set => Set(ref _currentMall, value);
-        //}
-        //#endregion
+        #region Текущий павильон
+        private Pavilion _currentPavilion;
+        /// <summary>
+        /// Текущий павильон
+        /// </summary>
+        public Pavilion CurrentPavilion
+        {
+            get => _currentPavilion;
+            set => Set(ref _currentPavilion, value);
+        }
+        #endregion
 
-        //#region MallAction
-        //private MallAction _currentMallAction = MallAction.None;
-        ///// <summary>
-        ///// MallAction
-        ///// </summary>
-        //public MallAction CurrentMallAction
-        //{
-        //    get => _currentMallAction;
-        //    set => Set(ref _currentMallAction, value);
-        //}
-        //#endregion
+        #region Статусы павильонов
+        private ObservableCollection<string> _pavilionsStatuses;
+        /// <summary>
+        /// Статусы павильонов
+        /// </summary>
+        public ObservableCollection<string> PavilionsStatuses
+        {
+            get => _pavilionsStatuses;
+            set => Set(ref _pavilionsStatuses, value);
+        }
+        #endregion
 
-        //#region Img
-        //private BitmapImage _loadedImage;
-        ///// <summary>
-        ///// Img
-        ///// </summary>
-        //public BitmapImage LoadedImage
-        //{
-        //    get => _loadedImage;
-        //    set => Set(ref _loadedImage, value);
-        //}
-        //#endregion
+        #region Выбранный статус павильона
+        private string _selectedPavilionStatus;
+        /// <summary>
+        /// Выбранный статус павильона
+        /// </summary>
+        public string SelectedPavilionStatus
+        {
+            get => _selectedPavilionStatus;
+            set => Set(ref _selectedPavilionStatus, value);
+        }
+        #endregion
 
-        //#region ButtonName
-        //private string _ButtonName;
-        ///// <summary>
-        ///// ButtonName
-        ///// </summary>
-        //public string ButtonName
-        //{
-        //    get => _ButtonName;
-        //    set => Set(ref _ButtonName, value);
-        //}
-        //#endregion
+        #region UpdatePavilionStatuses
+        private void UpdatePavilionStatuses()
+        {
+            PavilionsStatuses = GetPavilionStatuses();
+        }
+        #endregion
 
-        //#region Команда
-        //public ICommand ExecuteCommand { get; }
-        //private bool CanExecuteCommandExecute(object parameters) => true;
-        //private void OnExecuteCommandExecuted(object parameters)
-        //{
-        //    if (CurrentMall.cost < 0 ||
-        //        CurrentMall.number_of_pavilion < 0 ||
-        //        CurrentMall.value_added_factor < 0 ||
-        //        CurrentMall.number_of_storeys < 0)
-        //    {
-        //        MessageBox.Show($"Числовые поля должны быть положительными.");
-        //    }
-        //    else if (string.IsNullOrEmpty(CurrentMall.mall_name.Trim()) ||
-        //             SelectedMallStatus == null ||
-        //             string.IsNullOrEmpty(CurrentMall.city.Trim()) ||
-        //             CurrentMall.photo == null)
-        //    {
-        //        MessageBox.Show($"Заполните все поля.");
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            CurrentMall.status_id = (
-        //                from ms in Manager.Instance.Context.Mall_statuses
-        //                where ms.status_name == SelectedMallStatus
-        //                select ms.status_id
-        //            ).FirstOrDefault();
-        //            CurrentMall.mall_name = CurrentMall.mall_name.Trim();
-        //            CurrentMall.city = CurrentMall.city.Trim();
-        //            switch (CurrentMallAction)
-        //            {
-        //                case MallAction.Add:
-        //                    Manager.Instance.Context.Mall.Add(CurrentMall);
-        //                    MessageBox.Show($"Торговый центр добавлен.");
-        //                    break;
-        //                case MallAction.Change:
-        //                    MessageBox.Show($"Торговый центр изменён.");
-        //                    break;
-        //            }
-        //            Manager.Instance.Context.SaveChanges();
-        //            Manager.Instance.MainFrameNavigate(new ViewingMallPage());
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            MessageBox.Show($"Ошибка :\n{e}");
-        //        }
-        //    }
-        //    SelectedMallStatusSorting = AllNameSorting;
-        //    UpdatePavilions();
-        //}
-        //#endregion
+        #region GetPavilionsStatuses
+        private static ObservableCollection<string> GetPavilionStatuses()
+        {
+            return new ObservableCollection<string>(
+                from p in Manager.Instance.Context.Pavilion_statuses
+                select p.status_name
+            );
+        }
+        #endregion
 
-        //#region Загрузка фотографии
-        //public ICommand LoadPhotoCommand { get; }
-        //private bool CanLoadPhotoCommandExecute(object parameters) => true;
-        //private void OnLoadPhotoCommandExecuted(object parameters)
-        //{
-        //    try
-        //    {
-        //        OpenFileDialog fileDialog = new OpenFileDialog
-        //        {
-        //            Filter = "Image Files|*.jpg;*png;"
-        //        };
-        //        if ((bool)fileDialog.ShowDialog())
-        //        {
-        //            if (fileDialog.FileName.EndsWith(".jpg") ||
-        //                fileDialog.FileName.EndsWith(".png"))
-        //            {
-        //                CurrentMall.photo = Tools.GetImageBytes(fileDialog.FileName);
-        //                LoadedImage = new BitmapImage(new Uri(fileDialog.FileName));
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //    }
-        //}
-        //#endregion
+        #region Названия павильонов
+        private ObservableCollection<string> _pavilionNames;
+        /// <summary>
+        /// Названия павильонов
+        /// </summary>
+        public ObservableCollection<string> PavilionNames
+        {
+            get => _pavilionNames;
+            set => Set(ref _pavilionNames, value);
+        }
+        #endregion
 
-        //#region Сортировка статусов торговых центров
-        //private ObservableCollection<string> _mallStatusesSorting = GetMallStatuses();
-        ///// <summary>
-        ///// Сортировка статусов торговых центров
-        ///// </summary>
-        //public ObservableCollection<string> MallStatusesSorting
-        //{
-        //    get => _mallStatusesSorting;
-        //    set => Set(ref _mallStatusesSorting, value);
-        //}
-        //#endregion
+        #region Выбранное название павильона
+        private string _selectedMallPavilionName;
+        /// <summary>
+        /// Выбранное название павильона
+        /// </summary>
+        public string SelectedMallPavilionName
+        {
+            get => _selectedMallPavilionName;
+            set => Set(ref _selectedMallPavilionName, value);
+        }
+        #endregion
 
-        //#region Выбранная сортировка статусов
-        //private string _selectedMallStatusSorting;
-        ///// <summary>
-        ///// Выбранная сортировка статусов
-        ///// </summary>
-        //public string SelectedMallStatusSorting
-        //{
-        //    get => _selectedMallStatusSorting;
-        //    set
-        //    {
-        //        UpdateCities();
-        //        SelectedCity = null;
-        //        CityIsEnabled = value != null;
-        //        if (AllNameSorting == value)
-        //        {
-        //            UpdatePavilions();
-        //        }
-        //        else
-        //        {
-        //            Pavilions = new ObservableCollection<PavilionItem>(
-        //            from mall in Manager.Instance.Context.Mall
-        //            join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
-        //            orderby mall.city, ms.status_name
-        //            where ms.status_name == value
-        //            select new PavilionItem
-        //            {
-        //                mall_id = mall.mall_id,
-        //                mall_name = mall.mall_name,
-        //                status_name = ms.status_name,
-        //                status_id = ms.status_id,
-        //                number_of_pavilion = mall.number_of_pavilion,
-        //                city = mall.city,
-        //                cost = mall.cost,
-        //                number_of_storeys = mall.number_of_storeys,
-        //                value_added_factor = mall.value_added_factor,
-        //                photo = mall.photo
-        //            });
-        //        }
-        //        Set(ref _selectedMallStatusSorting, value);
-        //    }
-        //}
-        //#endregion
+        #region UpdatePavilionNames
+        private void UpdatePavilionNames()
+        {
+            PavilionNames = GetPavilionNames();
+        }
+        #endregion
 
-        //#region Города
-        //private ObservableCollection<string> _cities;
-        ///// <summary>
-        ///// Города
-        ///// </summary>
-        //public ObservableCollection<string> Cities
-        //{
-        //    get => _cities;
-        //    set => Set(ref _cities, value);
-        //}
-        //#endregion
+        #region GetPavilionNames
+        private static ObservableCollection<string> GetPavilionNames()
+        {
+            return new ObservableCollection<string>(
+                from m in Manager.Instance.Context.Mall
+                select m.mall_name
+            );
+        }
+        #endregion
 
-        //#region Состояние городов
-        //private bool _сityIsEnabled;
-        ///// <summary>
-        ///// Состояние городов
-        ///// </summary>
-        //public bool CityIsEnabled
-        //{
-        //    get => Cities.Count != 0;
-        //    set => Set(ref _сityIsEnabled, value);
-        //}
-        //#endregion
+        #region ActionEntities
+        private ActionEntities _currentActionEntities = ActionEntities.None;
+        /// <summary>
+        /// ActionEntities
+        /// </summary>
+        public ActionEntities CurrentActionEntities
+        {
+            get => _currentActionEntities;
+            set => Set(ref _currentActionEntities, value);
+        }
+        #endregion
 
-        //#region Выбранный город
-        //private string _selectedCity;
-        ///// <summary>
-        ///// Выбранный город
-        ///// </summary>
-        //public string SelectedCity
-        //{
-        //    get => _selectedCity;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            if (AllNameSorting == SelectedMallStatusSorting)
-        //            {
-        //                Pavilions = new ObservableCollection<PavilionItem>(
-        //                from mall in Manager.Instance.Context.Mall
-        //                join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
-        //                orderby mall.city, ms.status_name
-        //                where mall.city == value &&
-        //                      ms.status_name != DeleteNameSorting
-        //                select new PavilionItem
-        //                {
-        //                    mall_id = mall.mall_id,
-        //                    mall_name = mall.mall_name,
-        //                    status_name = ms.status_name,
-        //                    status_id = ms.status_id,
-        //                    number_of_pavilion = mall.number_of_pavilion,
-        //                    city = mall.city,
-        //                    cost = mall.cost,
-        //                    number_of_storeys = mall.number_of_storeys,
-        //                    value_added_factor = mall.value_added_factor,
-        //                    photo = mall.photo
-        //                });
-        //            }
-        //            else
-        //            {
-        //                Pavilions = new ObservableCollection<PavilionItem>(
-        //                from mall in Manager.Instance.Context.Mall
-        //                join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
-        //                orderby mall.city, ms.status_name
-        //                where mall.city == value &&
-        //                      ms.status_name == SelectedMallStatusSorting
-        //                select new PavilionItem
-        //                {
-        //                    mall_id = mall.mall_id,
-        //                    mall_name = mall.mall_name,
-        //                    status_name = ms.status_name,
-        //                    status_id = ms.status_id,
-        //                    number_of_pavilion = mall.number_of_pavilion,
-        //                    city = mall.city,
-        //                    cost = mall.cost,
-        //                    number_of_storeys = mall.number_of_storeys,
-        //                    value_added_factor = mall.value_added_factor,
-        //                    photo = mall.photo
-        //                });
-        //            }
-        //        }
-        //        Set(ref _selectedCity, value);
-        //    }
-        //}
-        //#endregion
+        #region Команда
+        public ICommand ExecuteCommand { get; }
+        private bool CanExecuteCommandExecute(object parameters) => true;
+        private void OnExecuteCommandExecuted(object parameters)
+        {
+            if (CurrentPavilion.floor < 0 ||
+                CurrentPavilion.square < 0 ||
+                CurrentPavilion.value_added_factor < 0 ||
+                CurrentPavilion.cost_per_square_meter < 0)
+            {
+                MessageBox.Show($"Числовые поля должны быть положительными.");
+            }
+            else if (CurrentPavilion.pavilion_number != null &&
+                     string.IsNullOrEmpty(CurrentPavilion.pavilion_number.Trim()) ||
+                     SelectedPavilionStatus == null)
+            {
+                MessageBox.Show($"Заполните все поля.");
+            }
+            else
+            {
+                try
+                {
+                    CurrentPavilion.status_id = (
+                        from ps in Manager.Instance.Context.Pavilion_statuses
+                        where ps.status_name == SelectedPavilionStatus
+                        select ps.status_id
+                    ).FirstOrDefault();
+                    CurrentPavilion.mall_id = (
+                        from m in Manager.Instance.Context.Mall
+                        where m.mall_name == SelectedMallPavilionName
+                        select m.mall_id
+                    ).FirstOrDefault();
+                    CurrentPavilion.pavilion_number = CurrentPavilion.pavilion_number.Trim();
+                    switch (CurrentActionEntities)
+                    {
+                        case ActionEntities.Add:
+                            Manager.Instance.Context.Pavilion.Add(CurrentPavilion);
+                            break;
+                        case ActionEntities.Change:
+                            break;
+                    }
+                    Manager.Instance.Context.SaveChanges();
+                    switch (CurrentActionEntities)
+                    {
+                        case ActionEntities.Add:
+                            MessageBox.Show($"Павильон добавлен.");
+                            break;
+                        case ActionEntities.Change:
+                            MessageBox.Show($"Павильон изменён.");
+                            break;
+                    }
+                    Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Ошибка :\n{e}");
+                }
+            }
+            //SelectedMallStatusSorting = AllNameSorting;
+            UpdatePavilions();
+        }
+        #endregion
 
-        //#region Статус
-        //private string _selectedMallStatus;
-        ///// <summary>
-        ///// Статус
-        ///// </summary>
-        //public string SelectedMallStatus
-        //{
-        //    get => _selectedMallStatus;
-        //    set => Set(ref _selectedMallStatus, value);
-        //}
-        //#endregion
-
-        //#region UpdatePavilions
-        //private void UpdatePavilions()
-        //{
-        //    Pavilions = new ObservableCollection<PavilionItem>(
-        //    from mall in Manager.Instance.Context.Mall
-        //    join ms in Manager.Instance.Context.Mall_statuses on mall.status_id equals ms.status_id
-        //    orderby mall.city, ms.status_name
-        //    where ms.status_name != DeleteNameSorting
-        //    select new PavilionItem
-        //    {
-        //        mall_id = mall.mall_id,
-        //        mall_name = mall.mall_name,
-        //        status_name = ms.status_name,
-        //        status_id = ms.status_id,
-        //        number_of_pavilion = mall.number_of_pavilion,
-        //        city = mall.city,
-        //        cost = mall.cost,
-        //        number_of_storeys = mall.number_of_storeys,
-        //        value_added_factor = mall.value_added_factor,
-        //        photo = mall.photo
-        //    });
-        //}
-        //#endregion
 
         //#region GetMallStatuses
         //private static ObservableCollection<string> GetMallStatuses()
@@ -538,39 +399,29 @@ namespace Project.ViewModels
         //}
         //#endregion
 
-        //#region Статус сортировки Удалён
-        //private string _deleteNameSorting = "Удалён";
-        ///// <summary>
-        ///// Статус сортировки Удалён
-        ///// </summary>
-        //public string DeleteNameSorting
-        //{
-        //    get => _deleteNameSorting;
-        //    set => Set(ref _deleteNameSorting, value);
-        //}
-        //#endregion
+        #region Статус сортировки Удалён
+        private string _deleteNameSorting = "Удалён";
+        /// <summary>
+        /// Статус сортировки Удалён
+        /// </summary>
+        public string DeleteNameSorting
+        {
+            get => _deleteNameSorting;
+            set => Set(ref _deleteNameSorting, value);
+        }
+        #endregion
 
         #region Конструктор
         public ViewingPavilionPageViewModel()
         {
-            Pavilions = GetPavilions();
-            //DeleteMallCommand = new LambdaCommand(OnDeleteMallCommandExecuted, CanDeleteMallCommandExecute);
-            //AddMallCommand = new LambdaCommand(OnAddMallCommandExecuted, CanAddMallCommandExecute);
-            //ChangeMallCommand = new LambdaCommand(OnChangeMallCommandExecuted, CanChangeMallCommandExecute);
-            //UpdatePavilions();
-
-            //ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
-            //LoadPhotoCommand = new LambdaCommand(OnLoadPhotoCommandExecuted, CanLoadPhotoCommandExecute);
-            //UpdateMallStatuses();
-
-            //// убираю сортировку по удаленным ТЦ
-            //MallStatusesSorting.Remove(DeleteNameSorting);
-            //// добавляю общую сортировку
-            //MallStatusesSorting.Add(AllNameSorting);
-            //// текущим выбранным ставим все
-            //SelectedMallStatusSorting = AllNameSorting;
-
-            //UpdateCities();
+            AddPavilionCommand = new LambdaCommand(OnAddPavilionCommandExecuted, CanAddPavilionCommandExecute);
+            ChangePavilionCommand = new LambdaCommand(OnChangePavilionCommandExecuted, CanChangePavilionCommandExecute);
+            DeletePavilionCommand = new LambdaCommand(OnDeletePavilionCommandExecuted, CanDeletePavilionCommandExecute);
+            ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
+            UpdatePavilions();
+            UpdatePavilionStatuses();
+            UpdatePavilionNames();
+            CurrentPavilion = GetNewPavilion();
         }
         #endregion
     }

@@ -115,6 +115,8 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="Models\PavilionItem.cs" />
+    <Compile Include="Models\MallItem.cs" />
     <Compile Include="ViewModels\ViewingMallPageViewModel.cs" />
     <Compile Include="ViewModels\ManagerCMenuPageViewModel.cs" />
     <Compile Include="ViewModels\ViewingPavilionPageViewModel.cs" />
@@ -125,6 +127,9 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Manager.cs" />
+    <Compile Include="Views\Pages\PavilionPage.xaml.cs">
+      <DependentUpon>PavilionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\ViewingMallPage.xaml.cs">
       <DependentUpon>ViewingMallPage.xaml</DependentUpon>
     </Compile>
@@ -143,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\MainMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PavilionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,14 +215,10 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Resources\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Эмблема.png" />

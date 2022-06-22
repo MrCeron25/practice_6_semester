@@ -17,8 +17,7 @@
         <TextBlock Style="{StaticResource AuthorTemplate}"
                    Grid.Row="2"
                    Panel.ZIndex="1"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="0">
+        <DockPanel Grid.Row="0">
             <TextBlock Text="{Binding MallTitleName}"
                        Style="{StaticResource TextBlockTemplate}"
                        FontWeight="Bold"
@@ -47,7 +46,15 @@
                       Width="120"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"/>
-        </StackPanel>
+            <StackPanel VerticalAlignment="Center" 
+                        HorizontalAlignment="Right">
+                <TextBlock Text="Торговых центров : "
+                           Style="{StaticResource TextBlockTemplate}"/>
+                <TextBlock Text="{Binding Path=Malls.Count}"
+                           Style="{StaticResource TextBlockTemplate}"
+                           TextAlignment="Right"/>
+            </StackPanel>
+        </DockPanel>
         <ListView Margin="10,10,10,10"
                   ItemsSource="{Binding Malls}"
                   SelectedItem="{Binding SelectedMall}"
@@ -57,7 +64,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Stretch">
-                        <StackPanel>
+                        <StackPanel Orientation="Vertical">
                             <TextBlock Text="{Binding Path=mall_name}"
                                        Style="{StaticResource TextBlockTemplate}"
                                        FontWeight="Bold"/>
@@ -92,17 +99,18 @@
                                            Style="{StaticResource TextBlockTemplate}"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment="Right">
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Стоимость : "
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                            <StackPanel>
+                                <TextBlock Text="Стоимость :"
                                            FontWeight="Bold"
                                            Style="{StaticResource TextBlockTemplate}"/>
-                                <TextBlock Text="{Binding Path=cost,StringFormat={}{0:#,#}}"
-                                           Style="{StaticResource TextBlockTemplate}"/>
+                                <TextBlock Text="{Binding Path=cost,StringFormat=N3}"
+                                           Style="{StaticResource TextBlockTemplate}"
+                                           TextAlignment="Right"/>
                             </StackPanel>
                             <Image Source="{Binding Path=photo}"
-                                   Margin="100,10,10,10"
                                    MaxHeight="150"
                                    MaxWidth="150"/>
                         </StackPanel>

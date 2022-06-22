@@ -1,6 +1,6 @@
 ﻿namespace Project.Models
 {
-    public enum MallAction
+    public enum ActionEntities
     {
         None,
         Add,
