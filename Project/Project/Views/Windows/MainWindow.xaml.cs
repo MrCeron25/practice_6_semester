@@ -9,7 +9,7 @@ namespace Project
         public MainWindow()
         {
             InitializeComponent();
-            Manager.Instance.Context = new Entities();
+            Manager.Instance.Context = new practiceEntities();
 
             Manager.Instance.MainFrame = MainFrame;
             Manager.Instance.MenuFrame = MenuFrame;

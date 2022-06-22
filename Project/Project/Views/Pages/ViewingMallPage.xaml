@@ -95,7 +95,7 @@
                         <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Right">
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Цена : "
+                                <TextBlock Text="Стоимость : "
                                            FontWeight="Bold"
                                            Style="{StaticResource TextBlockTemplate}"/>
                                 <TextBlock Text="{Binding Path=cost,StringFormat={}{0:#,#}}"

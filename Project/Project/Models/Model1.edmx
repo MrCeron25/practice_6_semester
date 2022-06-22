@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище ModelDB" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище practiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Employees">
           <Key>
             <PropertyRef Name="employe_id" />
@@ -57,8 +57,8 @@
           <Property Name="pavilion_number" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="floor" Type="int" Nullable="false" />
           <Property Name="status_id" Type="bigint" Nullable="false" />
-          <Property Name="square" Type="float" Nullable="false" />
-          <Property Name="cost_per_square_meter" Type="float" Nullable="false" />
+          <Property Name="square" Type="decimal" Precision="20" Scale="5" Nullable="false" />
+          <Property Name="cost_per_square_meter" Type="decimal" Precision="20" Scale="5" Nullable="false" />
           <Property Name="value_added_factor" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Pavilion_statuses">
@@ -107,7 +107,7 @@
           <Property Name="phone" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="address" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Employees__role__0EEE1503">
+        <Association Name="FK__Employees__role__169AEF1A">
           <End Role="Employees_roles" Type="Self.Employees_roles" Multiplicity="1" />
           <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
           <ReferentialConstraint>
@@ -119,7 +119,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Mall__status_id__14A6EE59">
+        <Association Name="FK__Mall__status_id__1C53C870">
           <End Role="Mall_statuses" Type="Self.Mall_statuses" Multiplicity="1" />
           <End Role="Mall" Type="Self.Mall" Multiplicity="*" />
           <ReferentialConstraint>
@@ -131,7 +131,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pavilion__mall_i__1A5FC7AF">
+        <Association Name="FK__Pavilion__mall_i__220CA1C6">
           <End Role="Mall" Type="Self.Mall" Multiplicity="1" />
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
           <ReferentialConstraint>
@@ -143,7 +143,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pavilion__status__196BA376">
+        <Association Name="FK__Pavilion__status__21187D8D">
           <End Role="Pavilion_statuses" Type="Self.Pavilion_statuses" Multiplicity="1" />
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
           <ReferentialConstraint>
@@ -155,7 +155,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__23E931E9">
+        <Association Name="FK__Rent__2B960C00">
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -169,7 +169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__employee_i__210CC53E">
+        <Association Name="FK__Rent__employee_i__28B99F55">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__status_id__22F50DB0">
+        <Association Name="FK__Rent__status_id__2AA1E7C7">
           <End Role="Rent_statuses" Type="Self.Rent_statuses" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -193,7 +193,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__tenant_id__2200E977">
+        <Association Name="FK__Rent__tenant_id__29ADC38E">
           <End Role="Tenants" Type="Self.Tenants" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -205,7 +205,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище ModelDBContainer">
+        <EntityContainer Name="Хранилище practiceModelContainer">
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees_roles" EntityType="Self.Employees_roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mall" EntityType="Self.Mall" Schema="dbo" store:Type="Tables" />
@@ -216,43 +216,44 @@
           <EntitySet Name="Rent_statuses" EntityType="Self.Rent_statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tenants" EntityType="Self.Tenants" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Employees__role__0EEE1503" Association="Self.FK__Employees__role__0EEE1503">
+          <AssociationSet Name="FK__Employees__role__169AEF1A" Association="Self.FK__Employees__role__169AEF1A">
             <End Role="Employees_roles" EntitySet="Employees_roles" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Mall__status_id__14A6EE59" Association="Self.FK__Mall__status_id__14A6EE59">
+          <AssociationSet Name="FK__Mall__status_id__1C53C870" Association="Self.FK__Mall__status_id__1C53C870">
             <End Role="Mall_statuses" EntitySet="Mall_statuses" />
             <End Role="Mall" EntitySet="Mall" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pavilion__mall_i__1A5FC7AF" Association="Self.FK__Pavilion__mall_i__1A5FC7AF">
+          <AssociationSet Name="FK__Pavilion__mall_i__220CA1C6" Association="Self.FK__Pavilion__mall_i__220CA1C6">
             <End Role="Mall" EntitySet="Mall" />
             <End Role="Pavilion" EntitySet="Pavilion" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pavilion__status__196BA376" Association="Self.FK__Pavilion__status__196BA376">
+          <AssociationSet Name="FK__Pavilion__status__21187D8D" Association="Self.FK__Pavilion__status__21187D8D">
             <End Role="Pavilion_statuses" EntitySet="Pavilion_statuses" />
             <End Role="Pavilion" EntitySet="Pavilion" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__23E931E9" Association="Self.FK__Rent__23E931E9">
+          <AssociationSet Name="FK__Rent__2B960C00" Association="Self.FK__Rent__2B960C00">
             <End Role="Pavilion" EntitySet="Pavilion" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__employee_i__210CC53E" Association="Self.FK__Rent__employee_i__210CC53E">
+          <AssociationSet Name="FK__Rent__employee_i__28B99F55" Association="Self.FK__Rent__employee_i__28B99F55">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__status_id__22F50DB0" Association="Self.FK__Rent__status_id__22F50DB0">
+          <AssociationSet Name="FK__Rent__status_id__2AA1E7C7" Association="Self.FK__Rent__status_id__2AA1E7C7">
             <End Role="Rent_statuses" EntitySet="Rent_statuses" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__tenant_id__2200E977" Association="Self.FK__Rent__tenant_id__2200E977">
+          <AssociationSet Name="FK__Rent__tenant_id__29ADC38E" Association="Self.FK__Rent__tenant_id__29ADC38E">
             <End Role="Tenants" EntitySet="Tenants" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ModelDB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="practiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Employees">
           <Key>
             <PropertyRef Name="employe_id" />
@@ -267,8 +268,8 @@
           <Property Name="phone" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="sex" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Employees_roles" Relationship="Self.FK__Employees__role__2823D721" FromRole="Employees" ToRole="Employees_roles" />
-          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__employee_i__394E6323" FromRole="Employees" ToRole="Rent" />
+          <NavigationProperty Name="Employees_roles" Relationship="Self.FK__Employees__role__169AEF1A" FromRole="Employees" ToRole="Employees_roles" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__employee_i__28B99F55" FromRole="Employees" ToRole="Rent" />
         </EntityType>
         <EntityType Name="Employees_roles">
           <Key>
@@ -276,7 +277,7 @@
           </Key>
           <Property Name="role_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="role_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__role__2823D721" FromRole="Employees_roles" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__role__169AEF1A" FromRole="Employees_roles" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Mall">
           <Key>
@@ -290,9 +291,9 @@
           <Property Name="city" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="value_added_factor" Type="Double" Nullable="false" />
           <Property Name="number_of_storeys" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Mall_statuses" Relationship="Self.FK__Mall__status_id__2CE88C3E" FromRole="Mall" ToRole="Mall_statuses" />
-          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__mall_i__32A16594" FromRole="Mall" ToRole="Pavilion" />
           <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Mall_statuses" Relationship="Self.FK__Mall__status_id__1C53C870" FromRole="Mall" ToRole="Mall_statuses" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__mall_i__220CA1C6" FromRole="Mall" ToRole="Pavilion" />
         </EntityType>
         <EntityType Name="Mall_statuses">
           <Key>
@@ -300,7 +301,7 @@
           </Key>
           <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Mall" Relationship="Self.FK__Mall__status_id__2CE88C3E" FromRole="Mall_statuses" ToRole="Mall" />
+          <NavigationProperty Name="Mall" Relationship="Self.FK__Mall__status_id__1C53C870" FromRole="Mall_statuses" ToRole="Mall" />
         </EntityType>
         <EntityType Name="Pavilion">
           <Key>
@@ -311,12 +312,12 @@
           <Property Name="pavilion_number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="floor" Type="Int32" Nullable="false" />
           <Property Name="status_id" Type="Int64" Nullable="false" />
-          <Property Name="square" Type="Double" Nullable="false" />
-          <Property Name="cost_per_square_meter" Type="Double" Nullable="false" />
+          <Property Name="square" Type="Decimal" Precision="20" Scale="5" Nullable="false" />
+          <Property Name="cost_per_square_meter" Type="Decimal" Precision="20" Scale="5" Nullable="false" />
           <Property Name="value_added_factor" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Mall" Relationship="Self.FK__Pavilion__mall_i__32A16594" FromRole="Pavilion" ToRole="Mall" />
-          <NavigationProperty Name="Pavilion_statuses" Relationship="Self.FK__Pavilion__status__31AD415B" FromRole="Pavilion" ToRole="Pavilion_statuses" />
-          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__3C2ACFCE" FromRole="Pavilion" ToRole="Rent" />
+          <NavigationProperty Name="Mall" Relationship="Self.FK__Pavilion__mall_i__220CA1C6" FromRole="Pavilion" ToRole="Mall" />
+          <NavigationProperty Name="Pavilion_statuses" Relationship="Self.FK__Pavilion__status__21187D8D" FromRole="Pavilion" ToRole="Pavilion_statuses" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__2B960C00" FromRole="Pavilion" ToRole="Rent" />
         </EntityType>
         <EntityType Name="Pavilion_statuses">
           <Key>
@@ -324,7 +325,7 @@
           </Key>
           <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__status__31AD415B" FromRole="Pavilion_statuses" ToRole="Pavilion" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Pavilion__status__21187D8D" FromRole="Pavilion_statuses" ToRole="Pavilion" />
         </EntityType>
         <EntityType Name="Rent">
           <Key>
@@ -338,10 +339,10 @@
           <Property Name="status_id" Type="Int64" Nullable="false" />
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__Rent__employee_i__394E6323" FromRole="Rent" ToRole="Employees" />
-          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Rent__3C2ACFCE" FromRole="Rent" ToRole="Pavilion" />
-          <NavigationProperty Name="Rent_statuses" Relationship="Self.FK__Rent__status_id__3B36AB95" FromRole="Rent" ToRole="Rent_statuses" />
-          <NavigationProperty Name="Tenants" Relationship="Self.FK__Rent__tenant_id__3A42875C" FromRole="Rent" ToRole="Tenants" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Rent__employee_i__28B99F55" FromRole="Rent" ToRole="Employees" />
+          <NavigationProperty Name="Pavilion" Relationship="Self.FK__Rent__2B960C00" FromRole="Rent" ToRole="Pavilion" />
+          <NavigationProperty Name="Rent_statuses" Relationship="Self.FK__Rent__status_id__2AA1E7C7" FromRole="Rent" ToRole="Rent_statuses" />
+          <NavigationProperty Name="Tenants" Relationship="Self.FK__Rent__tenant_id__29ADC38E" FromRole="Rent" ToRole="Tenants" />
         </EntityType>
         <EntityType Name="Rent_statuses">
           <Key>
@@ -349,7 +350,7 @@
           </Key>
           <Property Name="status_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__status_id__3B36AB95" FromRole="Rent_statuses" ToRole="Rent" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__status_id__2AA1E7C7" FromRole="Rent_statuses" ToRole="Rent" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -369,9 +370,9 @@
           <Property Name="company_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__tenant_id__3A42875C" FromRole="Tenants" ToRole="Rent" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK__Rent__tenant_id__29ADC38E" FromRole="Tenants" ToRole="Rent" />
         </EntityType>
-        <Association Name="FK__Employees__role__2823D721">
+        <Association Name="FK__Employees__role__169AEF1A">
           <End Role="Employees_roles" Type="Self.Employees_roles" Multiplicity="1" />
           <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
           <ReferentialConstraint>
@@ -383,7 +384,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__employee_i__394E6323">
+        <Association Name="FK__Rent__employee_i__28B99F55">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -395,7 +396,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Mall__status_id__2CE88C3E">
+        <Association Name="FK__Mall__status_id__1C53C870">
           <End Role="Mall_statuses" Type="Self.Mall_statuses" Multiplicity="1" />
           <End Role="Mall" Type="Self.Mall" Multiplicity="*" />
           <ReferentialConstraint>
@@ -407,7 +408,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pavilion__mall_i__32A16594">
+        <Association Name="FK__Pavilion__mall_i__220CA1C6">
           <End Role="Mall" Type="Self.Mall" Multiplicity="1" />
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
           <ReferentialConstraint>
@@ -419,7 +420,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pavilion__status__31AD415B">
+        <Association Name="FK__Pavilion__status__21187D8D">
           <End Role="Pavilion_statuses" Type="Self.Pavilion_statuses" Multiplicity="1" />
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="*" />
           <ReferentialConstraint>
@@ -431,7 +432,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__3C2ACFCE">
+        <Association Name="FK__Rent__2B960C00">
           <End Role="Pavilion" Type="Self.Pavilion" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -445,7 +446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__status_id__3B36AB95">
+        <Association Name="FK__Rent__status_id__2AA1E7C7">
           <End Role="Rent_statuses" Type="Self.Rent_statuses" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -457,7 +458,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rent__tenant_id__3A42875C">
+        <Association Name="FK__Rent__tenant_id__29ADC38E">
           <End Role="Tenants" Type="Self.Tenants" Multiplicity="1" />
           <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -469,7 +470,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="practiceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Employees" EntityType="Self.Employees" />
           <EntitySet Name="Employees_roles" EntityType="Self.Employees_roles" />
           <EntitySet Name="Mall" EntityType="Self.Mall" />
@@ -480,35 +481,35 @@
           <EntitySet Name="Rent_statuses" EntityType="Self.Rent_statuses" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Tenants" EntityType="Self.Tenants" />
-          <AssociationSet Name="FK__Employees__role__2823D721" Association="Self.FK__Employees__role__2823D721">
+          <AssociationSet Name="FK__Employees__role__169AEF1A" Association="Self.FK__Employees__role__169AEF1A">
             <End Role="Employees_roles" EntitySet="Employees_roles" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__employee_i__394E6323" Association="Self.FK__Rent__employee_i__394E6323">
+          <AssociationSet Name="FK__Rent__employee_i__28B99F55" Association="Self.FK__Rent__employee_i__28B99F55">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Mall__status_id__2CE88C3E" Association="Self.FK__Mall__status_id__2CE88C3E">
+          <AssociationSet Name="FK__Mall__status_id__1C53C870" Association="Self.FK__Mall__status_id__1C53C870">
             <End Role="Mall_statuses" EntitySet="Mall_statuses" />
             <End Role="Mall" EntitySet="Mall" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pavilion__mall_i__32A16594" Association="Self.FK__Pavilion__mall_i__32A16594">
+          <AssociationSet Name="FK__Pavilion__mall_i__220CA1C6" Association="Self.FK__Pavilion__mall_i__220CA1C6">
             <End Role="Mall" EntitySet="Mall" />
             <End Role="Pavilion" EntitySet="Pavilion" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pavilion__status__31AD415B" Association="Self.FK__Pavilion__status__31AD415B">
+          <AssociationSet Name="FK__Pavilion__status__21187D8D" Association="Self.FK__Pavilion__status__21187D8D">
             <End Role="Pavilion_statuses" EntitySet="Pavilion_statuses" />
             <End Role="Pavilion" EntitySet="Pavilion" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__3C2ACFCE" Association="Self.FK__Rent__3C2ACFCE">
+          <AssociationSet Name="FK__Rent__2B960C00" Association="Self.FK__Rent__2B960C00">
             <End Role="Pavilion" EntitySet="Pavilion" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__status_id__3B36AB95" Association="Self.FK__Rent__status_id__3B36AB95">
+          <AssociationSet Name="FK__Rent__status_id__2AA1E7C7" Association="Self.FK__Rent__status_id__2AA1E7C7">
             <End Role="Rent_statuses" EntitySet="Rent_statuses" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rent__tenant_id__3A42875C" Association="Self.FK__Rent__tenant_id__3A42875C">
+          <AssociationSet Name="FK__Rent__tenant_id__29ADC38E" Association="Self.FK__Rent__tenant_id__29ADC38E">
             <End Role="Tenants" EntitySet="Tenants" />
             <End Role="Rent" EntitySet="Rent" />
           </AssociationSet>
@@ -518,9 +519,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ModelDBContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище practiceModelContainer" CdmEntityContainer="practiceEntities">
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="ModelDB.Employees">
+            <EntityTypeMapping TypeName="practiceModel.Employees">
               <MappingFragment StoreEntitySet="Employees">
                 <ScalarProperty Name="employe_id" ColumnName="employe_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -536,7 +537,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees_roles">
-            <EntityTypeMapping TypeName="ModelDB.Employees_roles">
+            <EntityTypeMapping TypeName="practiceModel.Employees_roles">
               <MappingFragment StoreEntitySet="Employees_roles">
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="role_name" ColumnName="role_name" />
@@ -544,9 +545,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Mall">
-            <EntityTypeMapping TypeName="ModelDB.Mall">
+            <EntityTypeMapping TypeName="practiceModel.Mall">
               <MappingFragment StoreEntitySet="Mall">
-                <ScalarProperty Name="photo" ColumnName="photo" />
                 <ScalarProperty Name="mall_id" ColumnName="mall_id" />
                 <ScalarProperty Name="mall_name" ColumnName="mall_name" />
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
@@ -555,11 +555,12 @@
                 <ScalarProperty Name="city" ColumnName="city" />
                 <ScalarProperty Name="value_added_factor" ColumnName="value_added_factor" />
                 <ScalarProperty Name="number_of_storeys" ColumnName="number_of_storeys" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Mall_statuses">
-            <EntityTypeMapping TypeName="ModelDB.Mall_statuses">
+            <EntityTypeMapping TypeName="practiceModel.Mall_statuses">
               <MappingFragment StoreEntitySet="Mall_statuses">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />
@@ -567,7 +568,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pavilion">
-            <EntityTypeMapping TypeName="ModelDB.Pavilion">
+            <EntityTypeMapping TypeName="practiceModel.Pavilion">
               <MappingFragment StoreEntitySet="Pavilion">
                 <ScalarProperty Name="mall_id" ColumnName="mall_id" />
                 <ScalarProperty Name="pavilion_number" ColumnName="pavilion_number" />
@@ -580,7 +581,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pavilion_statuses">
-            <EntityTypeMapping TypeName="ModelDB.Pavilion_statuses">
+            <EntityTypeMapping TypeName="practiceModel.Pavilion_statuses">
               <MappingFragment StoreEntitySet="Pavilion_statuses">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />
@@ -588,7 +589,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rent">
-            <EntityTypeMapping TypeName="ModelDB.Rent">
+            <EntityTypeMapping TypeName="practiceModel.Rent">
               <MappingFragment StoreEntitySet="Rent">
                 <ScalarProperty Name="rent_id" ColumnName="rent_id" />
                 <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
@@ -602,7 +603,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rent_statuses">
-            <EntityTypeMapping TypeName="ModelDB.Rent_statuses">
+            <EntityTypeMapping TypeName="practiceModel.Rent_statuses">
               <MappingFragment StoreEntitySet="Rent_statuses">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />
@@ -610,7 +611,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ModelDB.sysdiagrams">
+            <EntityTypeMapping TypeName="practiceModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -621,7 +622,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tenants">
-            <EntityTypeMapping TypeName="ModelDB.Tenants">
+            <EntityTypeMapping TypeName="practiceModel.Tenants">
               <MappingFragment StoreEntitySet="Tenants">
                 <ScalarProperty Name="tenant_id" ColumnName="tenant_id" />
                 <ScalarProperty Name="company_name" ColumnName="company_name" />

@@ -58,7 +58,7 @@ namespace Project.ViewModels
         private bool CanGoPavilionCommandExecute(object parameters) => true;
         private void OnGoPavilionCommandExecuted(object parameters)
         {
-
+            Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
         }
         #endregion
 

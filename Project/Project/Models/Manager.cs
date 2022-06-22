@@ -18,7 +18,7 @@ namespace Project
             }
         }
 
-        public Entities Context { get; set; }
+        public practiceEntities Context { get; set; }
         public Frame MainFrame { get; set; }
         public Frame MenuFrame { get; set; }
         public void MenuFrameNavigate(object content)

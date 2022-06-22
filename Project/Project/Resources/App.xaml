@@ -5,6 +5,7 @@
              StartupUri="..\Views\Windows\MainWindow.xaml">
     <Application.Resources>
         <local:ViewingMallPageViewModel x:Key="ViewingMallPageViewModel"/>
+        <local:ViewingPavilionPageViewModel x:Key="ViewingPavilionPageViewModel"/>
         
         <Style x:Key="ButtonTemplate" TargetType="Button">
             <Setter Property="FontSize" Value="14"/>

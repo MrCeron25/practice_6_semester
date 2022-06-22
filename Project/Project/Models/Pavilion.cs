@@ -24,8 +24,8 @@ namespace Project.Models
         public string pavilion_number { get; set; }
         public int floor { get; set; }
         public long status_id { get; set; }
-        public double square { get; set; }
-        public double cost_per_square_meter { get; set; }
+        public decimal square { get; set; }
+        public decimal cost_per_square_meter { get; set; }
         public double value_added_factor { get; set; }
     
         public virtual Mall Mall { get; set; }
