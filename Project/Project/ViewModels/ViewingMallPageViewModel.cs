@@ -506,7 +506,6 @@ namespace Project.ViewModels
         }
         #endregion
 
-
         #region GetCities
         private void UpdateCities()
         {
