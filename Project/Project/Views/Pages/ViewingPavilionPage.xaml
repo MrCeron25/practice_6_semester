@@ -33,27 +33,61 @@
             <Button Content="Удалить"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding DeletePavilionCommand}"/>
+            <Button Content="Обновить"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding UpdatePavilionsCommand}"/>
+
             <StackPanel VerticalAlignment="Center"
-                       HorizontalAlignment="Right">
+                        Margin="10">
+                <TextBlock Text="Этаж :"
+                           Style="{StaticResource TextBlockTemplate}"
+                           HorizontalAlignment="Center"/>
+                <TextBox Width="80"
+                         Text="{Binding Floor}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Center"
+                        Margin="10">
+                <TextBlock Text="Статус :"
+                            HorizontalAlignment="Center"
+                           Style="{StaticResource TextBlockTemplate}"/>
+                <ComboBox Width="100"
+                          ItemsSource="{Binding PavilionStatusesSorting}"
+                          SelectedItem="{Binding SelectedPavilionStatusSorting}"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Center"
+                        Margin="10">
+                <TextBlock Text="Min площадь :"
+                           Style="{StaticResource TextBlockTemplate}"/>
+                <TextBox Text="{Binding MinSquare}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Width="80"/>
+            </StackPanel>
+            
+            <StackPanel VerticalAlignment="Center"
+                        Margin="10">
+                <TextBlock Text="Max площадь :"
+                           Style="{StaticResource TextBlockTemplate}"/>
+                <TextBox Width="80"
+                         Text="{Binding MaxSquare}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Right">
                 <TextBlock Text="Павильонов : "
                            Style="{StaticResource TextBlockTemplate}"/>
                 <TextBlock Text="{Binding Path=Pavilions.Count}"
                            Style="{StaticResource TextBlockTemplate}"
                            TextAlignment="Right"/>
             </StackPanel>
-            <!--<ComboBox ItemsSource="{Binding MallStatusesSorting}"
-                      SelectedItem="{Binding SelectedMallStatusSorting}"
-                      Margin="10"
-                      Width="120"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding Cities}"
-                      SelectedItem="{Binding SelectedCity}"
-                      IsEnabled="{Binding CityIsEnabled}"
-                      Margin="10"
-                      Width="120"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"/>-->
         </DockPanel>
         <ListView Margin="10,10,10,10"
                   ItemsSource="{Binding Pavilions}"
@@ -113,16 +147,17 @@
                                             FontWeight="Bold"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center">
-                            <TextBlock Text="Стоимость :"
-                                        Style="{StaticResource TextBlockTemplate}"
-                                       FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Path=cost_per_square_meter,StringFormat=N3}"
-                                        Style="{StaticResource TextBlockTemplate}"
-                                       TextAlignment="Right"/>
-                        </StackPanel>
+                        <DockPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Right">
+                            <StackPanel>
+                                <TextBlock Text="Стоимость :"
+                                            Style="{StaticResource TextBlockTemplate}"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Path=cost_per_square_meter,StringFormat=N3}"
+                                           Style="{StaticResource TextBlockTemplate}"
+                                           TextAlignment="Right"/>
+                            </StackPanel>
+                        </DockPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

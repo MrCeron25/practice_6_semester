@@ -136,7 +136,6 @@
     <Compile Include="Views\Pages\ManagerCMenuPage.xaml.cs">
       <DependentUpon>ManagerCMenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ArrayMultiValueConverter.cs" />
     <Compile Include="Models\Tools.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
     <Page Include="Views\Pages\MallPage.xaml">

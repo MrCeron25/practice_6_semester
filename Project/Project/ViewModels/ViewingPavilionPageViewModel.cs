@@ -74,12 +74,18 @@ namespace Project.ViewModels
         #region GetPavilions
         private ObservableCollection<PavilionItem> GetPavilions()
         {
-            return new ObservableCollection<PavilionItem>(
+            ObservableCollection<PavilionItem> data = new ObservableCollection<PavilionItem>();
+            if (SelectedPavilionStatusSorting == AllNameSorting)
+            {
+                data = new ObservableCollection<PavilionItem>(
                 from p in Manager.Instance.Context.Pavilion
                 join ps in Manager.Instance.Context.Pavilion_statuses on p.status_id equals ps.status_id
                 join m in Manager.Instance.Context.Mall on p.mall_id equals m.mall_id
                 join ms in Manager.Instance.Context.Mall_statuses on m.status_id equals ms.status_id
-                where ps.status_name != DeleteNameSorting
+                where ps.status_name != DeleteNameSorting &&
+                      p.floor == Floor &&
+                      p.square >= MinSquare &&
+                      p.square <= MaxSquare
                 select new PavilionItem
                 {
                     mall_id = m.mall_id,
@@ -94,6 +100,35 @@ namespace Project.ViewModels
                     cost_per_square_meter = p.cost_per_square_meter,
                     value_added_factor = p.value_added_factor
                 });
+            }
+            else
+            {
+                data = new ObservableCollection<PavilionItem>(
+                    from p in Manager.Instance.Context.Pavilion
+                    join ps in Manager.Instance.Context.Pavilion_statuses on p.status_id equals ps.status_id
+                    join m in Manager.Instance.Context.Mall on p.mall_id equals m.mall_id
+                    join ms in Manager.Instance.Context.Mall_statuses on m.status_id equals ms.status_id
+                    where ps.status_name != DeleteNameSorting &&
+                          ps.status_name == SelectedPavilionStatusSorting &&
+                          p.floor == Floor &&
+                          p.square >= MinSquare &&
+                          p.square <= MaxSquare
+                    select new PavilionItem
+                    {
+                        mall_id = m.mall_id,
+                        mall_status_id = m.status_id,
+                        mall_status_name = ms.status_name,
+                        mall_name = m.mall_name,
+                        floor = p.floor,
+                        pavilion_number = p.pavilion_number,
+                        square = p.square,
+                        pavilion_status_id = p.status_id,
+                        pavilion_status_name = ps.status_name,
+                        cost_per_square_meter = p.cost_per_square_meter,
+                        value_added_factor = p.value_added_factor
+                    });
+            }
+            return data;
         }
         #endregion
 
@@ -139,14 +174,23 @@ namespace Project.ViewModels
             CurrentActionEntities = ActionEntities.Change;
             ButtonName = "Изменить";
             CurrentPavilion = (
-                    from p in Manager.Instance.Context.Pavilion
-                    where p.mall_id == SelectedPavilion.mall_id &&
-                          p.pavilion_number == SelectedPavilion.pavilion_number
-                    select p
-                    ).FirstOrDefault();
+                from p in Manager.Instance.Context.Pavilion
+                where p.mall_id == SelectedPavilion.mall_id &&
+                        p.pavilion_number == SelectedPavilion.pavilion_number
+                select p
+            ).FirstOrDefault();
             SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
             SelectedMallPavilionName = SelectedPavilion.mall_name;
             Manager.Instance.MainFrameNavigate(new PavilionPage());
+        }
+        #endregion
+
+        #region Обновить павильоны
+        public ICommand UpdatePavilionsCommand { get; }
+        private bool CanUpdatePavilionsCommandExecute(object parameters) => true;
+        private void OnUpdatePavilionsCommandExecuted(object parameters)
+        {
+            UpdatePavilions();
         }
         #endregion
 
@@ -161,9 +205,9 @@ namespace Project.ViewModels
                     from p in Manager.Instance.Context.Pavilion
                     where p.mall_id == SelectedPavilion.mall_id
                     select p
-                    ).FirstOrDefault();
+                ).FirstOrDefault();
                 pavilion.status_id = (
-                    from m in Manager.Instance.Context.Mall_statuses
+                    from m in Manager.Instance.Context.Pavilion_statuses
                     where m.status_name == DeleteNameSorting
                     select m.status_id
                 ).FirstOrDefault();
@@ -191,14 +235,14 @@ namespace Project.ViewModels
         #endregion
 
         #region Статусы павильонов
-        private ObservableCollection<string> _pavilionsStatuses;
+        private ObservableCollection<string> _PavilionStatuses;
         /// <summary>
         /// Статусы павильонов
         /// </summary>
-        public ObservableCollection<string> PavilionsStatuses
+        public ObservableCollection<string> PavilionStatuses
         {
-            get => _pavilionsStatuses;
-            set => Set(ref _pavilionsStatuses, value);
+            get => _PavilionStatuses;
+            set => Set(ref _PavilionStatuses, value);
         }
         #endregion
 
@@ -217,11 +261,11 @@ namespace Project.ViewModels
         #region UpdatePavilionStatuses
         private void UpdatePavilionStatuses()
         {
-            PavilionsStatuses = GetPavilionStatuses();
+            PavilionStatuses = GetPavilionStatuses();
         }
         #endregion
 
-        #region GetPavilionsStatuses
+        #region GetPavilionStatuses
         private static ObservableCollection<string> GetPavilionStatuses()
         {
             return new ObservableCollection<string>(
@@ -272,6 +316,55 @@ namespace Project.ViewModels
         }
         #endregion
 
+
+        #region Сортировка статусов павильонов
+        private ObservableCollection<string> _pavilionStatusesSorting;
+        /// <summary>
+        /// Сортировка статусов павильонов
+        /// </summary>
+        public ObservableCollection<string> PavilionStatusesSorting
+        {
+            get => _pavilionStatusesSorting;
+            set => Set(ref _pavilionStatusesSorting, value);
+        }
+        #endregion
+
+        #region Выбранная сортировка статуса
+        private string _selectedPavilionStatusSorting;
+        /// <summary>
+        /// Выбранная сортировка статуса
+        /// </summary>
+        public string SelectedPavilionStatusSorting
+        {
+            get => _selectedPavilionStatusSorting;
+            set
+            {
+                Set(ref _selectedPavilionStatusSorting, value);
+                UpdatePavilions();
+            }
+        }
+        #endregion
+
+
+        #region GetPavilionStatusSorting
+        private static ObservableCollection<string> GetPavilionStatusSorting()
+        {
+            return new ObservableCollection<string>(
+                from p in Manager.Instance.Context.Pavilion_statuses
+                orderby p.status_name
+                select p.status_name
+            );
+        }
+        #endregion
+
+        #region UpdatePavilionStatusSorting
+        private void UpdatePavilionStatusSorting()
+        {
+            PavilionStatusesSorting = GetPavilionStatusSorting();
+        }
+        #endregion
+
+
         #region ActionEntities
         private ActionEntities _currentActionEntities = ActionEntities.None;
         /// <summary>
@@ -292,7 +385,7 @@ namespace Project.ViewModels
             if (CurrentPavilion.floor < 0 ||
                 CurrentPavilion.square < 0 ||
                 CurrentPavilion.value_added_factor < 0 ||
-                CurrentPavilion.cost_per_square_meter < 0)
+                CurrentPavilion.cost_per_square_meter < (decimal)0.1)
             {
                 MessageBox.Show($"Числовые поля должны быть положительными.");
             }
@@ -342,62 +435,22 @@ namespace Project.ViewModels
                     MessageBox.Show($"Ошибка :\n{e}");
                 }
             }
-            //SelectedMallStatusSorting = AllNameSorting;
+            SelectedPavilionStatusSorting = AllNameSorting;
             UpdatePavilions();
         }
         #endregion
 
-
-        //#region GetMallStatuses
-        //private static ObservableCollection<string> GetMallStatuses()
-        //{
-        //    return new ObservableCollection<string>(
-        //        from ms in Manager.Instance.Context.Mall_statuses
-        //        orderby ms.status_name
-        //        select ms.status_name
-        //        );
-        //}
-        //#endregion
-
-        //#region GetCities
-        //private void UpdateCities()
-        //{
-        //    Cities = GetCities();
-        //}
-        //#endregion
-
-        //#region GetCities
-        //private ObservableCollection<string> GetCities()
-        //{
-        //    return new ObservableCollection<string>((
-        //            from m in Manager.Instance.Context.Mall
-        //            orderby m.city
-        //            where m.status_id != (from ms in Manager.Instance.Context.Mall_statuses
-        //                                  where ms.status_name == DeleteNameSorting
-        //                                  select ms.status_id).FirstOrDefault()
-        //            select m.city
-        //        ).Distinct().ToList());
-        //}
-        //#endregion
-
-        //#region UpdateMallStatuses
-        //private void UpdateMallStatuses()
-        //{
-        //    MallStatuses = GetMallStatuses();
-        //}
-        //#endregion
-
-        //#region Статус сортировки Всё
-        //private string _allNameSorting = "Всё";
-        ///// <summary>
-        ///// Статус сортировки Всё
-        ///// </summary>
-        //public string AllNameSorting
-        //{
-        //    get => _allNameSorting;
-        //    set => Set(ref _allNameSorting, value);
-        //}
-        //#endregion
+        #region Статус сортировки Всё
+        private string _allNameSorting = "Всё";
+        /// <summary>
+        /// Статус сортировки Всё
+        /// </summary>
+        public string AllNameSorting
+        {
+            get => _allNameSorting;
+            set => Set(ref _allNameSorting, value);
+        }
+        #endregion
 
         #region Статус сортировки Удалён
         private string _deleteNameSorting = "Удалён";
@@ -411,6 +464,77 @@ namespace Project.ViewModels
         }
         #endregion
 
+        #region Этаж
+        private int _floor = 0;
+        /// <summary>
+        /// Этаж
+        /// </summary>
+        public int Floor
+        {
+            get => _floor;
+            set
+            {
+                if (value >= 0)
+                {
+                    Set(ref _floor, value);
+                }
+                UpdatePavilions();
+            }
+        }
+        #endregion
+
+        #region Мин площадь
+        private decimal _minSquare = 0;
+        /// <summary>
+        /// Min площадь
+        /// </summary>
+        public decimal MinSquare
+        {
+            get => _minSquare;
+            set
+            {
+                if (value >= 0)
+                {
+                    if (value <= MaxSquare)
+                    {
+                        Set(ref _minSquare, value);
+                    }
+                    else
+                    {
+                        Set(ref _minSquare, MaxSquare);
+                    }
+                }
+                UpdatePavilions();
+            }
+        }
+        #endregion
+
+        #region Мин площадь
+        private decimal _maxSquare = 1000;
+        /// <summary>
+        /// Max площадь
+        /// </summary>
+        public decimal MaxSquare
+        {
+            get => _maxSquare;
+            set
+            {
+                if (value >= 0)
+                {
+                    if (value >= MinSquare)
+                    {
+                        Set(ref _maxSquare, value);
+                    }
+                    else
+                    {
+                        Set(ref _maxSquare, MinSquare);
+                    }
+                }
+                UpdatePavilions();
+            }
+        }
+        #endregion
+
         #region Конструктор
         public ViewingPavilionPageViewModel()
         {
@@ -418,8 +542,19 @@ namespace Project.ViewModels
             ChangePavilionCommand = new LambdaCommand(OnChangePavilionCommandExecuted, CanChangePavilionCommandExecute);
             DeletePavilionCommand = new LambdaCommand(OnDeletePavilionCommandExecuted, CanDeletePavilionCommandExecute);
             ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
-            UpdatePavilions();
+            UpdatePavilionsCommand = new LambdaCommand(OnUpdatePavilionsCommandExecuted, CanUpdatePavilionsCommandExecute);
+
             UpdatePavilionStatuses();
+            UpdatePavilionStatusSorting();
+            // убираю сортировку по удаленным ТЦ
+            PavilionStatusesSorting.Remove(DeleteNameSorting);
+            // добавляю общую сортировку
+            PavilionStatusesSorting.Add(AllNameSorting);
+            // текущим выбранным ставим все
+            SelectedPavilionStatusSorting = AllNameSorting;
+
+
+            UpdatePavilions();
             UpdatePavilionNames();
             CurrentPavilion = GetNewPavilion();
         }

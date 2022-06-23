@@ -192,7 +192,7 @@ namespace Project.ViewModels
         {
             if (CurrentMall.cost < 0 ||
                 CurrentMall.number_of_pavilion < 0 ||
-                CurrentMall.value_added_factor < 0 ||
+                CurrentMall.value_added_factor < 0.1 ||
                 CurrentMall.number_of_storeys < 0)
             {
                 MessageBox.Show($"Числовые поля должны быть положительными.");

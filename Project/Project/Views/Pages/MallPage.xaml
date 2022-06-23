@@ -31,7 +31,8 @@
 
         <TextBlock Style="{StaticResource AuthorTemplate}"
                    Grid.RowSpan="9"
-                   Grid.ColumnSpan="2"/>
+                   Grid.ColumnSpan="2"
+                   Panel.ZIndex="1"/>
         <TextBlock Text="Название : "
                    Grid.Row="0"
                    Grid.Column="0"

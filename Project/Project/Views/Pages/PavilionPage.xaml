@@ -28,7 +28,8 @@
 
         <TextBlock Style="{StaticResource AuthorTemplate}"
                    Grid.RowSpan="9"
-                   Grid.ColumnSpan="2"/>
+                   Grid.ColumnSpan="2"
+                   Panel.ZIndex="1"/>
         <TextBlock Text="Номер этажа : "
                    Grid.Row="0"
                    Grid.Column="0"
@@ -77,7 +78,7 @@
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <ComboBox ItemsSource="{Binding PavilionsStatuses}" 
+        <ComboBox ItemsSource="{Binding PavilionStatuses}" 
                   SelectedItem="{Binding SelectedPavilionStatus}"
                   Margin="10"
                   Grid.Row="3"
