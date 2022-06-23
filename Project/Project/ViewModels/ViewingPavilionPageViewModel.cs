@@ -159,9 +159,7 @@ namespace Project.ViewModels
         private bool CanAddPavilionCommandExecute(object parameters) => true;
         private void OnAddPavilionCommandExecuted(object parameters)
         {
-            CurrentPavilion = GetNewPavilion();
             CurrentActionEntities = ActionEntities.Add;
-            ButtonName = "Добавить";
             Manager.Instance.MainFrameNavigate(new PavilionPage());
         }
         #endregion
@@ -172,15 +170,6 @@ namespace Project.ViewModels
         private void OnChangePavilionCommandExecuted(object parameters)
         {
             CurrentActionEntities = ActionEntities.Change;
-            ButtonName = "Изменить";
-            CurrentPavilion = (
-                from p in Manager.Instance.Context.Pavilion
-                where p.mall_id == SelectedPavilion.mall_id &&
-                        p.pavilion_number == SelectedPavilion.pavilion_number
-                select p
-            ).FirstOrDefault();
-            SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
-            SelectedMallPavilionName = SelectedPavilion.mall_name;
             Manager.Instance.MainFrameNavigate(new PavilionPage());
         }
         #endregion
@@ -373,7 +362,28 @@ namespace Project.ViewModels
         public ActionEntities CurrentActionEntities
         {
             get => _currentActionEntities;
-            set => Set(ref _currentActionEntities, value);
+            set
+            {
+                Set(ref _currentActionEntities, value);
+
+                if (_currentActionEntities == ActionEntities.Add)
+                {
+                    CurrentPavilion = GetNewPavilion();
+                    ButtonName = "Добавить";
+                }
+                else if (_currentActionEntities == ActionEntities.Change)
+                {
+                    ButtonName = "Изменить";
+                    CurrentPavilion = (
+                        from p in Manager.Instance.Context.Pavilion
+                        where p.mall_id == SelectedPavilion.mall_id &&
+                                p.pavilion_number == SelectedPavilion.pavilion_number
+                        select p
+                    ).FirstOrDefault();
+                    SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
+                    SelectedMallPavilionName = SelectedPavilion.mall_name;
+                }
+            }
         }
         #endregion
 
@@ -477,8 +487,8 @@ namespace Project.ViewModels
                 if (value >= 0)
                 {
                     Set(ref _floor, value);
+                    UpdatePavilions();
                 }
-                UpdatePavilions();
             }
         }
         #endregion
@@ -503,8 +513,8 @@ namespace Project.ViewModels
                     {
                         Set(ref _minSquare, MaxSquare);
                     }
+                    UpdatePavilions();
                 }
-                UpdatePavilions();
             }
         }
         #endregion
@@ -529,8 +539,8 @@ namespace Project.ViewModels
                     {
                         Set(ref _maxSquare, MinSquare);
                     }
+                    UpdatePavilions();
                 }
-                UpdatePavilions();
             }
         }
         #endregion
@@ -552,7 +562,6 @@ namespace Project.ViewModels
             PavilionStatusesSorting.Add(AllNameSorting);
             // текущим выбранным ставим все
             SelectedPavilionStatusSorting = AllNameSorting;
-
 
             UpdatePavilions();
             UpdatePavilionNames();

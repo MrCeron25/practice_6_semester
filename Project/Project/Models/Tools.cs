@@ -45,9 +45,9 @@ namespace Project
                     image.EndInit();
                 }
             }
-            catch (InvalidOperationException e)
+            catch (ArgumentNullException e)
             {
-                MessageBox.Show($"Ошибка :\n{e}");
+                MessageBox.Show($"Ошибка загрузки фотографии.");
             }
             catch (Exception e)
             {
