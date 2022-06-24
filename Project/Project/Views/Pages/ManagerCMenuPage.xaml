@@ -23,6 +23,10 @@
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding GoMallCommand}"/>
 
+            <Button Content="{Binding EmployeesButtonName}"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding }"/>
+
             <Button Content="{Binding ExitButtonName}"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding ExitCommand}"/>

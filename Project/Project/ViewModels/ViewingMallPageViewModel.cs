@@ -726,7 +726,8 @@ namespace Project.ViewModels
             {
                 Pavilion pavilion = (
                     from p in Manager.Instance.Context.Pavilion
-                    where p.mall_id == SelectedPavilion.mall_id
+                    where p.mall_id == SelectedPavilion.mall_id &&
+                          p.pavilion_number == SelectedPavilion.pavilion_number
                     select p
                 ).FirstOrDefault();
                 pavilion.status_id = (

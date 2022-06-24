@@ -19,15 +19,15 @@ namespace Project.ViewModels
         }
         #endregion
 
-        #region Павильоны
-        private string _pavilionButtonName = "Павильоны";
+        #region Пользователи
+        private string _employeesButtonName = "Пользователи";
         /// <summary>
-        /// Павильоны
+        /// Пользователи
         /// </summary>
-        public string PavilionButtonName
+        public string EmployeesButtonName
         {
-            get => _pavilionButtonName;
-            set => Set(ref _pavilionButtonName, value);
+            get => _employeesButtonName;
+            set => Set(ref _employeesButtonName, value);
         }
         #endregion
 
@@ -50,7 +50,15 @@ namespace Project.ViewModels
         {
             Manager.Instance.MainFrameNavigate(new ViewingMallPage());
         }
+        #endregion
 
+        #region Команда перехода на страницу ТЦ
+        public ICommand GoEmployeeCommand { get; }
+        private bool CanGoEmployeeCommandExecute(object parameters) => true;
+        private void OnGoEmployeeCommandExecuted(object parameters)
+        {
+            //Manager.Instance.MainFrameNavigate(new ViewingMallPage());
+        }
         #endregion
 
         #region Команда выхода
@@ -67,6 +75,7 @@ namespace Project.ViewModels
         {
             GoMallCommand = new LambdaCommand(OnGoMallCommandExecuted, CanGoMallCommandExecute);
             ExitCommand = new LambdaCommand(OnExitCommandExecuted, CanExitCommandExecute);
+            GoEmployeeCommand = new LambdaCommand(OnGoEmployeeCommandExecuted, CanGoEmployeeCommandExecute);
         }
         #endregion
     }

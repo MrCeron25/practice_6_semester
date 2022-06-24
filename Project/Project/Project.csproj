@@ -119,7 +119,6 @@
     <Compile Include="Models\MallItem.cs" />
     <Compile Include="ViewModels\ViewingMallPageViewModel.cs" />
     <Compile Include="ViewModels\ManagerCMenuPageViewModel.cs" />
-    <Compile Include="ViewModels\ViewingPavilionPageViewModel.cs" />
     <Compile Include="Views\Pages\MallPage.xaml.cs">
       <DependentUpon>MallPage.xaml</DependentUpon>
     </Compile>

@@ -33,7 +33,7 @@
             <Button Content="Удалить"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding DeleteMallCommand}"/>
-            <Button Content="Просмотр"
+            <Button Content="Просмотр павильонов"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding ViewMallCommand}"/>
             <ComboBox ItemsSource="{Binding MallStatusesSorting}"
