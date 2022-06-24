@@ -9,13 +9,12 @@
       Title="PavilionPage">
 
     <Grid Background="White"
-          DataContext="{StaticResource ViewingPavilionPageViewModel}">
+          DataContext="{StaticResource ViewingMallPageViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -85,23 +84,10 @@
                   VerticalAlignment="Center"
                   Grid.Column="1"/>
 
-        <TextBlock Text="Торговый центр : "
-                   Grid.Row="4"
-                   Grid.Column="0"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   Style="{StaticResource TextBlockTemplate}"/>
-        <ComboBox ItemsSource="{Binding PavilionNames}" 
-                  SelectedItem="{Binding SelectedMallPavilionName}"
-                  Margin="10"
-                  VerticalAlignment="Center"
-                  Grid.Row="4"
-                  Grid.Column="1"/>
-
 
         <TextBlock Text="Коофициент добавочной стоимости : "
                    VerticalAlignment="Center"
-                       Grid.Row="5"
+                       Grid.Row="4"
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
@@ -109,20 +95,20 @@
                  Margin="10"
                  VerticalAlignment="Center"
                  Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="5"
+                 Grid.Row="4"
                  Grid.Column="1"/>
 
         <TextBlock Text="Стоимость : "
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Grid.Row="6"
+                   Grid.Row="5"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
         <TextBox Text="{Binding CurrentPavilion.cost_per_square_meter}" 
                  Margin="10"
                  VerticalAlignment="Center"
                  Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="6"
+                 Grid.Row="5"
                  Grid.Column="1"/>
 
 

@@ -53,15 +53,6 @@ namespace Project.ViewModels
 
         #endregion
 
-        #region Команда перехода на страницу павильонов
-        public ICommand GoPavilionCommand { get; }
-        private bool CanGoPavilionCommandExecute(object parameters) => true;
-        private void OnGoPavilionCommandExecuted(object parameters)
-        {
-            Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
-        }
-        #endregion
-
         #region Команда выхода
         public ICommand ExitCommand { get; }
         private bool CanExitCommandExecute(object p) => true;
@@ -75,7 +66,6 @@ namespace Project.ViewModels
         public ManagerCMenuPageViewModel()
         {
             GoMallCommand = new LambdaCommand(OnGoMallCommandExecuted, CanGoMallCommandExecute);
-            GoPavilionCommand = new LambdaCommand(OnGoPavilionCommandExecuted, CanGoPavilionCommandExecute);
             ExitCommand = new LambdaCommand(OnExitCommandExecuted, CanExitCommandExecute);
         }
         #endregion

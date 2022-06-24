@@ -35,7 +35,7 @@
                     Command="{Binding DeleteMallCommand}"/>
             <Button Content="Просмотр"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding AddMallCommand}"/>
+                    Command="{Binding ViewMallCommand}"/>
             <ComboBox ItemsSource="{Binding MallStatusesSorting}"
                       SelectedItem="{Binding SelectedMallStatusSorting}"
                       Margin="10"

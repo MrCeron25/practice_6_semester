@@ -9,15 +9,73 @@
       Title="ViewingPavilionPage">
 
     <Grid Background="White"
-          DataContext="{StaticResource ViewingPavilionPageViewModel}">
+          DataContext="{StaticResource ViewingMallPageViewModel}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource AuthorTemplate}"
-                   Grid.Row="2"
+                   Grid.Row="3"
                    Panel.ZIndex="1"/>
-        <DockPanel Grid.Row="0">
+        <Grid HorizontalAlignment="Stretch"
+              Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Path=SelectedMall.mall_name}"
+                                       Style="{StaticResource TextBlockTemplate}"
+                                       FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Статус : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.status_name}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Количество павильонов : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.number_of_pavilion}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Город : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.city}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Этажность : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.number_of_storeys}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Коэффициент добавочной стоимости : "
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.value_added_factor}"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                <StackPanel VerticalAlignment="Center"
+                                        Margin="0,0,20,0">
+                    <TextBlock Text="Стоимость :"
+                                           FontWeight="Bold"
+                                           Style="{StaticResource TextBlockTemplate}"/>
+                    <TextBlock Text="{Binding Path=SelectedMall.cost,StringFormat=N3}"
+                                           Style="{StaticResource TextBlockTemplate}"
+                                           TextAlignment="Right"/>
+                </StackPanel>
+                <Image Source="{Binding Path=SelectedMall.photo}"
+                                   MaxHeight="150"
+                                   MaxWidth="150"/>
+            </StackPanel>
+        </Grid>
+
+
+
+        <DockPanel Grid.Row="1">
             <TextBlock Text="{Binding PavilionTitleName}"
                        Style="{StaticResource TextBlockTemplate}"
                        FontWeight="Bold"
@@ -94,7 +152,7 @@
                   SelectedItem="{Binding SelectedPavilion}"
                   SelectionMode="Single"
                   HorizontalContentAlignment="Stretch"
-                  Grid.Row="1">
+                  Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Stretch">

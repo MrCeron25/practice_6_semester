@@ -157,9 +157,9 @@
                 Grid.Column="1"
                 Source="{Binding LoadedImage}"/>
 
-        <Button Content="{Binding ButtonName}"
+        <Button Content="{Binding MallButtonName}"
                 Style="{StaticResource ButtonTemplate}"
-                Command="{Binding ExecuteCommand}"
+                Command="{Binding MallExecuteCommand}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Grid.Row="8"

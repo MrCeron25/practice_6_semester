@@ -23,10 +23,6 @@
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding GoMallCommand}"/>
 
-            <Button Content="{Binding PavilionButtonName}"
-                    Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding GoPavilionCommand}"/>
-
             <Button Content="{Binding ExitButtonName}"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding ExitCommand}"/>
