@@ -12,6 +12,8 @@ namespace Project.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class practiceEntities : DbContext
     {
@@ -35,5 +37,38 @@ namespace Project.Models
         public virtual DbSet<Rent_statuses> Rent_statuses { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tenants> Tenants { get; set; }
+    
+        public virtual int RentOrBookPavilionInMall(Nullable<bool> status_action, string pavilion_number, Nullable<long> mall_id, Nullable<System.DateTime> start_date, Nullable<System.DateTime> end_date, Nullable<long> tenant_id, Nullable<long> employee_id)
+        {
+            var status_actionParameter = status_action.HasValue ?
+                new ObjectParameter("status_action", status_action) :
+                new ObjectParameter("status_action", typeof(bool));
+    
+            var pavilion_numberParameter = pavilion_number != null ?
+                new ObjectParameter("pavilion_number", pavilion_number) :
+                new ObjectParameter("pavilion_number", typeof(string));
+    
+            var mall_idParameter = mall_id.HasValue ?
+                new ObjectParameter("mall_id", mall_id) :
+                new ObjectParameter("mall_id", typeof(long));
+    
+            var start_dateParameter = start_date.HasValue ?
+                new ObjectParameter("start_date", start_date) :
+                new ObjectParameter("start_date", typeof(System.DateTime));
+    
+            var end_dateParameter = end_date.HasValue ?
+                new ObjectParameter("end_date", end_date) :
+                new ObjectParameter("end_date", typeof(System.DateTime));
+    
+            var tenant_idParameter = tenant_id.HasValue ?
+                new ObjectParameter("tenant_id", tenant_id) :
+                new ObjectParameter("tenant_id", typeof(long));
+    
+            var employee_idParameter = employee_id.HasValue ?
+                new ObjectParameter("employee_id", employee_id) :
+                new ObjectParameter("employee_id", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RentOrBookPavilionInMall", status_actionParameter, pavilion_numberParameter, mall_idParameter, start_dateParameter, end_dateParameter, tenant_idParameter, employee_idParameter);
+        }
     }
 }

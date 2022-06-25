@@ -73,15 +73,14 @@
             </StackPanel>
         </Grid>
 
-
-
-        <DockPanel Grid.Row="1">
+        <UniformGrid Grid.Row="1"
+                     Rows="2"
+                     Columns="6">
             <TextBlock Text="{Binding PavilionTitleName}"
                        Style="{StaticResource TextBlockTemplate}"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Margin="10"/>
+                       VerticalAlignment="Center"/>
             <Button Content="Добавить"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding AddPavilionCommand}"/>
@@ -91,6 +90,9 @@
             <Button Content="Удалить"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding DeletePavilionCommand}"/>
+            <Button Content="Арендовать"
+                    Style="{StaticResource ButtonTemplate}"
+                    Command="{Binding RentPavilionCommand}"/>
             <Button Content="Обновить"
                     Style="{StaticResource ButtonTemplate}"
                     Command="{Binding UpdatePavilionsCommand}"/>
@@ -100,8 +102,7 @@
                 <TextBlock Text="Этаж :"
                            Style="{StaticResource TextBlockTemplate}"
                            HorizontalAlignment="Center"/>
-                <TextBox Width="80"
-                         Text="{Binding Floor}"
+                <TextBox Text="{Binding Floor}"
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"/>
             </StackPanel>
@@ -109,10 +110,9 @@
             <StackPanel VerticalAlignment="Center"
                         Margin="10">
                 <TextBlock Text="Статус :"
-                            HorizontalAlignment="Center"
+                           HorizontalAlignment="Center"
                            Style="{StaticResource TextBlockTemplate}"/>
-                <ComboBox Width="100"
-                          ItemsSource="{Binding PavilionStatusesSorting}"
+                <ComboBox ItemsSource="{Binding PavilionStatusesSorting}"
                           SelectedItem="{Binding SelectedPavilionStatusSorting}"
                           HorizontalContentAlignment="Center"
                           VerticalContentAlignment="Center"/>
@@ -121,32 +121,34 @@
             <StackPanel VerticalAlignment="Center"
                         Margin="10">
                 <TextBlock Text="Min площадь :"
+                           HorizontalAlignment="Center"
                            Style="{StaticResource TextBlockTemplate}"/>
                 <TextBox Text="{Binding MinSquare}"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
-                         Width="80"/>
-            </StackPanel>
-            
-            <StackPanel VerticalAlignment="Center"
-                        Margin="10">
-                <TextBlock Text="Max площадь :"
-                           Style="{StaticResource TextBlockTemplate}"/>
-                <TextBox Width="80"
-                         Text="{Binding MaxSquare}"
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"/>
             </StackPanel>
             
             <StackPanel VerticalAlignment="Center"
-                        HorizontalAlignment="Right">
-                <TextBlock Text="Павильонов : "
-                           Style="{StaticResource TextBlockTemplate}"/>
-                <TextBlock Text="{Binding Path=Pavilions.Count}"
+                        Margin="10">
+                <TextBlock Text="Max площадь :"
                            Style="{StaticResource TextBlockTemplate}"
-                           TextAlignment="Right"/>
+                           HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding MaxSquare}"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"/>
             </StackPanel>
-        </DockPanel>
+            
+        </UniformGrid>
+        <StackPanel HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Grid.Row="1"
+                    Panel.ZIndex="1">
+            <TextBlock Text="Павильонов : "
+                        Style="{StaticResource TextBlockTemplate}"/>
+            <TextBlock Text="{Binding Path=Pavilions.Count}"
+                        Style="{StaticResource TextBlockTemplate}"
+                        TextAlignment="Right"/>
+        </StackPanel>
         <ListView Margin="10,10,10,10"
                   ItemsSource="{Binding Pavilions}"
                   SelectedItem="{Binding SelectedPavilion}"

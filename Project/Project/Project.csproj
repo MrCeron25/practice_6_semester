@@ -129,6 +129,9 @@
     <Compile Include="Views\Pages\PavilionPage.xaml.cs">
       <DependentUpon>PavilionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\PavilionRentalPage.xaml.cs">
+      <DependentUpon>PavilionRentalPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\ViewingMallPage.xaml.cs">
       <DependentUpon>ViewingMallPage.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\PavilionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PavilionRentalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,8 +234,8 @@
   <ItemGroup>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

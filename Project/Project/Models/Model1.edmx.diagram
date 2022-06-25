@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="24e1e1ce616f477db207e09872167f81" Name="Diagram1">
+      <Diagram DiagramId="92e2fdaf06dd4afa8c1502e148c920ee" Name="Diagram1">
         <EntityTypeShape EntityType="practiceModel.Employees" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="practiceModel.Employees_roles" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="practiceModel.Mall" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
@@ -15,14 +15,14 @@
         <EntityTypeShape EntityType="practiceModel.Rent_statuses" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="practiceModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="practiceModel.Tenants" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
-        <AssociationConnector Association="practiceModel.FK__Employees__role__169AEF1A" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Rent__employee_i__28B99F55" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Mall__status_id__1C53C870" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Pavilion__mall_i__220CA1C6" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Pavilion__status__21187D8D" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Rent__2B960C00" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Rent__status_id__2AA1E7C7" ManuallyRouted="false" />
-        <AssociationConnector Association="practiceModel.FK__Rent__tenant_id__29ADC38E" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Employees__role__0B342966" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Rent__employee_i__1D52D9A1" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Mall__status_id__10ED02BC" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Pavilion__mall_i__16A5DC12" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Pavilion__status__15B1B7D9" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Rent__202F464C" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Rent__status_id__1F3B2213" ManuallyRouted="false" />
+        <AssociationConnector Association="practiceModel.FK__Rent__tenant_id__1E46FDDA" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

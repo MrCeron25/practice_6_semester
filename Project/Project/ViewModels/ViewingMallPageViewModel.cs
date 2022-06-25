@@ -5,6 +5,7 @@ using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -574,21 +575,21 @@ namespace Project.ViewModels
             get => _selectedPavilion;
             set
             {
-                IsSelected = value != null;
+                IsSelectedPavilion = value != null;
                 Set(ref _selectedPavilion, value);
             }
         }
         #endregion
 
         #region Павильон выбран
-        private bool _isSelected = false;
+        private bool _isSelectedPavilion = false;
         /// <summary>
         /// Павильон выбран
         /// </summary>
-        public bool IsSelected
+        public bool IsSelectedPavilion
         {
-            get => _isSelected;
-            set => Set(ref _isSelected, value);
+            get => _isSelectedPavilion;
+            set => Set(ref _isSelectedPavilion, value);
         }
         #endregion
 
@@ -700,7 +701,7 @@ namespace Project.ViewModels
 
         #region Изменить павильон
         public ICommand ChangePavilionCommand { get; }
-        private bool CanChangePavilionCommandExecute(object parameters) => IsSelected;
+        private bool CanChangePavilionCommandExecute(object parameters) => IsSelectedPavilion;
         private void OnChangePavilionCommandExecuted(object parameters)
         {
             CurrentActionEntities = ActionEntities.Change;
@@ -719,7 +720,7 @@ namespace Project.ViewModels
 
         #region Удалить павильон
         public ICommand DeletePavilionCommand { get; }
-        private bool CanDeletePavilionCommandExecute(object parameters) => IsSelected;
+        private bool CanDeletePavilionCommandExecute(object parameters) => IsSelectedPavilion;
         private void OnDeletePavilionCommandExecuted(object parameters)
         {
             try
@@ -1059,6 +1060,334 @@ namespace Project.ViewModels
 
         #endregion
 
+
+        #region PavilionRentalPage
+
+
+        #region Просмотр ТЦ
+        public ICommand RentPavilionCommand { get; }
+        private bool CanRentPavilionCommandExecute(object parameters) => IsSelectedPavilion;
+        private void OnRentPavilionCommandExecuted(object parameters)
+        {
+            Manager.Instance.MainFrameNavigate(new PavilionRentalPage());
+        }
+        #endregion
+
+        #region Действие аренда
+        private string _rentActionName = "Аренда";
+        /// <summary>
+        /// Действие аренда
+        /// </summary>
+        public string RentActionName
+        {
+            get => _rentActionName;
+            set => Set(ref _rentActionName, value);
+        }
+        #endregion
+
+        #region Действие забронировать
+        private string _bookActionName = "Бронь";
+        /// <summary>
+        /// Действие забронировать
+        /// </summary>
+        public string BookActionName
+        {
+            get => _bookActionName;
+            set => Set(ref _bookActionName, value);
+        }
+        #endregion
+
+        #region Действия аренда/бронь
+        private ObservableCollection<string> _rentActions;
+        /// <summary>
+        /// Действия аренда/бронь
+        /// </summary>
+        public ObservableCollection<string> RentActions
+        {
+            get => _rentActions;
+            set => Set(ref _rentActions, value);
+        }
+        #endregion
+
+
+        #region Выбранное действие аренда/бронь
+        private string _selectedRentAction;
+        /// <summary>
+        /// Выбранное действие аренда/бронь
+        /// </summary>
+        public string SelectedRentAction
+        {
+            get => _selectedRentAction;
+            set
+            {
+                Set(ref _selectedRentAction, value);
+                if (_selectedRentAction == RentActionName)
+                {
+                    PavilionRentalButtonName = "Арендовать";
+                }
+                else if (_selectedRentAction == BookActionName)
+                {
+                    PavilionRentalButtonName = "Забронировать";
+                }
+            }
+        }
+        #endregion
+
+        #region GetRentActions
+        private ObservableCollection<string> GetRentActions()
+        {
+            return new ObservableCollection<string>()
+            {
+                RentActionName,
+                BookActionName
+            };
+        }
+        #endregion
+
+        #region UpdateRentActions
+        private void UpdateRentActions()
+        {
+            RentActions = GetRentActions();
+        }
+        #endregion
+
+        #region Начало аренды
+        private DateTime? _rentalStartDate = DateTime.Today;
+        /// <summary>
+        /// Начало аренды
+        /// </summary>
+        public DateTime? RentalStartDate
+        {
+            get => _rentalStartDate;
+            set
+            {
+                Set(ref _rentalStartDate, value);
+                MinimumRentalEndDate = _rentalStartDate;
+            }
+        }
+        #endregion
+
+        #region Минимальная выбираемая дата для начала аренды
+        private DateTime? _minimumRentalStartDate = DateTime.Today;
+        /// <summary>
+        /// Минимальная выбираемая дата для начала аренды
+        /// </summary>
+        public DateTime? MinimumRentalStartDate
+        {
+            get => _minimumRentalStartDate;
+            set => Set(ref _minimumRentalStartDate, value);
+        }
+        #endregion
+
+        #region Максимальная выбираемая дата для начала аренды
+        private DateTime? _maximumRentalStartDate;
+        /// <summary>
+        /// Максимальная выбираемая дата для начала аренды
+        /// </summary>
+        public DateTime? MaximumRentalStartDate
+        {
+            get => _maximumRentalStartDate;
+            set => Set(ref _maximumRentalStartDate, value);
+        }
+        #endregion
+
+        #region Конец аренды
+        private DateTime? _rentalEndDate;
+        /// <summary>
+        /// Конец аренды
+        /// </summary>
+        public DateTime? RentalEndDate
+        {
+            get => _rentalEndDate;
+            set
+            {
+                Set(ref _rentalEndDate, value);
+                MaximumRentalStartDate = _rentalEndDate;
+            }
+        }
+        #endregion
+
+        #region Минимальная выбираемая дата для конца аренды
+        private DateTime? _minimumRentalEndDate = DateTime.Today;
+        /// <summary>
+        /// Минимальная выбираемая дата для конца аренды
+        /// </summary>
+        public DateTime? MinimumRentalEndDate
+        {
+            get => _minimumRentalEndDate;
+            set => Set(ref _minimumRentalEndDate, value);
+        }
+        #endregion
+
+        #region Максимальная выбираемая дата для начала аренды
+        private DateTime? _maximumRentalEndDate;
+        /// <summary>
+        /// Максимальная выбираемая дата для конца аренды
+        /// </summary>
+        public DateTime? MaximumRentalEndDate
+        {
+            get => _maximumRentalEndDate;
+            set => Set(ref _maximumRentalEndDate, value);
+        }
+        #endregion
+
+        #region Арендаторы
+        private ObservableCollection<string> _tenants;
+        /// <summary>
+        /// Арендаторы
+        /// </summary>
+        public ObservableCollection<string> Tenants
+        {
+            get => _tenants;
+            set => Set(ref _tenants, value);
+        }
+        #endregion
+
+        #region Выбранный арендатор
+        private string _selectedTenant;
+        /// <summary>
+        /// Выбранный арендатор
+        /// </summary>
+        public string SelectedTenant
+        {
+            get => _selectedTenant;
+            set => Set(ref _selectedTenant, value);
+        }
+        #endregion
+
+        #region GetTenants
+        private ObservableCollection<string> GetTenants()
+        {
+            return new ObservableCollection<string>(
+                from t in Manager.Instance.Context.Tenants
+                select t.company_name
+            );
+        }
+        #endregion
+
+        #region UpdateTenants
+        private void UpdateTenants()
+        {
+            Tenants = GetTenants();
+        }
+        #endregion
+
+
+
+        #region Сотрудники
+        private ObservableCollection<string> _employees;
+        /// <summary>
+        /// Сотрудники
+        /// </summary>
+        public ObservableCollection<string> Employees
+        {
+            get => _employees;
+            set => Set(ref _employees, value);
+        }
+        #endregion
+
+        #region Выбранный сотрудник
+        private string _selectedEmployee;
+        /// <summary>
+        /// Выбранный сотрудник
+        /// </summary>
+        public string SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set => Set(ref _selectedEmployee, value);
+        }
+        #endregion
+
+        #region GetEmployees
+        private ObservableCollection<string> GetEmployees()
+        {
+            ObservableCollection<string> result = new ObservableCollection<string>();
+            foreach (Employees em in from t in Manager.Instance.Context.Employees
+                                     select t)
+            {
+                result.Add($"{em.employe_id} {em.surname} {em.name} {em.patronymic}");
+            }
+            return result;
+        }
+        #endregion
+
+        #region UpdateEmployees
+        private void UpdateEmployees()
+        {
+            Employees = GetEmployees();
+        }
+        #endregion
+
+
+        #region PavilionRentalButtonName
+        private string _pavilionRentalButtonName;
+        /// <summary>
+        /// PavilionRentalButtonName
+        /// </summary>
+        public string PavilionRentalButtonName
+        {
+            get => _pavilionRentalButtonName;
+            set => Set(ref _pavilionRentalButtonName, value);
+        }
+        #endregion
+
+        #region Удалить павильон
+        public ICommand PavilionRentalCommand { get; }
+        private bool CanPavilionRentalCommandExecute(object parameters) => true;
+        private void OnPavilionRentalCommandExecuted(object parameters)
+        {
+            if (SelectedRentAction != null &&
+                RentalStartDate != null &&
+                SelectedPavilion != null &&
+                RentalEndDate != null &&
+                SelectedTenant != null &&
+                SelectedEmployee != null)
+            {
+
+                try
+                {
+                    int status_action = (SelectedRentAction == RentActionName) ? 0 : 1;
+                    string pavilion_number = SelectedPavilion.pavilion_number;
+                    long mall_id = SelectedPavilion.mall_id;
+                    long tenant_id = (from t in Manager.Instance.Context.Tenants
+                                      where t.company_name == SelectedTenant
+                                      select t.tenant_id).FirstOrDefault();
+                    long employee_id = long.Parse(SelectedEmployee.Split(' ')[0]);
+                    Manager.Instance.Context.Database.ExecuteSqlCommand
+                        ($@"exec RentOrBookPavilionInMall @status_action, 
+                                                      @pavilion_number, 
+                                                      @mall_id, 
+                                                      @start_date, 
+                                                      @end_date, 
+                                                      @tenant_id, 
+                                                      @employee_id",
+                        new SqlParameter("@status_action", status_action),
+                        new SqlParameter("@pavilion_number", pavilion_number),
+                        new SqlParameter("@mall_id", mall_id),
+                        new SqlParameter("@start_date", RentalStartDate),
+                        new SqlParameter("@end_date", RentalEndDate),
+                        new SqlParameter("@tenant_id", tenant_id),
+                        new SqlParameter("@employee_id", employee_id));
+                    MessageBox.Show($"Павильон {((SelectedRentAction == RentActionName) ? "арендован" : "забронирован")}.");
+                    Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
+                    UpdatePavilions();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Ошибка :\n{e}");
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Заполните все поля.");
+            }
+        }
+        #endregion
+
+
+        #endregion
+
+
         #region Конструктор
         public ViewingMallPageViewModel()
         {
@@ -1105,6 +1434,18 @@ namespace Project.ViewModels
             UpdatePavilions();
             UpdatePavilionNames();
             CurrentPavilion = GetNewPavilion();
+            #endregion
+
+            #region PavilionRentalPage
+
+            RentPavilionCommand = new LambdaCommand(OnRentPavilionCommandExecuted, CanRentPavilionCommandExecute);
+            PavilionRentalCommand = new LambdaCommand(OnPavilionRentalCommandExecuted, CanPavilionRentalCommandExecute);
+            UpdateRentActions();
+            UpdateTenants();
+            UpdateEmployees();
+            SelectedRentAction = RentActionName;
+
+            RentalEndDate = DateTime.Today.AddDays(1);
 
             #endregion
         }

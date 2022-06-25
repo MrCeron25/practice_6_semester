@@ -1,12 +1,13 @@
-﻿<Page x:Class="Project.Views.Pages.PavilionPage"
+﻿<Page x:Class="Project.Views.Pages.PavilionRentalPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Project.Views.Pages"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PavilionPage">
+      Title="PavilionRentalPage">
 
     <Grid Background="White"
           DataContext="{StaticResource ViewingMallPageViewModel}">
@@ -29,95 +30,99 @@
                    Grid.RowSpan="9"
                    Grid.ColumnSpan="2"
                    Panel.ZIndex="1"/>
-        <TextBlock Text="Номер этажа : "
+
+
+        <TextBlock Text="Действие :"
                    Grid.Row="0"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentPavilion.floor}"
-                 Grid.Row="0"
-                 VerticalAlignment="Center"
-                 Grid.Column="1"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Margin="10"/>
+        <ComboBox ItemsSource="{Binding RentActions}"
+                  SelectedItem="{Binding SelectedRentAction}"
+                  Grid.Row="0"
+                  VerticalAlignment="Center"
+                  Grid.Column="1"
+                  Margin="10"/>
 
 
-        <TextBlock Text="Номер павильона : "
+        <TextBlock Text="Номер павильона :"
                    Grid.Row="1"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentPavilion.pavilion_number}" 
-                 Margin="10"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="1"
-                 VerticalAlignment="Center"
-                 Grid.Column="1"/>
+        <TextBlock Text="{Binding SelectedPavilion.pavilion_number}" 
+                   Margin="10"
+                   Style="{StaticResource TextBlockTemplate}"
+                   Grid.Row="1"
+                   VerticalAlignment="Center"
+                   Grid.Column="1"/>
 
 
-        <TextBlock Text="Площадь : "
+        <TextBlock Text="Дата начала аренды :"
                    Grid.Row="2"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentPavilion.square}" 
-                 Margin="10"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="2"
-                 VerticalAlignment="Center"
-                 Grid.Column="1"/>
+        <DatePicker SelectedDate="{Binding RentalStartDate}"
+                    DisplayDateStart="{Binding MinimumRentalStartDate}"
+                    DisplayDateEnd="{Binding MaximumRentalStartDate}"
+                    Margin="10"
+                    Grid.Row="2"
+                    VerticalAlignment="Center"
+                    Grid.Column="1"/>
 
 
-        <TextBlock Text="Статус павильона : "
+        <TextBlock Text="Дата конца аренды :"
                    Grid.Row="3"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <ComboBox ItemsSource="{Binding PavilionStatuses}" 
-                  SelectedItem="{Binding SelectedPavilionStatus}"
-                  Margin="10"
-                  Grid.Row="3"
-                  VerticalAlignment="Center"
-                  Grid.Column="1"/>
+        <DatePicker SelectedDate="{Binding RentalEndDate}"
+                    DisplayDateStart="{Binding MinimumRentalEndDate}"
+                    DisplayDateEnd="{Binding MaximumRentalEndDate}"
+                    Margin="10"
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    Grid.Column="1"/>
 
 
-        <TextBlock Text="Коофициент добавочной стоимости : "
+        <TextBlock Text="Арендатор :"
                    VerticalAlignment="Center"
-                       Grid.Row="4"
+                   Grid.Row="4"
                    HorizontalAlignment="Center"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentPavilion.value_added_factor}" 
-                 Margin="10"
-                 VerticalAlignment="Center"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="4"
-                 Grid.Column="1"/>
+        <ComboBox ItemsSource="{Binding Tenants}"
+                  SelectedItem="{Binding SelectedTenant}"
+                  Margin="10"
+                  VerticalAlignment="Center"
+                  Grid.Row="4"
+                  Grid.Column="1"/>
 
-        <TextBlock Text="Стоимость : "
+        <TextBlock Text="Сотрудник :"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Grid.Row="5"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentPavilion.cost_per_square_meter}" 
-                 Margin="10"
-                 VerticalAlignment="Center"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="5"
-                 Grid.Column="1"/>
+        <ComboBox ItemsSource="{Binding Employees}"
+                  SelectedItem="{Binding SelectedEmployee}"
+                  Margin="10"
+                  VerticalAlignment="Center"
+                  Grid.Row="5"
+                  Grid.Column="1"/>
 
 
-        <Button Content="{Binding ButtonName}"
+        <Button Content="{Binding PavilionRentalButtonName}"
                 Style="{StaticResource ButtonTemplate}"
-                Command="{Binding ExecuteCommand}"
+                Command="{Binding PavilionRentalCommand}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Grid.Row="8"
+                Grid.Row="6"
                 Grid.ColumnSpan="2"/>
     </Grid>
 </Page>
