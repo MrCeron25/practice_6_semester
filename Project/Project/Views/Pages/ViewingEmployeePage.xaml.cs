@@ -2,9 +2,9 @@
 
 namespace Project.Views.Pages
 {
-    public partial class ManagerCMenuPage : Page
+    public partial class ViewingEmployeePage : Page
     {
-        public ManagerCMenuPage()
+        public ViewingEmployeePage()
         {
             InitializeComponent();
         }

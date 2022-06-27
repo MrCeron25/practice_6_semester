@@ -127,7 +127,7 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"/>
             </StackPanel>
-            
+
             <StackPanel VerticalAlignment="Center"
                         Margin="10">
                 <TextBlock Text="Max площадь :"
@@ -137,8 +137,8 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"/>
             </StackPanel>
-            
         </UniformGrid>
+        
         <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Grid.Row="1"

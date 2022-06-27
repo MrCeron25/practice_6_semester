@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using Project.Models;
-using System.Data.SqlClient;
+using System.Data.Linq;
 
 namespace Project.ViewModels
 {
@@ -241,8 +241,8 @@ namespace Project.ViewModels
             {
                 result = true;
                 Debug.WriteLine("Пользователь найден.");
-                Employees em = Employees_[0];
-                Manager.Instance.LoadEmployeeInterface(em);
+                Employees employee = Employees_[0];
+                Manager.Instance.LoadEmployeeInterface(employee);
             }
             if (Count == 3)
             {

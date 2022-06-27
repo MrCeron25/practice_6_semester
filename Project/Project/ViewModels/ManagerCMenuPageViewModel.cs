@@ -1,4 +1,5 @@
 ﻿using Project.Infrastructure.Commands;
+using Project.Models;
 using Project.ViewModels.Base;
 using Project.Views.Pages;
 using System.Windows.Input;
@@ -42,7 +43,19 @@ namespace Project.ViewModels
             set => Set(ref _exitButtonName, value);
         }
         #endregion
-        
+
+        #region Пользователь
+        private Employees _loginEmployee;
+        /// <summary>
+        /// Пользователь
+        /// </summary>
+        public Employees LoginEmployee
+        {
+            get => _loginEmployee;
+            set => Set(ref _loginEmployee, value);
+        }
+        #endregion
+
         #region Команда перехода на страницу ТЦ
         public ICommand GoMallCommand { get; }
         private bool CanGoMallCommandExecute(object parameters) => true;
@@ -57,7 +70,7 @@ namespace Project.ViewModels
         private bool CanGoEmployeeCommandExecute(object parameters) => true;
         private void OnGoEmployeeCommandExecuted(object parameters)
         {
-            //Manager.Instance.MainFrameNavigate(new ViewingMallPage());
+            Manager.Instance.MainFrameNavigate(new ViewingEmployeePage());
         }
         #endregion
 

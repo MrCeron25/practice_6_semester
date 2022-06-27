@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -114,9 +115,11 @@
     <Compile Include="Models\Tenants.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeItem.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="Models\PavilionItem.cs" />
     <Compile Include="Models\MallItem.cs" />
+    <Compile Include="ViewModels\ViewingEmployeePageViewModel.cs" />
     <Compile Include="ViewModels\ViewingMallPageViewModel.cs" />
     <Compile Include="ViewModels\ManagerCMenuPageViewModel.cs" />
     <Compile Include="Views\Pages\MallPage.xaml.cs">
@@ -131,6 +134,9 @@
     </Compile>
     <Compile Include="Views\Pages\PavilionRentalPage.xaml.cs">
       <DependentUpon>PavilionRentalPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ViewingEmployeePage.xaml.cs">
+      <DependentUpon>ViewingEmployeePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\ViewingMallPage.xaml.cs">
       <DependentUpon>ViewingMallPage.xaml</DependentUpon>
@@ -157,6 +163,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\PavilionRentalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\ViewingEmployeePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

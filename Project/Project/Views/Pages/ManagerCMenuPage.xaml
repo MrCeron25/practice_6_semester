@@ -25,7 +25,7 @@
 
             <Button Content="{Binding EmployeesButtonName}"
                     Style="{StaticResource ButtonTemplate}"
-                    Command="{Binding }"/>
+                    Command="{Binding GoEmployeeCommand}"/>
 
             <Button Content="{Binding ExitButtonName}"
                     Style="{StaticResource ButtonTemplate}"
