@@ -19,7 +19,7 @@
                    Panel.ZIndex="1"/>
 
         <UniformGrid Grid.Row="0"
-                     Rows="1"
+                     Rows="1" 
                      Columns="5">
             <TextBlock Text="{Binding EmployeesTitleName}"
                        Style="{StaticResource TextBlockTemplate}"

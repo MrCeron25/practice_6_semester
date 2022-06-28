@@ -122,6 +122,9 @@
     <Compile Include="ViewModels\ViewingEmployeePageViewModel.cs" />
     <Compile Include="ViewModels\ViewingMallPageViewModel.cs" />
     <Compile Include="ViewModels\ManagerCMenuPageViewModel.cs" />
+    <Compile Include="Views\Pages\EmployeePage.xaml.cs">
+      <DependentUpon>EmployeePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\MallPage.xaml.cs">
       <DependentUpon>MallPage.xaml</DependentUpon>
     </Compile>
@@ -146,6 +149,10 @@
     </Compile>
     <Compile Include="Models\Tools.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
+    <Page Include="Views\Pages\EmployeePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\MallPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

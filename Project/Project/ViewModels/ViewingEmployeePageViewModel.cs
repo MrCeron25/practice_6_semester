@@ -3,6 +3,8 @@ using Project.ViewModels.Base;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Project.Models;
+using Project.Views.Pages;
 
 namespace Project.ViewModels
 {
@@ -97,8 +99,8 @@ namespace Project.ViewModels
         private bool CanAddEmployeeCommandExecute(object parameters) => true;
         private void OnAddEmployeeCommandExecuted(object parameters)
         {
-            //CurrentActionEntities = ActionEntities.Add;
-            //Manager.Instance.MainFrameNavigate(new PavilionPage());
+            CurrentActionEntities = ActionEntities.Add;
+            Manager.Instance.MainFrameNavigate(new EmployeePage());
         }
         #endregion
 
@@ -107,8 +109,8 @@ namespace Project.ViewModels
         private bool CanChangeEmployeeCommandExecute(object parameters) => IsSelectedEmployee;
         private void OnChangeEmployeeCommandExecuted(object parameters)
         {
-            //CurrentActionEntities = ActionEntities.Change;
-            //Manager.Instance.MainFrameNavigate(new PavilionPage());
+            CurrentActionEntities = ActionEntities.Change;
+            Manager.Instance.MainFrameNavigate(new EmployeePage());
         }
         #endregion
 
@@ -141,16 +143,124 @@ namespace Project.ViewModels
         }
         #endregion
 
+        #region EmployeeButtonName
+        private string _employeeButtonName;
+        /// <summary>
+        /// EmployeeButtonName
+        /// </summary>
+        public string EmployeeButtonName
+        {
+            get => _employeeButtonName;
+            set => Set(ref _employeeButtonName, value);
+        }
+        #endregion
 
+        #region ActionEntities
+        private ActionEntities _currentActionEntities = ActionEntities.None;
+        /// <summary>
+        /// ActionEntities
+        /// </summary>
+        public ActionEntities CurrentActionEntities
+        {
+            get => _currentActionEntities;
+            set
+            {
+                Set(ref _currentActionEntities, value);
+                if (_currentActionEntities == ActionEntities.Add)
+                {
+                    CurrentEmployee = new Employees();
+                    EmployeeButtonName = "Добавить";
+                }
+                else if (_currentActionEntities == ActionEntities.Change)
+                {
+                    EmployeeButtonName = "Изменить";
+                    //CurrentEmployee = (
+                    //    from p in Manager.Instance.Context.Employees
+                    //    where p.mall_id == SelectedPavilion.mall_id &&
+                    //          p.pavilion_number == SelectedPavilion.pavilion_number
+                    //    select p
+                    //).FirstOrDefault();
+                    //SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
+                    //SelectedMallPavilionName = SelectedPavilion.mall_name;
+                }
+            }
+        }
+        #endregion
 
+        #region Текущий сотрудник
+        private Employees _сurrentEmployee;
+        /// <summary>
+        /// Текущий сотрудник
+        /// </summary>
+        public Employees CurrentEmployee
+        {
+            get => _сurrentEmployee;
+            set => Set(ref _сurrentEmployee, value);
+        }
+        #endregion
 
-
-
-
-
-
-
-
+        #region Команда
+        public ICommand ExecuteCommand { get; }
+        private bool CanExecuteCommandExecute(object parameters) => true;
+        private void OnExecuteCommandExecuted(object parameters)
+        {
+            //if (CurrentPavilion.floor < 0 ||
+            //    CurrentPavilion.square < 0 ||
+            //    CurrentPavilion.value_added_factor < 0 ||
+            //    CurrentPavilion.cost_per_square_meter < (decimal)0.1)
+            //{
+            //    MessageBox.Show($"Числовые поля должны быть положительными.");
+            //}
+            //else if (CurrentPavilion.pavilion_number != null &&
+            //         string.IsNullOrEmpty(CurrentPavilion.pavilion_number.Trim()) ||
+            //         SelectedPavilionStatus == null)
+            //{
+            //    MessageBox.Show($"Заполните все поля.");
+            //}
+            //else
+            //{
+            //    try
+            //    {
+            //        CurrentPavilion.status_id = (
+            //            from ps in Manager.Instance.Context.Pavilion_statuses
+            //            where ps.status_name == SelectedPavilionStatus
+            //            select ps.status_id
+            //        ).FirstOrDefault();
+            //        CurrentPavilion.mall_id = (
+            //            from m in Manager.Instance.Context.Mall
+            //            where m.mall_id == SelectedMall.mall_id
+            //            select m.mall_id
+            //        ).FirstOrDefault();
+            //        CurrentPavilion.pavilion_number = CurrentPavilion.pavilion_number.Trim();
+            //        switch (CurrentActionEntities)
+            //        {
+            //            case ActionEntities.Add:
+            //                Manager.Instance.Context.Pavilion.Add(CurrentPavilion);
+            //                break;
+            //            case ActionEntities.Change:
+            //                break;
+            //        }
+            //        Manager.Instance.Context.SaveChanges();
+            //        switch (CurrentActionEntities)
+            //        {
+            //            case ActionEntities.Add:
+            //                MessageBox.Show($"Павильон добавлен.");
+            //                break;
+            //            case ActionEntities.Change:
+            //                MessageBox.Show($"Павильон изменён.");
+            //                break;
+            //        }
+            //        Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        MessageBox.Show($"Ошибка :\n{e}");
+            //    }
+            //}
+            //SelectedPavilionStatusSorting = AllNameSorting;
+            //UpdatePavilions();
+        }
+        #endregion
 
 
 
@@ -927,102 +1037,6 @@ namespace Project.ViewModels
         //#endregion
 
 
-        //#region ActionEntities
-        //private ActionEntities _currentActionEntities = ActionEntities.None;
-        ///// <summary>
-        ///// ActionEntities
-        ///// </summary>
-        //public ActionEntities CurrentActionEntities
-        //{
-        //    get => _currentActionEntities;
-        //    set
-        //    {
-        //        Set(ref _currentActionEntities, value);
-
-        //        if (_currentActionEntities == ActionEntities.Add)
-        //        {
-        //            CurrentPavilion = GetNewPavilion();
-        //            ButtonName = "Добавить";
-        //        }
-        //        else if (_currentActionEntities == ActionEntities.Change)
-        //        {
-        //            ButtonName = "Изменить";
-        //            CurrentPavilion = (
-        //                from p in Manager.Instance.Context.Pavilion
-        //                where p.mall_id == SelectedPavilion.mall_id &&
-        //                        p.pavilion_number == SelectedPavilion.pavilion_number
-        //                select p
-        //            ).FirstOrDefault();
-        //            SelectedPavilionStatus = SelectedPavilion.pavilion_status_name;
-        //            SelectedMallPavilionName = SelectedPavilion.mall_name;
-        //        }
-        //    }
-        //}
-        //#endregion
-
-        //#region Команда
-        //public ICommand ExecuteCommand { get; }
-        //private bool CanExecuteCommandExecute(object parameters) => true;
-        //private void OnExecuteCommandExecuted(object parameters)
-        //{
-        //    if (CurrentPavilion.floor < 0 ||
-        //        CurrentPavilion.square < 0 ||
-        //        CurrentPavilion.value_added_factor < 0 ||
-        //        CurrentPavilion.cost_per_square_meter < (decimal)0.1)
-        //    {
-        //        MessageBox.Show($"Числовые поля должны быть положительными.");
-        //    }
-        //    else if (CurrentPavilion.pavilion_number != null &&
-        //             string.IsNullOrEmpty(CurrentPavilion.pavilion_number.Trim()) ||
-        //             SelectedPavilionStatus == null)
-        //    {
-        //        MessageBox.Show($"Заполните все поля.");
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            CurrentPavilion.status_id = (
-        //                from ps in Manager.Instance.Context.Pavilion_statuses
-        //                where ps.status_name == SelectedPavilionStatus
-        //                select ps.status_id
-        //            ).FirstOrDefault();
-        //            CurrentPavilion.mall_id = (
-        //                from m in Manager.Instance.Context.Mall
-        //                where m.mall_id == SelectedMall.mall_id
-        //                select m.mall_id
-        //            ).FirstOrDefault();
-        //            CurrentPavilion.pavilion_number = CurrentPavilion.pavilion_number.Trim();
-        //            switch (CurrentActionEntities)
-        //            {
-        //                case ActionEntities.Add:
-        //                    Manager.Instance.Context.Pavilion.Add(CurrentPavilion);
-        //                    break;
-        //                case ActionEntities.Change:
-        //                    break;
-        //            }
-        //            Manager.Instance.Context.SaveChanges();
-        //            switch (CurrentActionEntities)
-        //            {
-        //                case ActionEntities.Add:
-        //                    MessageBox.Show($"Павильон добавлен.");
-        //                    break;
-        //                case ActionEntities.Change:
-        //                    MessageBox.Show($"Павильон изменён.");
-        //                    break;
-        //            }
-        //            Manager.Instance.MainFrameNavigate(new ViewingPavilionPage());
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            MessageBox.Show($"Ошибка :\n{e}");
-        //        }
-        //    }
-        //    SelectedPavilionStatusSorting = AllNameSorting;
-        //    UpdatePavilions();
-        //}
-        //#endregion
-
         //#region Этаж
         //private int _floor = 2;
         ///// <summary>
@@ -1433,6 +1447,8 @@ namespace Project.ViewModels
             ChangeEmployeeCommand = new LambdaCommand(OnChangeEmployeeCommandExecuted, CanChangeEmployeeCommandExecute);
             DeleteEmployeeCommand = new LambdaCommand(OnDeleteEmployeeCommandExecuted, CanDeleteEmployeeCommandExecute);
 
+
+            ExecuteCommand = new LambdaCommand(OnExecuteCommandExecuted, CanExecuteCommandExecute);
 
             UpdateEmployees();
 
