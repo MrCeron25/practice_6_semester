@@ -106,7 +106,7 @@
                         </StackPanel>
                         <DockPanel VerticalAlignment="Center"
                                    HorizontalAlignment="Right">
-                            <StackPanel>
+                            <StackPanel VerticalAlignment="Center"  >
                                 <TextBlock Text="Номер телефона :"
                                            Style="{StaticResource TextBlockTemplate}"
                                            FontWeight="Bold"/>
@@ -115,7 +115,7 @@
                                            TextAlignment="Right"/>
                             </StackPanel>
                             <Image Source="{Binding Path=photo}"
-                                   Stretch="None"
+                                   Stretch="Uniform"
                                    MaxHeight="150"
                                    MaxWidth="150"/>
                         </DockPanel> 

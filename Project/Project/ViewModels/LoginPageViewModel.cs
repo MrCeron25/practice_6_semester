@@ -372,7 +372,7 @@ namespace Project.ViewModels
         {
             try
             {
-                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image Сотрудники";
+                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика БД\Ресурсы\Image Сотрудники";
                 DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
                 foreach (FileInfo fileInfo in directoryInfo.GetFiles())
                 {
@@ -410,7 +410,7 @@ namespace Project.ViewModels
         {
             try
             {
-                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика\Ресурсы\Image ТЦ";
+                string pathToDirWithImages = $@"C:\Users\ARTEM\Desktop\КОРОНОВИРУС\21-22\Практика БД\Ресурсы\Image ТЦ";
                 DirectoryInfo directoryInfo = new DirectoryInfo(pathToDirWithImages);
                 foreach (FileInfo fileInfo in directoryInfo.GetFiles())
                 {

@@ -24,7 +24,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
 
@@ -106,15 +106,12 @@
                    Grid.Row="5"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <ComboBox Text="{Binding CurrentEmployee.sex}" 
-                  SelectedItem="{Binding }"
+        <ComboBox ItemsSource="{Binding EmployeeSex}"
+                  SelectedItem="{Binding SelectedEmployeeSex}"
                  Margin="10"
                  VerticalAlignment="Center"
                  Grid.Row="5"
-                 Grid.Column="1">
-            <ComboBoxItem Content="М" IsEnabled="True"/>
-            <ComboBoxItem Content="Ж"/>
-        </ComboBox>
+                 Grid.Column="1"/>
 
 
         <TextBlock Text="Роль : "
@@ -123,8 +120,8 @@
                    Grid.Row="6"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <ComboBox ItemsSource="{Binding CurrentEmployee.role}"
-                  SelectedItem="{Binding }"
+        <ComboBox ItemsSource="{Binding EmployeeRoles}"
+                  SelectedItem="{Binding SelectedEmployeeRoles}"
                  Margin="10"
                  VerticalAlignment="Center"
                  Grid.Row="6"
@@ -149,14 +146,24 @@
                    Grid.Row="8"
                    Grid.Column="0"
                    Style="{StaticResource TextBlockTemplate}"/>
-        <TextBox Text="{Binding CurrentEmployee.phone}" 
-                 Margin="10"
-                 VerticalAlignment="Center"
-                 Style="{StaticResource TextBoxTemplate}"
-                 Grid.Row="8"
-                 Grid.Column="1"/>
+        <Button Content="Загрузить"
+                Command="{Binding LoadPhotoCommand}"
+                Margin="10"
+                Grid.Row="8"
+                Grid.Column="1"
+                Style="{StaticResource ButtonTemplate}"
+                Width="100"
+                HorizontalAlignment="Left"/>
+        <Image Width="200"
+                Height="200"
+                Stretch="Uniform"
+                HorizontalAlignment="Right"
+                Grid.RowSpan="8"
+                Grid.Row="8"
+                Grid.Column="1"
+                Source="{Binding LoadedImage}"/>
 
-        <Button Content="{Binding ButtonName}"
+        <Button Content="{Binding EmployeeButtonName}"
                 Style="{StaticResource ButtonTemplate}"
                 Command="{Binding ExecuteCommand}"
                 HorizontalAlignment="Center"
